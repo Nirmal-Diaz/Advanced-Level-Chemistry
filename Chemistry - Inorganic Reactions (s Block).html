@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inorganic Reactions (s Block)</title>
+    <style>
+        * {
+            font-family: 'Trebuchet MS';
+            color: white;
+        }
+
+        .reactionGroupDisplay {
+            display: block;
+            margin: auto;
+            margin-top: 80px;
+            width: 1000px;
+        }
+
+        .reactantsDisplay {
+            display: inline-block;
+            width: 40%;
+            font-size: 200%;
+            text-align: right;
+        }
+
+        .productsDisplaySuccess {
+            display: inline-block;
+            border: none;
+            margin-left: 20px;
+            width: 40%;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+            color: lightskyblue;
+        }
+
+        .productsDisplayError {
+            display: inline-block;
+            border: solid;
+            margin-left: 20px;
+            width: 40%;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+        }
+
+        .arrowDisplay {
+            font-size: 200%;
+            text-align: center;
+        }
+
+        .yeildsArrowGroup {
+            display: inline-block;
+            width: 15%;
+            margin-left: 20px;
+        }
+
+        .yeildsDisplay {
+            font-size: 120%;
+            text-align: center;
+        }
+
+        kbd {
+            color: lightskyblue;
+        }
+    </style>
+    <script>
+        function intialize() {
+            reactantsList = [
+                //With H2O
+                "Li<sub>(s)</sub> + <kbd>(cold)</kbd> H<sub>2</sub>O<sub>(l)</sub>",
+                "Li<sub>(s)</sub> + <kbd>(hot)</kbd> H<sub>2</sub>O<sub>(l)</sub>",
+                "Li<sub>(s)</sub> + H<sub>2</sub>O<sub>(g)</sub>",
+                "Na<sub>(s)</sub> + <kbd>(cold)</kbd> H<sub>2</sub>O<sub>(l)</sub>",
+                "Na<sub>(s)</sub> + <kbd>(hot)</kbd> H<sub>2</sub>O<sub>(l)</sub>",
+                "Na<sub>(s)</sub> + H<sub>2</sub>O<sub>(g)</sub>",
+                "K<sub>(s)</sub> + <kbd>(cold)</kbd> H<sub>2</sub>O<sub>(l)</sub>",
+                "K<sub>(s)</sub> + <kbd>(hot)</kbd> H<sub>2</sub>O<sub>(l)</sub>",
+                "K<sub>(s)</sub> + H<sub>2</sub>O<sub>(g)</sub>",
+                "Be<sub>(s)</sub> + <kbd>(cold)</kbd> H<sub>2</sub>O<sub>(l)</sub>",
+                "Be<sub>(s)</sub> + <kbd>(hot)</kbd> H<sub>2</sub>O<sub>(l)</sub>",
+                "Be<sub>(s)</sub> + H<sub>2</sub>O<sub>(g)</sub>",
+                "Mg<sub>(s)</sub> + <kbd>(cold)</kbd> H<sub>2</sub>O<sub>(l)</sub>",
+                "Mg<sub>(s)</sub> + <kbd>(hot)</kbd> H<sub>2</sub>O<sub>(l)</sub>",
+                "Mg<sub>(s)</sub> + H<sub>2</sub>O<sub>(g)</sub>",
+                //With O2
+                "Li<sub>(s)</sub> + O<sub>2</sub><sub>(g)</sub>",
+                "Na<sub>(s)</sub> + <kbd>(limited)</kbd> O<sub>2</sub><sub>(g)</sub>",
+                "Na<sub>(s)</sub> + <kbd>(excessive)</kbd> O<sub>2</sub><sub>(g)</sub>",
+                "K<sub>(s)</sub> + <kbd>(limited)</kbd> O<sub>2</sub><sub>(g)</sub>",
+                "Be<sub>(s)</sub> + O<sub>2</sub><sub>(g)</sub>",
+                "Mg<sub>(s)</sub> + O<sub>2</sub><sub>(g)</sub>",
+                //Oxides With H2O
+                "Li<sub>2</sub>O<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                "Na<sub>2</sub>O<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                "Na<sub>2</sub>O<sub>2</sub><sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                "KO<sub>2</sub><sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                "BeO<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                "MgO<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                //With H2
+                "Li<sub>(s)</sub> + H<sub>2</sub><sub>(g)</sub>",
+                "Na<sub>(s)</sub> + H<sub>2</sub><sub>(g)</sub>",
+                "K<sub>(s)</sub> + H<sub>2</sub><sub>(g)</sub>",
+                "Be<sub>(s)</sub> + H<sub>2</sub><sub>(g)</sub>",
+                "Mg<sub>(s)</sub> + H<sub>2</sub><sub>(g)</sub>",
+                //Hidrides With H2O
+                "LiH<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                "NaH<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                "KH<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                "BeH<sub>2</sub><sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                "MgH<sub>2</sub><sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                //With N2
+                "Li<sub>(s)</sub> + N<sub>2</sub><sub>(g)</sub>",
+                "Na<sub>(s)</sub> + N<sub>2</sub><sub>(g)</sub>",
+                "K<sub>(s)</sub> + N<sub>2</sub><sub>(g)</sub>",
+                "Be<sub>(s)</sub> + N<sub>2</sub><sub>(g)</sub>",
+                "Mg<sub>(s)</sub> + N<sub>2</sub><sub>(g)</sub>",
+                //Nitrides With H2O
+                "Li<sub>3</sub>N<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                "Be<sub>3</sub>N<sub>2</sub><sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                "Mg<sub>3</sub>N<sub>2</sub><sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>",
+                //With Acids
+                "Li<sub>(s)</sub> + <kbd>(dil)</kbd> H<sub>2</sub>SO<sub>4</sub><sub>(aq)</sub>",
+                "Na<sub>(s)</sub> + <kbd>(dil)</kbd> H<sub>2</sub>SO<sub>4</sub><sub>(aq)</sub>",
+                "K<sub>(s)</sub> + <kbd>(dil)</kbd> H<sub>2</sub>SO<sub>4</sub><sub>(aq)</sub>",
+                "Be<sub>(s)</sub> + <kbd>(dil)</kbd> H<sub>2</sub>SO<sub>4</sub><sub>(aq)</sub>",
+                "Mg<sub>(s)</sub> + <kbd>(dil)</kbd> H<sub>2</sub>SO<sub>4</sub><sub>(aq)</sub>",
+                "Mg<sub>(s)</sub> + <kbd>(conc)</kbd> H<sub>2</sub>SO<sub>4</sub><sub>(aq)</sub>",
+                "Mg<sub>(s)</sub> + <kbd>(conc)</kbd> HNO<sub>3</sub><sub>(aq)</sub>",
+                //Heating Nitrates
+                "LiNO<sub>3</sub><sub>(s)</sub>",
+                "NaNO<sub>3</sub><sub>(s)</sub>",
+                "KNO<sub>3</sub><sub>(s)</sub>",
+                "Be(NO<sub>3</sub>)<sub>2</sub><sub>(s)</sub>",
+                "Mg(NO<sub>3</sub>)<sub>2</sub><sub>(s)</sub>",
+                //Heating Carbonates
+                "Li<sub>2</sub>CO<sub>3</sub><sub>(s)</sub>",
+                "Na<sub>2</sub>CO<sub>3</sub><sub>(s)</sub>",
+                "K<sub>2</sub>CO<sub>3</sub><sub>(s)</sub>",
+                "BeCO<sub>3</sub><sub>(s)</sub>",
+                "MgCO<sub>3</sub><sub>(s)</sub>",
+                //Heating Hydrogen Carbonates
+                "LiHCO<sub>3</sub><sub>(aq)</sub>",
+                "NaHCO<sub>3</sub><sub>(s)</sub>",
+                "KHCO<sub>3</sub><sub>(s)</sub>",
+                "Be(HCO<sub>3</sub>)<sub>2</sub><sub>(s)</sub>",
+                "Mg(HCO<sub>3</sub>)<sub>2</sub><sub>(s)</sub>",
+                //Heating Hydroxides
+                "LiOH<sub>(s)</sub>",
+                "NaOH<sub>(s)</sub>",
+                "KOH<sub>(s)</sub>",
+                "Be(OH)<sub>2</sub><sub>(s)</sub>",
+                "Mg(OH)<sub>2</sub><sub>(s)</sub>",
+                //Heating Sulphates
+                "Li<sub>2</sub>SO<sub>4</sub><sub>(s)</sub>",
+                "Na<sub>2</sub>SO<sub>4</sub><sub>(s)</sub>",
+                "K<sub>2</sub>SO<sub>4</sub><sub>(s)</sub>",
+                "BeSO<sub>4</sub><sub>(s)</sub>",
+                "MgSO<sub>4</sub><sub>(s)</sub>",
+            ];
+
+            var reactionsCount = reactantsList.length;
+            var parent = document.getElementById("body");
+
+            generateFields(parent, reactionsCount);
+
+            randomizeReactions(reactionsCount);
+        }
+
+        function generateFields(fieldParent, fieldCount) {
+            while (fieldParent.hasChildNodes() == true) { fieldParent.removeChild(fieldParent.firstChild); }
+
+            for (var reactionGroup = 1; reactionGroup <= fieldCount; reactionGroup++) {
+                
+                var reactantsDisplayId = "reactantsDisplay" + reactionGroup;
+                var reactantsDisplayText = document.createTextNode("null");
+                var reactantsDisplay = document.createElement("div");
+                reactantsDisplay.id = reactantsDisplayId;
+                reactantsDisplay.appendChild(reactantsDisplayText);
+                reactantsDisplay.classList.add("reactantsDisplay");
+
+                var arrowDisplayText = document.createTextNode("\u2192");
+                var arrowDisplay = document.createElement("div");
+                arrowDisplay.appendChild(arrowDisplayText);
+                arrowDisplay.classList.add("arrowDisplay");
+
+                var yeildsDisplayTopId = "yeildsDisplayTop" + reactionGroup;
+                var yeildsDisplayTop = document.createElement("div");
+                yeildsDisplayTop.id = yeildsDisplayTopId;
+                yeildsDisplayTop.classList.add("yeildsDisplay");
+
+                //    var yeildsDisplayBottomId = "yeildsDisplayBottom" + reactionGroup;
+                //     var yeildsDisplayBottom = document.createElement("div");
+                //     yeildsDisplayBottom.id = yeildsDisplayBottomId;
+                //     yeildsDisplayBottom.classList.add("yeildsDisplay");
+
+                var yeildsArrowGroupId = "yeildsArrowGroup" + reactionGroup;
+                var yeildsArrowGroup = document.createElement("div");
+                yeildsArrowGroup.id = yeildsArrowGroupId;
+                yeildsArrowGroup.classList.add("yeildsArrowGroup");
+                yeildsArrowGroup.appendChild(yeildsDisplayTop);
+                yeildsArrowGroup.appendChild(arrowDisplay);
+                // yeildsArrowGroup.appendChild(yeildsDisplayBottom);
+
+                var productsDisplayId = "productsDisplay" + reactionGroup;
+                var productsDisplay = document.createElement("input");
+                productsDisplay.id = productsDisplayId;
+                productsDisplay.classList.add("productsDisplayError");
+
+                var reactionGroupDisplay = document.createElement("div");
+                reactionGroupDisplay.classList.add("reactionGroupDisplay");
+                reactionGroupDisplay.appendChild(reactantsDisplay);
+                reactionGroupDisplay.appendChild(yeildsArrowGroup);
+                reactionGroupDisplay.appendChild(productsDisplay);
+
+                fieldParent.appendChild(reactionGroupDisplay);
+            }
+        }
+
+        function randomizeReactions(fieldCount) {
+
+            var yeildsTopList = [
+                //With H2O
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                //With O2
+                "\u0394",
+                " ",
+                " ",
+                " ",
+                "\u0394",
+                "\u0394",
+                //Oxides With H2O
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                //With H2
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                //Hidrides With H2O
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                //With N2
+                "\u0394",
+                "\u0394",
+                "\u0394",
+                "\u0394",
+                "\u0394",
+                //Nitrides With H2O
+                " ",
+                " ",
+                " ",
+                //With Acids
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                " ",
+                //Heating Nitrates
+                "\u0394",
+                "\u0394 400\u2103",
+                "\u0394 400\u2103",
+                "\u0394",
+                "\u0394",
+                //Heating Carbonates
+                "\u0394",
+                "\u0394",
+                "\u0394",
+                "\u0394 97\u2103",
+                "\u0394 540\u2103",
+                //Heating Hydrogen Carbonates
+                "\u0394",
+                "\u0394",
+                "\u0394",
+                "\u0394",
+                "\u0394",
+                //Heating Hydroxides
+                "\u0394",
+                "\u0394",
+                "\u0394",
+                "\u0394",
+                "\u0394",
+                //Heating Sulphates
+                "\u0394",
+                "\u0394",
+                "\u0394",
+                "\u0394",
+                "\u0394",
+            ];
+
+            for (var reactantsListIndex = 0; reactantsListIndex <= fieldCount - 1;) {
+                //Select a display randomly
+                var randomGroupNumber = parseInt(Math.random() * fieldCount + 1);
+                var randomReactantsDisplayId = "reactantsDisplay" + randomGroupNumber;
+                var releventYeildsDisplayTopId = "yeildsDisplayTop" + randomGroupNumber;
+                var randomReactantsDisplay = document.getElementById(randomReactantsDisplayId);
+                var releventYeildsDisplayTop = document.getElementById(releventYeildsDisplayTopId);
+                //Assign data to the selected display
+                for (var reactionGroup = 1; reactionGroup <= fieldCount; reactionGroup++) {
+                    if (randomReactantsDisplay.innerHTML == "null" && randomGroupNumber == reactionGroup) {
+                        randomReactantsDisplay.innerHTML = reactantsList[reactantsListIndex];
+                        releventYeildsDisplayTop.innerHTML = yeildsTopList[reactantsListIndex];
+                        reactantsListIndex++;
+                    }
+                }
+            }
+        }
+        function checkAnswers(fieldCount) {
+            var productsList = [
+                //With H2O
+                "Li<sub>(s)</sub> + <kbd>(cold)</kbd> H<sub>2</sub>O<sub>(l)</sub>" + "LiOH + H2",
+                "Li<sub>(s)</sub> + <kbd>(hot)</kbd> H<sub>2</sub>O<sub>(l)</sub>" + "LiOH + H2",
+                "Li<sub>(s)</sub> + H<sub>2</sub>O<sub>(g)</sub>" + "Li2O + H2",
+                "Na<sub>(s)</sub> + <kbd>(cold)</kbd> H<sub>2</sub>O<sub>(l)</sub>" + "NaOH + H2",
+                "Na<sub>(s)</sub> + <kbd>(hot)</kbd> H<sub>2</sub>O<sub>(l)</sub>" + "NaOH + H2",
+                "Na<sub>(s)</sub> + H<sub>2</sub>O<sub>(g)</sub>" + "NaOH + H2",
+                "K<sub>(s)</sub> + <kbd>(cold)</kbd> H<sub>2</sub>O<sub>(l)</sub>" + "KOH + H2",
+                "K<sub>(s)</sub> + <kbd>(hot)</kbd> H<sub>2</sub>O<sub>(l)</sub>" + "KOH + H2",
+                "K<sub>(s)</sub> + H<sub>2</sub>O<sub>(g)</sub>" + "KOH + H2",
+                "Be<sub>(s)</sub> + <kbd>(cold)</kbd> H<sub>2</sub>O<sub>(l)</sub>" + "//",
+                "Be<sub>(s)</sub> + <kbd>(hot)</kbd> H<sub>2</sub>O<sub>(l)</sub>" + "//",
+                "Be<sub>(s)</sub> + H<sub>2</sub>O<sub>(g)</sub>" + "BeO + H2",
+                "Mg<sub>(s)</sub> + <kbd>(cold)</kbd> H<sub>2</sub>O<sub>(l)</sub>" + "//",
+                "Mg<sub>(s)</sub> + <kbd>(hot)</kbd> H<sub>2</sub>O<sub>(l)</sub>" + "Mg(OH)2 + H2",
+                "Mg<sub>(s)</sub> + H<sub>2</sub>O<sub>(g)</sub>" + "MgO + H2",
+                //With O2
+                "Li<sub>(s)</sub> + O<sub>2</sub><sub>(g)</sub>" + "Li2O",
+                "Na<sub>(s)</sub> + <kbd>(limited)</kbd> O<sub>2</sub><sub>(g)</sub>" + "Na2O",
+                "Na<sub>(s)</sub> + <kbd>(excessive)</kbd> O<sub>2</sub><sub>(g)</sub>" + "Na2O2",
+                "K<sub>(s)</sub> + <kbd>(limited)</kbd> O<sub>2</sub><sub>(g)</sub>" + "KO2",
+                "Be<sub>(s)</sub> + O<sub>2</sub><sub>(g)</sub>" + "BeO",
+                "Mg<sub>(s)</sub> + O<sub>2</sub><sub>(g)</sub>" + "MgO",
+                //Oxides With H2O
+                "Li<sub>2</sub>O<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "LiOH",
+                "Na<sub>2</sub>O<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "NaOH",
+                "Na<sub>2</sub>O<sub>2</sub><sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "NaOH + H2O2",
+                "KO<sub>2</sub><sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "KOH + H2O2",
+                "BeO<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "Be(OH)2",
+                "MgO<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "Mg(OH)2",
+                //With H2
+                "Li<sub>(s)</sub> + H<sub>2</sub><sub>(g)</sub>" + "LiH",
+                "Na<sub>(s)</sub> + H<sub>2</sub><sub>(g)</sub>" + "NaH",
+                "K<sub>(s)</sub> + H<sub>2</sub><sub>(g)</sub>" + "KH",
+                "Be<sub>(s)</sub> + H<sub>2</sub><sub>(g)</sub>" + "BeH2",
+                "Mg<sub>(s)</sub> + H<sub>2</sub><sub>(g)</sub>" + "MgH2",
+                //Hidrides With H2O
+                "LiH<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "LiOH + H2",
+                "NaH<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "NaOH + H2",
+                "KH<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "KOH + H2",
+                "BeH<sub>2</sub><sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "Be(OH)2 + H2",
+                "MgH<sub>2</sub><sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "Mg(OH)2 + H2",
+                //With N2
+                "Li<sub>(s)</sub> + N<sub>2</sub><sub>(g)</sub>" + "Li3N",
+                "Na<sub>(s)</sub> + N<sub>2</sub><sub>(g)</sub>" + "//",
+                "K<sub>(s)</sub> + N<sub>2</sub><sub>(g)</sub>" + "//",
+                "Be<sub>(s)</sub> + N<sub>2</sub><sub>(g)</sub>" + "Be3N2",
+                "Mg<sub>(s)</sub> + N<sub>2</sub><sub>(g)</sub>" + "Mg3N2",
+                //Nitrides With H2O
+                "Li<sub>3</sub>N<sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "LiOH + NH3",
+                "Be<sub>3</sub>N<sub>2</sub><sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "Be(OH)2 + NH3",
+                "Mg<sub>3</sub>N<sub>2</sub><sub>(s)</sub> + H<sub>2</sub>O<sub>(l)</sub>" + "Mg(OH)2 + NH3",
+                //With Acids
+                "Li<sub>(s)</sub> + <kbd>(dil)</kbd> H<sub>2</sub>SO<sub>4</sub><sub>(aq)</sub>" + "Li2SO4 + H2",
+                "Na<sub>(s)</sub> + <kbd>(dil)</kbd> H<sub>2</sub>SO<sub>4</sub><sub>(aq)</sub>" + "Na2SO4 + H2",
+                "K<sub>(s)</sub> + <kbd>(dil)</kbd> H<sub>2</sub>SO<sub>4</sub><sub>(aq)</sub>" + "K2SO4 + H2",
+                "Be<sub>(s)</sub> + <kbd>(dil)</kbd> H<sub>2</sub>SO<sub>4</sub><sub>(aq)</sub>" + "BeSO4 + H2",
+                "Mg<sub>(s)</sub> + <kbd>(dil)</kbd> H<sub>2</sub>SO<sub>4</sub><sub>(aq)</sub>" + "MgSO4 + H2",
+                "Mg<sub>(s)</sub> + <kbd>(conc)</kbd> H<sub>2</sub>SO<sub>4</sub><sub>(aq)</sub>" + "MgSO4 + SO2 + H2O",
+                "Mg<sub>(s)</sub> + <kbd>(conc)</kbd> HNO<sub>3</sub><sub>(aq)</sub>" + "Mg(NO3)2 + NO2 + H2O",
+                //Heating Nitrates
+                "LiNO<sub>3</sub><sub>(s)</sub>" + "Li2O + NO2 + O2",
+                "NaNO<sub>3</sub><sub>(s)</sub>" + "NaNO2 + O2",
+                "KNO<sub>3</sub><sub>(s)</sub>" + "KNO2 + O2",
+                "Be(NO<sub>3</sub>)<sub>2</sub><sub>(s)</sub>" + "BeO + NO2 + O2",
+                "Mg(NO<sub>3</sub>)<sub>2</sub><sub>(s)</sub>" + "MgO + NO2 + O2",
+                //Heating Carbonates
+                "Li<sub>2</sub>CO<sub>3</sub><sub>(s)</sub>" + "Li2O + CO2",
+                "Na<sub>2</sub>CO<sub>3</sub><sub>(s)</sub>" + "//",
+                "K<sub>2</sub>CO<sub>3</sub><sub>(s)</sub>" + "//",
+                "BeCO<sub>3</sub><sub>(s)</sub>" + "BeO + CO2",
+                "MgCO<sub>3</sub><sub>(s)</sub>" + "MgO + CO2",
+                //Heating Hydrogen Carbonates
+                "LiHCO<sub>3</sub><sub>(aq)</sub>" + "Li2CO3 + CO2 + H2O",
+                "NaHCO<sub>3</sub><sub>(s)</sub>" + "Na2CO3 + CO2 + H2O",
+                "KHCO<sub>3</sub><sub>(s)</sub>" + "K2CO3 + CO2 + H2O",
+                "Be(HCO<sub>3</sub>)<sub>2</sub><sub>(s)</sub>" + "BeCO3 + CO2 + H2O",
+                "Mg(HCO<sub>3</sub>)<sub>2</sub><sub>(s)</sub>" + "MgCO3 + CO2 + H2O",
+                //Heating Hydroxides
+                "LiOH<sub>(s)</sub>" + "Li2O + H2O",
+                "NaOH<sub>(s)</sub>" + "//",
+                "KOH<sub>(s)</sub>" + "//",
+                "Be(OH)<sub>2</sub><sub>(s)</sub>" + "BeO + H2O",
+                "Mg(OH)<sub>2</sub><sub>(s)</sub>" + "MgO + H2O",
+                //Heating Sulphates
+                "Li<sub>2</sub>SO<sub>4</sub><sub>(s)</sub>" + "//",
+                "Na<sub>2</sub>SO<sub>4</sub><sub>(s)</sub>" + "//",
+                "K<sub>2</sub>SO<sub>4</sub><sub>(s)</sub>" + "//",
+                "BeSO<sub>4</sub><sub>(s)</sub>" + "BeO + SO3",
+                "MgSO<sub>4</sub><sub>(s)</sub>" + "MgO + SO3",
+            ];
+
+            var formattedProductsList = [
+                //With H2O
+                "LiOH(aq) + H\u2082(g)",
+                "LiOH(aq) + H\u2082(g)",
+                "Li\u2082O(s) + H\u2082(g)",
+                "NaOH(aq) + H\u2082(g)",
+                "NaOH(aq) + H\u2082(g)",
+                "NaOH(aq) + H\u2082(g)",
+                "KOH(aq) + H\u2082(g)",
+                "KOH(aq) + H\u2082(g)",
+                "KOH(aq) + H\u2082(g)",
+                "//",
+                "//",
+                "BeO(s) + H\u2082(g)",
+                "//",
+                "Mg(OH)\u2082(aq) + H\u2082(g)",
+                "MgO(s) + H\u2082(g)",
+                //With O2
+                "Li\u2082O(s)",
+                "Na\u2082O(s)",
+                "Na\u2082O\u2082(s)",
+                "KO\u2082(s)",
+                "BeO(s)",
+                "MgO(s)",
+                //Oxides With H2O
+                "LiOH(aq)",
+                "NaOH(aq)",
+                "NaOH(aq) + H\u2082O\u2082(aq)",
+                "KOH + H\u2082O\u2082(aq)",
+                "Be(OH)\u2082(aq)",
+                "Mg(OH)\u2082(aq)",
+                //With H2
+                "LiH(s)",
+                "NaH(s)",
+                "KH(s)",
+                "BeH(s)",
+                "MgH(s)",
+                //Hidrides With H2O
+                "LiOH(aq) + H\u2082(g)",
+                "NaOH(aq) + H\u2082(g)",
+                "KOH(aq) + H\u2082(g)",
+                "Be(OH)\u2082(aq) + H\u2082(g)",
+                "Mg(OH)\u2082(aq) + H\u2082(g)",
+                //With N2
+                "Li\u2083N(s)",
+                "//",
+                "//",
+                "Be\u2083N\u2082(s)",
+                "Mg\u2083N\u2082(s)",
+                //Nitrides With H2O
+                "LiOH(aq) + NH\u2083(g)",
+                "Be(OH)\u2082(aq) + NH\u2083(g)",
+                "Mg(OH)\u2082(aq) + NH\u2083(g)",
+                //With Acids
+                "Li\u2082SO\u2084(aq) + H\u2082(g)",
+                "Na\u2082SO\u2084(aq) + H\u2082(g)",
+                "K\u2082SO\u2084(aq) + H\u2082(g)",
+                "BeSO\u2084(aq) + H\u2082(g)",
+                "MgSO\u2084(aq) + H\u2082(g)",
+                "MgSO\u2084(aq) + SO\u2082(g) + H\u2082O(l)",
+                "Mg(NO3)\u2082(aq) + NO\u2082(g) + H\u2082O(l)",
+                //Heating Nitrates
+                "Li\u2082O(s) + NO\u2082(g) + O\u2082(g)",
+                "NaNO\u2082(s) + O\u2082(g)",
+                "KNO\u2082(s) + O\u2082(g)",
+                "BeO(s) + NO\u2082(g) + O\u2082(g)",
+                "MgO(s) + NO\u2082(g) + O\u2082(g)",
+                //Heating Carbonates
+                "Li\u2082O(s) + CO\u2082(g)",
+                "//",
+                "//",
+                "BeO(s) + CO\u2082(g)",
+                "MgO(s) + CO\u2082(g)",
+                //Heating Hydrogen Carbonates
+                "Li\u2082CO\u2083(s) + CO\u2082(g) + H\u2082O(l)",
+                "Na\u2082CO\u2083(s) + CO\u2082(g) + H\u2082O(l)",
+                "K\u2082CO\u2083(s) + CO\u2082(g) + H\u2082O(l)",
+                "BeCO\u2083(s) + CO\u2082(g) + H\u2082O(l)",
+                "MgCO\u2083(s) + CO\u2082(g) + H\u2082O(l)",
+                //Heating Hydroxides
+                "Li\u2082O(s) + H\u2082O(l)",
+                "//",
+                "//",
+                "BeO(s) + H\u2082O(l)",
+                "MgO(s) + H\u2082O(l)",
+                //Heating Sulphates
+                "//",
+                "//",
+                "//",
+                "BeO(s) + SO\u2083(g)",
+                "MgO(s) + SO\u2083(g)",
+            ];
+
+            for (var reactionGroup = 1; reactionGroup <= fieldCount; reactionGroup++) {
+                var reactantsDisplayId = "reactantsDisplay" + reactionGroup;
+                var productsDisplayId = "productsDisplay" + reactionGroup;
+
+                var reactantsDisplay = document.getElementById(reactantsDisplayId);
+                var productsDisplay = document.getElementById(productsDisplayId);
+
+                var answerText = reactantsDisplay.innerHTML + productsDisplay.value;
+
+                for (var productsListIndex = 0; productsListIndex < 77; productsListIndex++) {
+                    if (answerText == productsList[productsListIndex] || productsDisplay.value == formattedProductsList[productsListIndex]) {
+                        productsDisplay.value = formattedProductsList[productsListIndex];
+                        productsDisplay.classList.remove("productsDisplayError");
+                        productsDisplay.classList.add("productsDisplaySuccess");
+                        break;
+                    } else {
+                        productsDisplay.classList.add("productsDisplayError");
+                        productsDisplay.classList.remove("productsDisplaySuccess");
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body onload="intialize()" style="background-color:black;">
+    <div style="position:fixed;top:0;left:0;width:100%;background-color:lightskyblue;height:140px;">
+        <div style="display:inline-block;margin-left:550px;margin-top:20px;">
+            <div style="margin-bottom:20px;float:right;font-size:300%;color:black;">Inorganic Reactions (s Block)</div>
+            <br/>
+            <div style="float:right;font-size:100%;color:gray;margin-left:20px;">&copy; Nirmal Diaz</div>            
+            <div style="float:right;font-size:100%;color:black;margin-left:20px;" onclick="intialize()">Randomize</div>
+            <div style="float:right;font-size:100%;color:black;" onclick="checkAnswers(reactantsList.length)">Validate Answers</div>
+        </div>
+    </div>
+    <p style="height:80px;"></p>
+    <div id="body">
+    </div>
+    <br/>
+</body>
+
+</html>

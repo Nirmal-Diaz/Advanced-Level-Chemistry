@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inorganic Reactions (p Block)</title>
+    <style>
+        * {
+            font-family: 'Trebuchet MS';
+            color: white;
+        }
+
+        h1 {
+            color:rgb(165, 45, 110);
+        }
+
+        h2, h2>sub {
+            color:rgb(180, 100, 175);
+        }
+
+        .table {
+            border: 1px solid white;
+            width: 100%;
+            border-spacing: 19px;
+        }
+
+        table.table>tbody>tr>td>input {
+            display: inline-block;
+            border: solid;
+            margin-left: 20px;
+            width: 140px;
+            font-size: 200%;
+            text-align: center;
+            background-color: black;
+        }
+
+        table.table>tbody>tr>th {
+            text-align: right;
+        }
+
+        table.table>tbody>tr>td {
+            text-align: center;
+        }
+
+        .reactionGroupDisplay {
+            display: inline-block;
+            padding: 0;
+            margin-top: 70px;
+        }
+
+        .reactantsDisplay {
+            display: inline-block;
+            width: 400px;
+            font-size: 200%;
+            text-align: right;
+            margin-left: 50px;
+        }
+
+        .productsDisplayError {
+            display: inline-block;
+            border: solid;
+            margin-left: 20px;
+            width: 600px;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+        }
+
+        .productsDisplaySuccess {
+            display: inline-block;
+            border: none !important;
+            margin-left: 20px;
+            width: 600px;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+            color: rgb(165, 45, 110);
+        }
+
+        .arrowDisplay {
+            display: inline-block;
+            font-size: 200%;
+            margin-left: 20px;
+        }
+
+        .yeildsArrowGroup {
+            display: inline-block;
+            width: 25px;
+            margin-left: 20px;
+        }
+
+        .yeildsDisplay {
+            font-size: 120%;
+            text-align: center;
+        }
+
+        kbd,
+        kbd>sup,
+        kbd>sub {
+            color: rgb(165, 45, 110);
+        }
+    </style>
+    <script>
+    var inputIdList = [
+            //Formula of oxides
+            "oFormula1",
+            "oFormula2",
+            "oFormula3",
+            "oFormula4",
+            "oFormula5",
+            "oFormula6",
+            "oFormula7",
+            //State of Oxides
+            "oState1",
+            "oState2",
+            "oState3",
+            "oState4",
+            "oState5",
+            "oState6",
+            "oState7",
+            //Oxides with H2O
+            "oxideH2O1",
+            "oxideH2O2",
+            "oxideH2O3",
+            "oxideH2O4",
+            "oxideH2O5",
+            "oxideH2O6",
+            "oxideH2O7",
+            "oxideH2O8",
+            "oxideH2O9",
+            "oxideH2O10",
+            "oxideH2O11",
+            "oxideH2O12",
+            //Oxides with Acids/Bases
+            "oxideAcidBase1",
+            "oxideAcidBase2",
+            "oxideAcidBase3",
+            "oxideAcidBase4",
+            "oxideAcidBase5",
+            "oxideAcidBase6",
+            "oxideAcidBase7",
+            "oxideAcidBase8",
+            "oxideAcidBase9",
+            "oxideAcidBase10",
+            "oxideAcidBase11",
+            "oxideAcidBase12",
+            "oxideAcidBase13",
+            "oxideAcidBase14",
+            "oxideAcidBase15",
+            "oxideAcidBase16",
+            //Heating Oxides
+            "oxideThermal1",
+            "oxideThermal2",
+            "oxideThermal3",
+            "oxideThermal4",
+            "oxideThermal5",
+            //Neutral Oxides
+            "oxideNeutral1",
+            "oxideNeutral2",
+            "oxideNeutral3",
+            //Formula of Oxide +3
+            "o3Formula1",
+            "o3Formula2",
+            "o3Formula3",
+            "o3Formula4",
+            "o3Formula5",
+            //State of Oxide +3
+            "o3State1",
+            "o3State2",
+            "o3State3",
+            "o3State4",
+            "o3State5",
+            //Formula of Oxide +5
+            "o5Formula1",
+            "o5Formula2",
+            "o5Formula3",
+            "o5Formula4",
+            "o5Formula5",
+            //State of Oxide +5
+            "o5State1",
+            "o5State2",
+            "o5State3",
+            "o5State4",
+            "o5State5",
+            //Formula of Hydroxides
+            "OHFormula1",
+            "OHFormula2",
+            "OHFormula3",
+            "OHFormula4",
+            "OHFormula5",
+            "OHFormula6",
+            "OHFormula7",
+            //State of Hydroxides
+            "OHState1",
+            "OHState2",
+            "OHState3",
+            "OHState4",
+            "OHState5",
+            "OHState6",
+            "OHState7",
+            //Hydroxides with H2O
+            "hydroxideH2O1",
+            "hydroxideH2O2",
+            "hydroxideH2O3",
+            "hydroxideH2O4",
+            "hydroxideH2O5",
+            "hydroxideH2O6",
+            "hydroxideH2O7",
+            "hydroxideH2O8",
+            //Formula of Hydride
+            "hFormula1",
+            "hFormula2",
+            "hFormula3",
+            "hFormula4",
+            "hFormula5",
+            "hFormula6",
+            "hFormula7",
+            //State of Hydride
+            "hState1",
+            "hState2",
+            "hState3",
+            "hState4",
+            "hState5",
+            "hState6",
+            "hState7",
+            //Formula of Chloride
+            "clFormula1",
+            "clFormula2",
+            "clFormula3",
+            "clFormula4",
+            "clFormula5",
+            "clFormula6",
+            //State of Chloride
+            "clState1",
+            "clState2",
+            "clState3",
+            "clState4",
+            "clState5",
+            "clState6",
+            //Haylides with H2O
+            "haylideH2O1",
+            "haylideH2O2",
+            "haylideH2O3",
+            "haylideH2O4",
+            "haylideH2O5",
+            "haylideH2O6",
+            "haylideH2O7",
+            "haylideH2O8",
+            "haylideH2O9",
+            "haylideH2O10",
+            "haylideH2O11",
+
+            "haylide1",
+            "haylide2",
+            "haylide3",
+            //Al with H2O
+            "alH2O1",
+            //Al with O2
+            "alO21",
+            //Al with H2
+            "alH21",
+            //Al with Acid
+            "alAcid1",
+            //Al with Base
+            "alBase1",
+            //Al2O3 with H2O
+            "alOxideH2O1",
+            //AlH3 with H2O
+            "alHydrideH2O1",
+            //C with O2
+            "cO21",
+            //CO2 as Oxidizor
+            "cOxideC1",
+            //CO2 with H2O
+            "cOxideH2O1",
+            //H2CO3 Ionizaion as Acid
+            "cHydroxide1",
+            "cHydroxide2",
+            //Producing HNO2
+            "nHydride1",
+            //NH3 Ionization as Acid
+            "nNH31",
+            "nNH32",
+            //NH3 as Acid/Oxidizor
+            "nNH33",
+            "nNH34",
+            //NH3 as Acid
+            "nNH35",
+            //NH3 as Acid/Oxidizor
+            "nNH36",
+            "nNH37",
+            //NH3 with Zn/Al
+            "nNH38",
+            "nNH39",
+            //NH3 as Reducer
+            "nNH310",
+            "nNH311",
+            "nNH312",
+            //NH3 as Base
+            "nNH313",
+            //Thermal Decomposition of Ammonium Salt
+            "nSalts1",
+            "nSalts2",
+            "nSalts3",
+            "nSalts4",
+            "nSalts5",
+            "nSalts6",
+            //H2O as Acid
+            "oHydroxide1",
+            //H2O as Base
+            "oHydroxide2",
+            //H2O2 as Oxidizor&Reducer
+            "oHydroxide3",
+            //H2O2 as Acid/Oxidizor
+            "oHydroxide4",
+            //H2O2 as Oxidizor
+            "oHydroxide5",
+            //H2O2 as Reducer
+            "oHydroxide6",
+            //S as Reducer
+            "s1",
+            //S as Oxidizor
+            "s2",
+            //S as Oxidizor&Reducer
+            "s3",
+            //H2S Ionization as Acid
+            "sH2S1",
+            "sH2S2",
+            //H2S as Acid/Oxidizor
+            "sH2S3",
+            "sH2S4",
+            //H2s as Reducer
+            "sH2S5",
+            //SO2 with H2O
+            "sOxide1",
+            //SO2 as Oxidizor
+            "sOxide2",
+            //So3 with H2O
+            "sOxide3",
+            //H2SO4 as Acid
+            "sHydroxide1",
+            //H2SO4 as Oxidizor
+            "sHydroxide2",
+            //Halogens as Oxidizors
+            "x1",
+            "x2",
+            //Cl2 as
+            "x3",
+            //Cl2 as Oxidizer&Reducer
+            "x4",
+            "x5",
+            "x6",
+        ]
+
+        var productsList = [
+            //Formula of oxides
+            "Na2O",
+            "MgO",
+            "Al2O3",
+            "SiO2",
+            "P2O5",
+            "SO3",
+            "Cl2O7",
+            //State of Oxides
+            "PB",
+            "B",
+            "U",
+            "IDA",
+            "A",
+            "PA",
+            "IPA",
+            //Oxides with H2O
+            "H2CO3",
+            "HNO3",
+            "HNO2",
+            "HNO2 + HNO3",
+            "HNO2 + HNO3",
+            "Al(OH)3",
+            "H3PO4",
+            "H2SO3",
+            "H2SO4",
+            "HClO",
+            "HClO4",
+            "HClO2 + HClO3",
+            //Oxides with Acids/Bases
+            "Mg(NO3)2 + H2O",
+            "//",
+            "Na3PO4 + H2O",
+            "//",
+            "Na2SO3 + H2O",
+            "//",
+            "K2SO4 + H2O",
+            "//",
+            "KClO4 + H2O",
+            "//",
+            "NaAlO2 + H2O",
+            "Al2(SO4)3 + H2O",
+            "MgZnO2 + H2O",
+            "ZnCl2 + H2O",
+            "K2SnO3 + H2O",
+            "SnCl4 + H2O",
+            //Heating Oxides
+            "Cr2O3 + O2",
+            "PbO + O2",
+            "N2O3 + O2",
+            "K2O + O2",
+            "BaO + O2",
+            //Neutral Oxides
+            "CO",
+            "NO",
+            "N2O",
+            //Formula of Oxide +3
+            "N2O3",
+            "P2O3",
+            "As2O3",
+            "Sb2O3",
+            "Bi2O3",
+            //State of Oxide +3
+            "A",
+            "DA",
+            "U",
+            "U",
+            "B",
+            //Formula of Oxide +5
+            "N2O5",
+            "P2O5",
+            "As2O5",
+            "Sb2O5",
+            "//",
+            //State of Oxide +5
+            "PA",
+            "A",
+            "DA",
+            "DA",
+            "//",
+            //Formula of Hydroxides
+            "NaOH",
+            "Mg(OH)2",
+            "Al(OH)3",
+            "H2SiO3",
+            "H3PO4",
+            "H2SO4",
+            "HClO4",
+            //State of Hydroxides
+            "PB",
+            "B",
+            "U",
+            "DA",
+            "DA",
+            "PA",
+            "IPA",
+            //Hydroxide Ionization
+            "Na+ + OH-",
+            "Mg2+ + OH-",
+            "Al3+ + OH-",
+            "H+ + AlO2-",
+            "H+ + SiO32-",
+            "H+ + PO43-",
+            "H+ + SO42-",
+            "H+ + ClO4-",
+            //Formula of Hydride
+            "NaH",
+            "MgH2",
+            "AlH3",
+            "SiH4",
+            "PH3",
+            "H2S",
+            "HCl",
+            //State of Hydride
+            "PB",
+            "DB",
+            "U",
+            "IDA",
+            "IDB",
+            "DA",
+            "IPA",
+            //Formula of Chloride
+            "NaCl",
+            "MgCl2",
+            "AlCl3",
+            "SiCl4",
+            "PCl5",
+            "SCl2",
+            //State of Chloride
+            "U",
+            "IDA",
+            "A",
+            "A",
+            "A",
+            "A",
+            //Haylides with H2O
+            "H3BO3 + HCl",
+            "//",
+            "SiO2 + HCl",
+            "H2SiO3 + HCl",
+            "NH3 + HOCl",
+            "POCl3 + HCl",
+            "H3PO4 + HCl",
+            "H3PO3 + HCl",
+            "H3AsO3 + HCl",
+            "SbOCl + HCl",
+            "BiOCl + HCl",
+
+            "NCl3",
+            "SbCl3",
+            "BiCl3",
+            //Al with H2O
+            "Al(OH)3 + H2",
+            //Al with O2
+            "Al2O3",
+            //Al with H2
+            "AlH3",
+            //Al with Acid
+            "AlCl3 + H2",
+            //Al with Base
+            "NaAlO2 + H2",
+            //Al2O3 with H2O
+            "Al(OH)3",
+            //AlH3 with H2O
+            "Al(OH)3 + H2",
+            //C with O2
+            "CO2",
+            //CO2 as Oxidizor
+            "CO",
+            //CO2 with H2O
+            "H2CO3",
+            //H2CO3 Ionizaion as Acid
+            "H+ + HCO3-",
+            "H+ + CO32-",
+            //Producing HNO2
+            "HNO2 + NaCl",
+            //NH3 Ionization as Acid
+            "H+ + NH2-",
+            "H+ + N3-",
+            //NH3 as Acid/Oxidizor
+            "NaNH2 + H2",
+            "KNH2 + H2",
+            //NH3 as Acid
+            "NaNH2 + H2O",
+            //NH3 as Acid/Oxidizor
+            "Li3N + H2",
+            "Mg3N2 + H2",
+            //NH3 with Zn/Al
+            "//",
+            "//",
+            //NH3 as Reducer
+            "N2 + HCl",
+            "N2 + NH4Cl",
+            "NCl3 + HCl",
+            //NH3 as Base
+            "NH4Cl",
+            //Thermal Decomposition of Ammonium Salt
+            "NH3 + HCl",
+            "NH3 + CO2 + H2O",
+            "NH3 + H2SO4",
+            "N2 + H2O",
+            "N2O + H2O",
+            "N2 + Cr2O3 + H2O",
+            //H2O as Acid
+            "NaOH + H2",
+            //H2O as Base
+            "H3O+ + Cl-",
+            //H2O2 as Oxidizor&Reducer
+            "H2O + O2",
+            //H2O2 as Acid/Oxidizor
+            "Na2O2 + H2O",
+            //H2O2 as Oxidizor
+            "PbSO4 + H2O",
+            //H2O2 as Reducer
+            "Ag + O2 + H2O",
+            //S as Reducer
+            "SO2 + SO2",
+            //S as Oxidizor
+            "CuS",
+            //S as Oxidizor&Reducer
+            "Na2S + Na2S2O3",
+            //H2S Ionization as Acid
+            "H+ + HS-",
+            "H+ + S2-",
+            //H2S as Acid/Oxidizor
+            "NaHS + H2",
+            "Na2S + H2",
+            //H2S as Reducer
+            "S + HCl",
+            //SO2 with H2O
+            "H2SO3",
+            //SO2 as Oxidizor
+            "S + MgO",
+            //SO3 with H2O
+            "H2SO4",
+            //H2SO4 as Acid
+            "MgSO4 + H2",
+            //H2SO4 as Oxidizor
+            "MgSO4 + SO2 + H2O",
+            //Halogens as Oxidizors
+            "CuCl",
+            "CuCl2",
+            "N2 + HCl",
+            //Cl2 as
+            "HCl + HOCl",
+            //Cl2 as Oxidizer&Reducer
+            "NaClO + NaCl",
+            "NaClO3 + NaCl",
+        ]
+
+        var formattedProductsList = [
+            //Formula of oxides
+            "Na\u2082O",
+            "MgO",
+            "Al\u2082O\u2083",
+            "SiO\u2082",
+            "P\u2082O\u2085",
+            "SO\u2083",
+            "Cl\u2082O\u2087",
+            //State of Oxides
+            "PB",
+            "B",
+            "U",
+            "IDA",
+            "A",
+            "PA",
+            "IPA",
+            //Oxides with H2O
+            "H\u2082CO\u2083",
+            "HNO\u2083",
+            "HNO\u2082",
+            "HNO\u2082 + HNO\u2083",
+            "HNO\u2082 + HNO\u2083",
+            "Al(OH)\u2083",
+            "H\u2083PO\u2084",
+            "H\u2082SO\u2083",
+            "H\u2082SO\u2084",
+            "HClO",
+            "HClO\u2084",
+            "HClO\u2082 + HClO\u2083",
+            //Oxides with Acids/Bases
+            "Mg(NO\u2083)\u2082 + H\u2082O",
+            "//",
+            "Na\u2083PO\u2084 + H\u2082O",
+            "//",
+            "Na\u2082SO\u2083 + H\u2082O",
+            "//",
+            "K\u2082SO\u2084 + H\u2082O",
+            "//",
+            "KClO\u2084 + H\u2082O",
+            "//",
+            "NaAlO\u2082 + H\u2082O",
+            "Al2(SO\u2084)\u2083 + H\u2082O",
+            "MgZnO\u2082 + H\u2082O",
+            "ZnCl\u2082 + H\u2082O",
+            "K\u2082SnO\u2083 + H\u2082O",
+            "SnCl\u2084 + H\u2082O",
+            //Heating Oxides
+            "Cr\u2082O\u2083 + O\u2082",
+            "PbO + O\u2082",
+            "N\u2082O\u2083 + O\u2082",
+            "K\u2082O + O\u2082",
+            "BaO + O\u2082",
+            //Neutral Oxides
+            "CO",
+            "NO",
+            "N\u2082O",
+            //Formula of Oxide +3
+            "N\u2082O\u2083",
+            "P\u2082O\u2083",
+            "As\u2082O\u2083",
+            "Sb\u2082O\u2083",
+            "Bi\u2082O\u2083",
+            //State of Oxide +3
+            "A",
+            "DA",
+            "U",
+            "U",
+            "B",
+            //Formula of Oxide +5
+            "N\u2082O\u2085",
+            "P\u2082O\u2085",
+            "As\u2082O\u2085",
+            "Sb\u2082O\u2085",
+            "//",
+            //State of Oxide +5
+            "PA",
+            "A",
+            "DA",
+            "DA",
+            "//",
+            //Formula of Hydroxides
+            "NaOH",
+            "Mg(OH)\u2082",
+            "Al(OH)\u2083",
+            "H\u2082SiO\u2083",
+            "H\u2083PO\u2084",
+            "H\u2082SO\u2084",
+            "HClO\u2084",
+            //State of Hydroxides
+            "PB",
+            "B",
+            "U",
+            "DA",
+            "DA",
+            "PA",
+            "IPA",
+            //Hydroxide Ionization
+            "Na\u207A + OH\u207B",
+            "Mg\u00B2\u207A + OH\u207B",
+            "Al\u00B3\u207A + OH\u207B",
+            "H\u207A + AlO\u2082\u207B",
+            "H\u207A + SiO\u2083\u00B2\u207B",
+            "H\u207A + PO\u2084\u00B3\u207B",
+            "H\u207A + SO\u2084\u00B2\u207B",
+            "H\u207A + ClO\u2084\u207B",
+            //Formula of Hydride
+            "NaH",
+            "MgH\u2082",
+            "AlH\u2083",
+            "SiH\u2084",
+            "PH\u2083",
+            "H\u2082S",
+            "HCl",
+            //State of Hydride
+            "PB",
+            "DB",
+            "U",
+            "IDA",
+            "IDB",
+            "DA",
+            "IPA",
+            //Formula of Chloride
+            "NaCl",
+            "MgCl\u2082",
+            "AlCl\u2083",
+            "SiCl\u2084",
+            "PCl\u2085",
+            "SCl\u2082",
+            //State of Chloride
+            "U",
+            "IDA",
+            "A",
+            "A",
+            "A",
+            "A",
+            //Haylides with H2O
+            "H\u2083BO\u2083(aq) + HCl(aq)",
+            "//",
+            "SiO\u2082(aq) + HCl(aq)",
+            "H\u2082SiO\u2083(aq) + HCl(aq)",
+            "NH\u2083(aq) + HOCl(aq)",
+            "POCl\u2083(aq) + HCl(aq)",
+            "H\u2083PO\u2084(aq) + HCl(aq)",
+            "H\u2083PO\u2083(aq) + HCl(aq)",
+            "H\u2083AsO\u2083(aq) + HCl(aq)",
+            "SbOCl(s) + HCl(aq)",
+            "BiOCl(s) + HCl(aq)",
+
+            "NCl\u2083",
+            "SbCl\u2083",
+            "BiCl\u2083",
+            //Al with H2O
+            "Al(OH)\u2082 + H\u2082",
+            //Al with O2
+            "Al\u2082O\u2083",
+            //Al with H2
+            "AlH\u2082",
+            //Al with Acid
+            "AlCl\u2083 + H\u2082",
+            //Al with Base
+            "NaAlO\u2082 + H\u2082",
+            //Al2O3 with H2O
+            "Al(OH)\u2083",
+            //AlH3 with H2O
+            "Al(OH)\u2083 + H\u2082",
+            //C with O2
+            "CO\u2082",
+            //CO2 as Oxidizor
+            "CO",
+            //CO2 with H2O
+            "H\u2082CO\u2083",
+            //H2CO3 Ionizaion as Acid
+            "H\u207A + HCO\u2083\u207B",
+            "H\u207A + CO\u20832\u207B",
+            //Producing HNO2
+            "HNO\u2082 + NaCl",
+            //NH3 Ionization as Acid
+            "H\u207A + NH\u2082\u207B",
+            "H\u207A + N\u2083\u207B",
+            //NH3 as Acid/Oxidizor
+            "NaNH\u2082 + H\u2082",
+            "KNH\u2082 + H\u2082",
+            //NH3 as Acid
+            "NaNH\u2082 + H\u2082O",
+            //NH3 as Acid/Oxidizor
+            "Li\u2083N + H\u2082",
+            "Mg\u2083N\u2082 + H\u2082",
+            //NH3 with Zn/Al
+            "//",
+            "//",
+            //NH3 as Reducer
+            "N\u2082 + HCl",
+            "N\u2082 + NH\u2084Cl",
+            "NCl\u2083 + HCl",
+            //NH3 as Base
+            "NH\u2084Cl",
+            //Thermal Decomposition of Ammonium Salt
+            "NH\u2083 + HCl",
+            "NH\u2083 + CO\u2082 + H\u2082O",
+            "NH\u2083 + H\u2082SO\u2084",
+            "N\u2082 + H\u2082O",
+            "N\u2082O + H\u2082O",
+            "N\u2082 + Cr\u2082O\u2083 + H\u2082O",
+            //H2O as Acid
+            "NaOH + H\u2082",
+            //H2O as Base
+            "H\u2083O\u207A + Cl\u207B",
+            //H2O2 as Oxidizor&Reducer
+            "H\u2082O + O\u2082",
+            //H2O2 as Acid/Oxidizor
+            "Na\u2082O\u2082 + H\u2082O",
+            //H2O2 as Oxidizor
+            "PbSO\u2084 + H\u2082O",
+            //H2O2 as Reducer
+            "Ag + O\u2082 + H\u2082O",
+            //S as Reducer
+            "SO\u2082 + SO\u2082",
+            //S as Oxidizor
+            "CuS",
+            //S as Oxidizor&Reducer
+            "Na\u2082S + Na\u2082S\u2082O\u2083",
+            //H2S Ionization as Acid
+            "H\u207A + HS\u207B",
+            "H\u207A + S2\u207B",
+            //H2S as Acid/Oxidizor
+            "NaHS + H\u2082",
+            "Na\u2082S + H\u2082",
+            //H2S as Reducer
+            "S + HCl",
+            //SO2 with H2O
+            "H\u2082SO\u2083",
+            //SO2 as Oxidizor
+            "S + MgO",
+            //SO3 with H2O
+            "H\u2082SO\u2084",
+            //H2SO4 as Acid
+            "MgSO\u2084 + H\u2082",
+            //H2SO4 as Oxidizor
+            "MgSO\u2084 + SO\u2082 + H\u2082O",
+            //Halogens as Oxidizors
+            "CuCl",
+            "CuCl\u2082",
+            "N\u2082 + HCl",
+            //Cl2 as
+            "HCl + HOCl",
+            //Cl2 as Oxidizer&Reducer
+            "NaClO + NaCl",
+            "NaClO\u2083 + NaCl",
+        ]
+
+    function checkAnswers() {
+        for (var inputIdListIndex = 0; inputIdListIndex < inputIdList.length; inputIdListIndex ++) {
+            var inputId = inputIdList[inputIdListIndex];
+            var input = document.getElementById(inputId);
+            var answer = productsList[inputIdListIndex];
+            if (input.value == answer || input.value == formattedProductsList[inputIdListIndex]) {
+                input.classList.remove("productsDisplayError");
+                input.classList.add("productsDisplaySuccess");
+                input.value = formattedProductsList[inputIdListIndex];
+            } else {
+                input.classList.remove("productsDisplaySuccess");
+                input.classList.add("productsDisplayError");
+            }
+        }
+    }
+    </script>
+</head>
+
+<body onload="intialize()" style="background-color:black;">
+    <div style="position:fixed;top:0;left:0;width:100%;background-color:rgb(165, 45, 110);height:140px;">
+        <div style="display:inline-block;margin-left:270px;margin-top:20px;">
+            <div style="margin-bottom:20px;float:right;font-size:300%;color:black;">Inorganic Reactions (p Block)</div>
+            <br/>
+            <div style="float:right;font-size:100%;color:white;margin-left:20px;">&copy; Nirmal Diaz</div>
+            <div style="float:right;font-size:100%;color:black;margin-left:20px;" onclick="intialize()">Randomize</div>
+            <div style="float:right;font-size:100%;color:black;" onclick="checkAnswers(31)">Validate Answers</div>
+        </div>
+    </div>
+    <p style="height:150px;"></p>
+    <div id="body">
+        <h1>Oxides of 'p' and 's' Blocks</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Group</th>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>7</td>
+                </tr>
+                <tr>
+                    <th>Chemical Formula
+                        <br/>(Maximum Oxidation State)</th>
+                    <td>
+                        <input id="oFormula1" type="text">
+                    </td>
+                    <td>
+                        <input id="oFormula2" type="text">
+                    </td>
+                    <td>
+                        <input id="oFormula3" type="text">
+                    </td>
+                    <td>
+                        <input id="oFormula4" type="text">
+                    </td>
+                    <td>
+                        <input id="oFormula5" type="text">
+                    </td>
+                    <td>
+                        <input id="oFormula6" type="text">
+                    </td>
+                    <td>
+                        <input id="oFormula7" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Acidic/Basic State</th>
+                    <td>
+                        <input id="oState1" type="text">
+                    </td>
+                    <td>
+                        <input id="oState2" type="text">
+                    </td>
+                    <td>
+                        <input id="oState3" type="text">
+                    </td>
+                    <td>
+                        <input id="oState4" type="text">
+                    </td>
+                    <td>
+                        <input id="oState5" type="text">
+                    </td>
+                    <td>
+                        <input id="oState6" type="text">
+                    </td>
+                    <td>
+                        <input id="oState7" type="text">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h2>Oxides with H<sub>2</sub>O</h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">CO<sub>2</sub> + H<sub>2</sub>O</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideH2O1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">N<sub>2</sub>O<sub>5</sub> + H<sub>2</sub>O</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideH2O2" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">N<sub>2</sub>O<sub>3</sub> + H<sub>2</sub>O</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideH2O3" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NO<sub>2</sub> + H<sub>2</sub>O</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideH2O4" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">N<sub>2</sub>O<sub>4</sub> + H<sub>2</sub>O</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideH2O5" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Al<sub>2</sub>O<sub>3</sub> + H<sub>2</sub>O</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideH2O6" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">P<sub>2</sub>O<sub>5</sub> + H<sub>2</sub>O</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideH2O7" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">SO<sub>2</sub> + H<sub>2</sub>O</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideH2O8" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">SO<sub>3</sub> + H<sub>2</sub>O</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideH2O9" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cl<sub>2</sub>O + H<sub>2</sub>O</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideH2O10" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cl<sub>2</sub>O<sub>7</sub> + H<sub>2</sub>O</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideH2O11" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">ClO<sub>2</sub> + H<sub>2</sub>O</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideH2O12" class="productsDisplayError" />
+        </div>
+        
+        <h2>Oxides with Acids/Bases</h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">N<sub>2</sub>O<sub>5</sub> + Mg(OH)<sub>2</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">N<sub>2</sub>O<sub>5</sub> + HCl</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase2" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">P<sub>2</sub>O<sub>5</sub> + NaOH</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase3" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">P<sub>2</sub>O<sub>5</sub> + HCl</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase4" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">SO<sub>2</sub> + NaOH</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase5" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">SO<sub>2</sub> + H<sub>2</sub>SO<sub>4</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase6" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">SO<sub>3</sub> + KOH</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase7" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">SO<sub>3</sub> + HCl</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase8" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cl<sub>2</sub>O<sub>7</sub> + KOH</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase9" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cl<sub>2</sub>O<sub>7</sub> + H<sub>2</sub>SO<sub>4</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase10" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Al<sub>2</sub>O<sub>3</sub> + NaOH</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase11" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Al<sub>2</sub>O<sub>3</sub> + H<sub>2</sub>SO<sub>4</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase12" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">ZnO + Mg(OH)<sub>2</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase13" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">ZnO + HCl</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase14" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">SnO<sub>2</sub> + KOH</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase15" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">SnO<sub>2</sub> + HCl</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oxideAcidBase16" class="productsDisplayError" />
+        </div>
+        
+        <h2>Thermal Decomposition of Oxides</h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">CrO<sub>3</sub></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="oxideThermal1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">PbO<sub>2</sub></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="oxideThermal2" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">N<sub>2</sub>O<sub>5</sub>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="oxideThermal3" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">K<sub>2</sub>O<sub>2</sub>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="oxideThermal4" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">BaO<sub>2</sub>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="oxideThermal5" class="productsDisplayError" />
+        </div>
+        <h2>Neutral Oxides</h2>
+        <input id="oxideNeutral1" type="text" class="productsDisplayError" style="width:140px">
+        <input id="oxideNeutral2" type="text" class="productsDisplayError" style="width:140px">
+        <input id="oxideNeutral3" type="text" class="productsDisplayError" style="width:140px">
+        
+        <h2>Oxides of Group 15</h2>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Element</th>
+                    <td>N</td>
+                    <td>P</td>
+                    <td>As</td>
+                    <td>Sb</td>
+                    <td>Bi</td>
+                </tr>
+                <tr>
+                    <th>Chemical Formula
+                        <br/>(+3 Oxidation State)</th>
+                    <td>
+                        <input id="o3Formula1" type="text">
+                    </td>
+                    <td>
+                        <input id="o3Formula2" type="text">
+                    </td>
+                    <td>
+                        <input id="o3Formula3" type="text">
+                    </td>
+                    <td>
+                        <input id="o3Formula4" type="text">
+                    </td>
+                    <td>
+                        <input id="o3Formula5" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Acidic/Basic State of +3</th>
+                    <td>
+                        <input id="o3State1" type="text">
+                    </td>
+                    <td>
+                        <input id="o3State2" type="text">
+                    </td>
+                    <td>
+                        <input id="o3State3" type="text">
+                    </td>
+                    <td>
+                        <input id="o3State4" type="text">
+                    </td>
+                    <td>
+                        <input id="o3State5" type="text">
+                    </td>
+                    <td>
+                </tr>
+                <tr>
+                    <th>Chemical Formula
+                        <br/>(+5 Oxidation State)</th>
+                    <td>
+                        <input id="o5Formula1" type="text">
+                    </td>
+                    <td>
+                        <input id="o5Formula2" type="text">
+                    </td>
+                    <td>
+                        <input id="o5Formula3" type="text">
+                    </td>
+                    <td>
+                        <input id="o5Formula4" type="text">
+                    </td>
+                    <td>
+                        <input id="o5Formula5" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Acidic/Basic State of +5</th>
+                    <td>
+                        <input id="o5State1" type="text">
+                    </td>
+                    <td>
+                        <input id="o5State2" type="text">
+                    </td>
+                    <td>
+                        <input id="o5State3" type="text">
+                    </td>
+                    <td>
+                        <input id="o5State4" type="text">
+                    </td>
+                    <td>
+                        <input id="o5State5" type="text">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Hydroxides of 'p' and 's' Blocks</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Group</th>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>7</td>
+                </tr>
+                <tr>
+                    <th>Chemical Formula
+                        <br/>(Maximum Oxidation State)</th>
+                    <td>
+                        <input id="OHFormula1" type="text">
+                    </td>
+                    <td>
+                        <input id="OHFormula2" type="text">
+                    </td>
+                    <td>
+                        <input id="OHFormula3" type="text">
+                    </td>
+                    <td>
+                        <input id="OHFormula4" type="text">
+                    </td>
+                    <td>
+                        <input id="OHFormula5" type="text">
+                    </td>
+                    <td>
+                        <input id="OHFormula6" type="text">
+                    </td>
+                    <td>
+                        <input id="OHFormula7" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Acidic/Basic State</th>
+                    <td>
+                        <input id="OHState1" type="text">
+                    </td>
+                    <td>
+                        <input id="OHState2" type="text">
+                    </td>
+                    <td>
+                        <input id="OHState3" type="text">
+                    </td>
+                    <td>
+                        <input id="OHState4" type="text">
+                    </td>
+                    <td>
+                        <input id="OHState5" type="text">
+                    </td>
+                    <td>
+                        <input id="OHState6" type="text">
+                    </td>
+                    <td>
+                        <input id="OHState7" type="text">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Ionization of Hydroxides</h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NaOH</div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="hydroxideH2O1" class="productsDisplayError"/>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Mg(OH)<sub>2</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="hydroxideH2O2" class="productsDisplayError"/>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Al(OH)<sub>3</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="hydroxideH2O3" class="productsDisplayError"/>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">H<sub>3</sub>AlO<sub>3</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="hydroxideH2O4" class="productsDisplayError"/>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">H<sub>2</sub>SiO<sub>3</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="hydroxideH2O5" class="productsDisplayError"/>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">H<sub>3</sub>PO<sub>4</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="hydroxideH2O6" class="productsDisplayError"/>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">H<sub>2</sub>SO<sub>4</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="hydroxideH2O7" class="productsDisplayError"/>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">HClO<sub>4</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="hydroxideH2O8" class="productsDisplayError"/>
+        </div>
+
+        <h1>Hydrides of 'p' and 's' Blocks</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Group</th>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>7</td>
+                </tr>
+                <tr>
+                    <th>Chemical Formula
+                        <br/>(Maximum Oxidation State)</th>
+                    <td>
+                        <input id="hFormula1" type="text">
+                    </td>
+                    <td>
+                        <input id="hFormula2" type="text">
+                    </td>
+                    <td>
+                        <input id="hFormula3" type="text">
+                    </td>
+                    <td>
+                        <input id="hFormula4" type="text">
+                    </td>
+                    <td>
+                        <input id="hFormula5" type="text">
+                    </td>
+                    <td>
+                        <input id="hFormula6" type="text">
+                    </td>
+                    <td>
+                        <input id="hFormula7" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Acidic/Basic State</th>
+                    <td>
+                        <input id="hState1" type="text">
+                    </td>
+                    <td>
+                        <input id="hState2" type="text">
+                    </td>
+                    <td>
+                        <input id="hState3" type="text">
+                    </td>
+                    <td>
+                        <input id="hState4" type="text">
+                    </td>
+                    <td>
+                        <input id="hState5" type="text">
+                    </td>
+                    <td>
+                        <input id="hState6" type="text">
+                    </td>
+                    <td>
+                        <input id="hState7" type="text">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Chlorides of 'p' and 's' Blocks</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Group</th>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <th>Chemical Formula
+                        <br/>(Maximum Oxidation State)</th>
+                    <td>
+                        <input id="clFormula1" type="text">
+                    </td>
+                    <td>
+                        <input id="clFormula2" type="text">
+                    </td>
+                    <td>
+                        <input id="clFormula3" type="text">
+                    </td>
+                    <td>
+                        <input id="clFormula4" type="text">
+                    </td>
+                    <td>
+                        <input id="clFormula5" type="text">
+                    </td>
+                    <td>
+                        <input id="clFormula6" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Acidic/Basic State</th>
+                    <td>
+                        <input id="clState1" type="text">
+                    </td>
+                    <td>
+                        <input id="clState2" type="text">
+                    </td>
+                    <td>
+                        <input id="clState3" type="text">
+                    </td>
+                    <td>
+                        <input id="clState4" type="text">
+                    </td>
+                    <td>
+                        <input id="clState5" type="text">
+                    </td>
+                    <td>
+                        <input id="clState6" type="text">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Haylides With H2O</h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">BCl<sub>3</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O1" class="productsDisplayError" />
+        </div>
+
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">CCl<sub>4</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O2" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay"><kbd>(half)</kbd> SiCl<sub>4</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O3" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay"><kbd>(full)</kbd> SiCl<sub>4</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O4" class="productsDisplayError" />
+        </div>
+
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NCl<sub>3</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O5" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay"><kbd>(half)</kbd> PCl<sub>5</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O6" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay"><kbd>(full)</kbd> PCl<sub>5</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O7" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">PCl<sub>3</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O8" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">AsCl<sub>3</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O9" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">SbCl<sub>3</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O10" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">BiCl<sub>3</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O11" class="productsDisplayError" />
+        </div>
+        <p>Only haylide which produces an acid and a base</p>
+        <input id="haylide1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Formula" />
+        <p>Two haylides which produce precipitations</p>
+        <input id="haylide2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Formula" />
+        <input id="haylide3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Formula" />
+
+        <h1>Aluminium</h1>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Al + H<sub>2</sub>O
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="alH2O1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Al + O<sub>2</sub>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="alO21" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Al + H<sub>2</sub>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="alH21" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Al + HCl
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="alAcid1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Al + NaOH
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="alBase1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Al<sub>2</sub>O<sub>3</sub> + H<sub>2</sub>O
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="alOxideH2O1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">AlH<sub>3</sub> + H<sub>2</sub>O
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="alHydrideH2O1" class="productsDisplayError" />
+        </div>
+
+        <h1>Carbon</h1>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">C + O<sub>2</sub>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="cO21" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">CO<sub>2</sub> + C
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="cOxideC1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">CO<sub>2</sub> + H<sub>2</sub>O
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="cOxideH2O1" class="productsDisplayError" />
+        </div>
+        <h2>H<sub>2</sub>CO<sub>3</sub>
+        </h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">H<sub>2</sub>CO<sub>3</sub>
+            </div>
+            <div class="arrowDisplay">&#8652;</div>
+            <input id="cHydroxide1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">HCO<sub>3</sub><sup>-</sup>
+            </div>
+            <div class="arrowDisplay">&#8652;</div>
+            <input id="cHydroxide2" class="productsDisplayError" />
+        </div>
+        <h1>Nitrogen</h1>
+        <h2>HNO<sub>2</sub></h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NaNO<sub>2</sub> + HCl
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nHydride1" class="productsDisplayError" />
+        </div>
+        <h2>Ionization of NH<sub>3</sub> as an Acid</h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>3</sub>
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nNH31" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>3</sub>
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nNH32" class="productsDisplayError" />
+        </div>
+
+        <h2>NH<sub>3</sub>
+        </h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>3</sub> + Na
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nNH33" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>3</sub> + K
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nNH34" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>3</sub> + NaOH
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nNH35" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>3</sub> + Li
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nNH36" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>3</sub> + Mg
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nNH37" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>3</sub> + Al
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nNH38" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>3</sub> + Zn
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nNH39" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>3</sub> + Cl<sub>2</sub>
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nNH310" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">
+                <kbd>(excessive)</kbd> NH<sub>3</sub> + Cl<sub>2</sub>
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nNH311" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>3</sub> + <kbd>(excessive)</kbd> Cl<sub>2</sub>
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nNH312" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>3</sub> + HCl
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="nNH313" class="productsDisplayError" />
+        </div>
+        <h2>Thermal Decomposition of Ammonium Salts</h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>4</sub>Cl
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="nSalts1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">(NH<sub>4</sub>)<sub>2</sub>CO<sub>3</sub>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="nSalts2" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">(NH<sub>4</sub>)<sub>2</sub>SO<sub>4</sub>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="nSalts3" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>4</sub>NO<sub>2</sub>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="nSalts4" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NH<sub>4</sub>NO<sub>3</sub>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="nSalts5" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">(NH<sub>4</sub>)<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">&rarr;</div>
+            </div>
+            <input id="nSalts6" class="productsDisplayError" />
+        </div>
+        <h1>Oxygen</h1>
+        <h2>H<sub>2</sub>O</h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">H<sub>2</sub>O + Na
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oHydroxide1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">H<sub>2</sub>O + HCl
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oHydroxide2" class="productsDisplayError" />
+        </div>
+        <h2>H<sub>2</sub>O<sub>2</sub>
+        </h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">H<sub>2</sub>O<sub>2</sub>
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oHydroxide3" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">H<sub>2</sub>O<sub>2</sub> + NaOH
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oHydroxide4" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">H<sub>2</sub>O<sub>2</sub> + PbS
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oHydroxide5" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">H<sub>2</sub>O<sub>2</sub> + Ag<sub>2</sub>O
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="oHydroxide6" class="productsDisplayError" />
+        </div>
+        <h1>Sulphur</h1>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">S + H<sub>2</sub>SO<sub>4</sub>
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="s1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">S + Cu
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="s2" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">S + NaOH
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="s3" class="productsDisplayError" />
+        </div>
+        <h2>Ionization of H<sub>2</sub>S</h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">H<sub>2</sub>S
+            </div>
+            <div class="arrowDisplay">&#8652;</div>
+            <input id="sH2S1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">HS<sup>-</sup>
+            </div>
+            <div class="arrowDisplay">&#8652;</div>
+            <input id="sH2S2" class="productsDisplayError" />
+        </div>
+        <h2>H<sub>2</sub>S</h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">
+                <kbd>(excessive)</kbd> H<sub>2</sub>S + Na
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="sH2S3" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">
+                <kbd>(limited)</kbd> H<sub>2</sub>S + Na
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="sH2S4" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">H<sub>2</sub>S + Cl<sub>2</sub>
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="sH2S5" class="productsDisplayError" />
+        </div>
+        <h2>SO<sub>2</sub>
+        </h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">SO<sub>2</sub> + H<sub>2</sub>O
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="sOxide1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">SO<sub>2</sub> + Mg
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="sOxide2" class="productsDisplayError" />
+        </div>
+        <h2>SO<sub>3</sub>
+        </h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">SO<sub>3</sub> + H<sub>2</sub>O
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="sOxide3" class="productsDisplayError" />
+        </div>
+        <h2>H<sub>2</sub>SO<sub>4</sub>
+        </h2>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">
+                <kbd>(dil)</kbd> H<sub>2</sub>SO<sub>4</sub> + Mg
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="sHydroxide1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">
+                <kbd>(conc)</kbd> H<sub>2</sub>SO<sub>4</sub> + Mg
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="sHydroxide2" class="productsDisplayError" />
+        </div>
+        <h1>Halogens</h1>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">
+                <kbd>(limited)</kbd> Cl<sub>2</sub> + Cu
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="x1" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">
+                <kbd>(excessive)</kbd> Cl<sub>2</sub> + Cu
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="x2" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">
+                Cl<sub>2</sub> + NH<sub>3</sub>
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="x3" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">
+                Cl<sub>2</sub> + H<sub>2</sub>O
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="x4" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">
+                Cl<sub>2</sub> + <kbd>(cold,dil)</kbd> NaOH
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="x5" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">
+                Cl<sub>2</sub> + <kbd>(hot,conc)</kbd> NaOH
+            </div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="x6" class="productsDisplayError" />
+        </div>
+    </div>
+</body>
+
+</html>

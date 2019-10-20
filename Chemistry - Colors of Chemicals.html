@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Colors of Chemicals</title>
+    <style>
+        * {
+            font-family: 'Trebuchet MS';
+            color: white;
+        }
+
+        .reactionGroupDisplay {
+            display: inline-block;
+            padding: 0;
+            margin-top: 70px;
+        }
+
+        .reactantsDisplay {
+            display: inline-block;
+            width: 260px;
+            font-size: 200%;
+            text-align: right;
+            margin-left: 50px;
+        }
+
+        .productsDisplayError {
+            display: inline-block;
+            border: solid;
+            margin-left: 20px;
+            width: 240px;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+        }
+
+        .productsDisplaySuccess {
+            display: inline-block;
+            border: none;
+            margin-left: 20px;
+            width: 240px;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+            color: orange;
+        }
+
+        .arrowDisplay {
+            display: inline-block;
+            font-size: 200%;
+            margin-left: 20px;
+        }
+
+        kbd,
+        kbd>sup,
+        kbd>sub {
+            color: orange;
+        }
+    </style>
+    <script>
+        function intialize() {
+            reactantsList = [
+                //Hexaaqua complexes
+                //
+                "[Cu(H<sub>2</sub>O)<sub>6</sub>]<sup>+</sup>",
+                "[Zn(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>",
+                "[Sc(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>",
+                "[Ti(H<sub>2</sub>O)<sub>6</sub>]<sup>4+</sup>",
+                //
+                "[Co(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>",
+                "[Mn(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>",
+                //
+                "[Cr(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>",
+                "[Cu(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>",
+                //
+                "[Fe(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>",
+                //
+                "[Fe(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>",
+                "[Ni(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>",
+                "[V(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>",
+                //
+                "[Ni(H<sub>2</sub>O)<sub>6</sub>]<sup>4+</sup>",
+                "[Cr(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>",
+                "[V(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>",
+                "[Ti(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>",
+                //Ammine complexes
+                "[Cr(NH<sub>3</sub>)<sub>6</sub>]<sup>3+</sup>",
+                "[Co(NH<sub>3</sub>)<sub>6</sub>]<sup>2+</sup>",
+                "[Ni(NH<sub>3</sub>)<sub>6</sub>]<sup>2+</sup>",
+                "[Cu(NH<sub>3</sub>)<sub>4</sub>]<sup>2+</sup>",
+                "[Cu(NH<sub>3</sub>)<sub>2</sub>]<sup>2+</sup>",
+                "[Zn(NH<sub>3</sub>)<sub>4</sub>]<sup>2+</sup>",
+                "[Ag(NH<sub>3</sub>)<sub>4</sub>]<sup>+</sup>",
+                "[Cd(NH<sub>3</sub>)<sub>4</sub>]<sup>+</sup>",
+                //Chlorido complexes
+                "[CrCl<sub>4</sub>]<sup>-</sup>",
+                "[MnCl<sub>4</sub>]<sup>2+</sup>",
+                "[FeCl<sub>4</sub>]<sup>-</sup>",
+                "[CoCl<sub>4</sub>]<sup>2-</sup>",
+                "[NiCl<sub>4</sub>]<sup>2+</sup>",
+                "[CuCl<sub>4</sub>]<sup>2-</sup>",
+                //Other complexes
+                "[CrCl<sub>2</sub>(H<sub>2</sub>O)<sub>4</sub>]<sup>+</sup>",
+                "[Cr(SO<sub>4</sub>)<sub>2</sub>(H<sub>2</sub>O)<sub>4</sub>]<sup>+</sup>",
+                "K<sub>3</sub>[Fe(CN)<sub>6</sub>]",
+                "KFe<sub>3</sub>[Fe(CN)<sub>6</sub>]",
+                "K<sub>4</sub>[Fe(CN)<sub>6</sub>]",
+                "Fe[(OH)(H<sub>2</sub>O)<sub>5</sub>]<sup>2+</sup>",
+                //Oxides
+                "CrO<sub>3</sub>",
+                "Cr<sub>2</sub>O<sub>3",
+                "MnO<sub>2</sub>",
+                "MnO<sub>3</sub>",
+                "Fe<sub>2</sub>O<sub>3</sub>",
+                "Cu<sub>2</sub>O",
+                "<kbd>(cold)</kbd> ZnO",
+                "<kbd>(heated)</kbd> ZnO",
+                //Haylides
+                "Cu<sub>2</sub>I<sub>2</sub>",
+                //Nitrides
+                "Li<sub>3</sub>N",
+                //Oxo anaions
+                "MnO<sub>3</sub><sup>-</sup>",
+                "MnO<sub>4</sub><sup>2-</sup>",
+                "MnO<sub>4</sub><sup>-</sup>",
+                "CrO<sub>4</sub><sup>2-</sup>",
+                "Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup>",
+                //Oxo cations
+                "VO<sub>2</sub><sup>+</sup>",
+                "VO<sup>2+</sup>",
+                //Hydroxides
+                "Fe(OH)<sub>3</sub>",
+                "Al(OH)<sub>3</sub>",
+                "Cr(OH)<sub>3</sub>",
+                //Sulphides
+                "CuS",
+                "PbS",
+                "HgS",
+                "Bi<sub>2</sub>S<sub>3</sub>",
+                "CdS",
+                "SnS<sub>2</sub>",
+                "As<sub>2</sub>S<sub>3</sub>",
+                "SnS",
+                "Sb<sub>2</sub>S<sub>3</sub>",
+                "CoS",
+                "NiS",
+                "MnS",
+                "ZnS",
+                //Chlorides
+                "AgCl",
+                "PbCl<sub>2</sub>",
+                "Hg<sub>2</sub>Cl<sub>2</sub>",
+                "NH<sub>4</sub>Cl",
+                //Carbonates
+                "CaCO<sub>3</sub>",
+                "BaCO<sub>3</sub>",
+                "SrCO<sub>3</sub>",
+                "PbCO<sub>3</sub>",
+                //Sulphates
+                "PbSO<sub>4</sub>",
+                //Flame test
+                "<kbd>(flame)</kbd> Li",
+                "<kbd>(flame)</kbd> Sr",
+                "<kbd>(flame)</kbd> Ca",
+                "<kbd>(flame)</kbd> Na",
+                "<kbd>(flame)</kbd> Cu",
+                "<kbd>(flame)</kbd> Ba",
+                "<kbd>(flame)</kbd> Cs",
+                "<kbd>(flame)</kbd> K",
+                "<kbd>(flame)</kbd> Rb",
+                //Gases
+                "NO<sub>2</sub>",
+                "I<sub>2</sub>",
+                "Br<sub>2</sub>",
+                "Cl<sub>2</sub>",
+            ];
+
+            var reactionsCount = reactantsList.length;
+            var parent = document.getElementById("body");
+
+            generateFields(parent, reactionsCount);
+
+            randomizeReactions(reactionsCount);
+        }
+
+        function generateFields(fieldParent, fieldCount) {
+            while (fieldParent.hasChildNodes() == true) { fieldParent.removeChild(fieldParent.firstChild); }
+
+            for (var reactionGroup = 1; reactionGroup <= fieldCount; reactionGroup++) {
+
+                var reactantsDisplayId = "reactantsDisplay" + reactionGroup;
+                var reactantsDisplayText = document.createTextNode("null");
+                var reactantsDisplay = document.createElement("div");
+                reactantsDisplay.id = reactantsDisplayId;
+                reactantsDisplay.appendChild(reactantsDisplayText);
+                reactantsDisplay.classList.add("reactantsDisplay");
+
+                var arrowDisplayText = document.createTextNode("\u2192");
+                var arrowDisplay = document.createElement("div");
+                arrowDisplay.appendChild(arrowDisplayText);
+                arrowDisplay.classList.add("arrowDisplay");
+
+                var productsDisplayId = "productsDisplay" + reactionGroup;
+                var productsDisplay = document.createElement("input");
+                productsDisplay.id = productsDisplayId;
+                productsDisplay.classList.add("productsDisplayError");
+
+                var reactionGroupDisplay = document.createElement("div");
+                reactionGroupDisplay.classList.add("reactionGroupDisplay");
+                reactionGroupDisplay.appendChild(reactantsDisplay);
+                reactionGroupDisplay.appendChild(arrowDisplay);
+                reactionGroupDisplay.appendChild(productsDisplay);
+
+                fieldParent.appendChild(reactionGroupDisplay);
+            }
+        }
+
+        function randomizeReactions(fieldCount) {
+            for (var reactantsListIndex = 0; reactantsListIndex <= fieldCount - 1;) {
+                //Select a display randomly
+                var randomGroupNumber = parseInt(Math.random() * fieldCount + 1);
+                var randomReactantsDisplayId = "reactantsDisplay" + randomGroupNumber;
+                var randomReactantsDisplay = document.getElementById(randomReactantsDisplayId);
+                //Assign data to the selected display
+                for (var reactionGroup = 1; reactionGroup <= fieldCount; reactionGroup++) {
+                    if (randomReactantsDisplay.innerHTML == "null" && randomGroupNumber == reactionGroup) {
+                        randomReactantsDisplay.innerHTML = reactantsList[reactantsListIndex];
+                        reactantsListIndex++;
+                    }
+                }
+            }
+        }
+
+        function checkAnswers(fieldCount) {
+            var productsList = [
+                //Hexaaqua complexes
+                //
+                "[Cu(H<sub>2</sub>O)<sub>6</sub>]<sup>+</sup>" + "//",
+                "[Zn(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>" + "//",
+                "[Sc(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>" + "//",
+                "[Ti(H<sub>2</sub>O)<sub>6</sub>]<sup>4+</sup>" + "//",
+                //
+                "[Co(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>" + "Pink",
+                "[Mn(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>" + "Pink",
+                //
+                "[Cr(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>" + "Light Blue",
+                "[Cu(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>" + "Light Blue",
+                //
+                "[Fe(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>" + "Yellow Brown",
+                //
+                "[Fe(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>" + "Green",
+                "[Ni(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>" + "Green",
+                "[V(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>" + "Green",
+                //
+                "[Ni(H<sub>2</sub>O)<sub>6</sub>]<sup>4+</sup>" + "Purple",
+                "[Cr(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>" + "Purple",
+                "[V(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup>" + "Purple",
+                "[Ti(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup>" + "Purple",
+                //Ammine complexes
+                "[Cr(NH<sub>3</sub>)<sub>6</sub>]<sup>3+</sup>" + "Yellow",
+                "[Co(NH<sub>3</sub>)<sub>6</sub>]<sup>2+</sup>" + "Yellow Brown",
+                "[Ni(NH<sub>3</sub>)<sub>6</sub>]<sup>2+</sup>" + "Dark Blue",
+                "[Cu(NH<sub>3</sub>)<sub>4</sub>]<sup>2+</sup>" + "Dark Blue",
+                "[Cu(NH<sub>3</sub>)<sub>2</sub>]<sup>2+</sup>" + "//",
+                "[Zn(NH<sub>3</sub>)<sub>4</sub>]<sup>2+</sup>" + "//",
+                "[Ag(NH<sub>3</sub>)<sub>4</sub>]<sup>+</sup>" + "//",
+                "[Cd(NH<sub>3</sub>)<sub>4</sub>]<sup>+</sup>" + "//",
+                //Chlorido complexes
+                "[CrCl<sub>4</sub>]<sup>-</sup>" + "Blue Purple",
+                "[MnCl<sub>4</sub>]<sup>2+</sup>" + "Green Yellow",
+                "[FeCl<sub>4</sub>]<sup>-</sup>" + "Yellow",
+                "[CoCl<sub>4</sub>]<sup>2-</sup>" + "Blue",
+                "[NiCl<sub>4</sub>]<sup>2+</sup>" + "Yellow",
+                "[CuCl<sub>4</sub>]<sup>2-</sup>" + "Yellow",
+                //Other complexes
+                "[CrCl<sub>2</sub>(H<sub>2</sub>O)<sub>4</sub>]<sup>+</sup>" + "Green",
+                "[Cr(SO<sub>4</sub>)<sub>2</sub>(H<sub>2</sub>O)<sub>4</sub>]<sup>+</sup>" + "Green",
+                "K<sub>3</sub>[Fe(CN)<sub>6</sub>]" + "Yellow Green",
+                "KFe<sub>3</sub>[Fe(CN)<sub>6</sub>]" + "Blue",
+                "K<sub>4</sub>[Fe(CN)<sub>6</sub>]" + "Brown",
+                "Fe[(OH)(H<sub>2</sub>O)<sub>5</sub>]<sup>2+</sup>" + "Yellow Brown",
+                //Oxides
+                "CrO<sub>3</sub>" + "Red",
+                "Cr<sub>2</sub>O<sub>3" + "Green",
+                "MnO<sub>2</sub>" + "Black Brown",
+                "MnO<sub>3</sub>" + "Black",
+                "Fe<sub>2</sub>O<sub>3</sub>" + "Black Brown",
+                "Cu<sub>2</sub>O" + "Brick Red",
+                "<kbd>(cold)</kbd> ZnO" + "White",
+                "<kbd>(heated)</kbd> ZnO" + "Yellow",
+                //Haylides
+                "Cu<sub>2</sub>I<sub>2</sub>" + "White",
+                //Nitrides
+                "Li<sub>3</sub>N" + "Red",
+                //Oxo anaions
+                "MnO<sub>3</sub><sup>-</sup>" + "Blue",
+                "MnO<sub>4</sub><sup>2-</sup>" + "Green",
+                "MnO<sub>4</sub><sup>-</sup>" + "Purple",
+                "CrO<sub>4</sub><sup>2-</sup>" + "Yellow",
+                "Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup>" + "Orange",
+                //Oxo cations
+                "VO<sub>2</sub><sup>+</sup>" + "Yellow",
+                "VO<sup>2+</sup>" + "Blue",
+                //Hydroxides
+                "Fe(OH)<sub>3</sub>" + "Yellow Brown",
+                "Al(OH)<sub>3</sub>" + "White",
+                "Cr(OH)<sub>3</sub>" + "Green",
+                //Sulphides
+                "CuS" + "Black",
+                "PbS" + "Black",
+                "HgS" + "Black",
+                "Bi<sub>2</sub>S<sub>3</sub>" + "Black",
+                "CdS" + "Yellow",
+                "SnS<sub>2</sub>" + "Yellow",
+                "As<sub>2</sub>S<sub>3</sub>" + "Yellow",
+                "SnS" + "Brown",
+                "Sb<sub>2</sub>S<sub>3</sub>" + "Orange",
+                "CoS" + "Black",
+                "NiS" + "Black",
+                "MnS" + "Pink",
+                "ZnS" + "White",
+                //Chlorides
+                "AgCl" + "White",
+                "PbCl<sub>2</sub>" + "White",
+                "Hg<sub>2</sub>Cl<sub>2</sub>" + "White",
+                "NH<sub>4</sub>Cl" + "White",
+                //Carbonates
+                "CaCO<sub>3</sub>" + "White",
+                "BaCO<sub>3</sub>" + "White",
+                "SrCO<sub>3</sub>" + "White",
+                "PbCO<sub>3</sub>" + "White",
+                //Sulphates
+                "PbSO<sub>4</sub>" + "White",
+                //Flame test
+                "<kbd>(flame)</kbd> Li" + "Red",
+                "<kbd>(flame)</kbd> Sr" + "Crimson",
+                "<kbd>(flame)</kbd> Ca" + "Brick Red",
+                "<kbd>(flame)</kbd> Na" + "Yellow",
+                "<kbd>(flame)</kbd> Cu" + "Green",
+                "<kbd>(flame)</kbd> Ba" + "Apple Green",
+                "<kbd>(flame)</kbd> Cs" + "Blue",
+                "<kbd>(flame)</kbd> K" + "Purple",
+                "<kbd>(flame)</kbd> Rb" + "Red Purple",
+                //Gases
+                "NO<sub>2</sub>" + "Brown",
+                "I<sub>2</sub>" + "Purple",
+                "Br<sub>2</sub>" + "Red Brown",
+                "Cl<sub>2</sub>" + "Green",
+            ];
+            
+            // var formattedProductsList = [
+            // ];
+
+            for (var reactionGroup = 1; reactionGroup <= fieldCount; reactionGroup++) {
+                var reactantsDisplayId = "reactantsDisplay" + reactionGroup;
+                var productsDisplayId = "productsDisplay" + reactionGroup;
+
+                var reactantsDisplay = document.getElementById(reactantsDisplayId);
+                var productsDisplay = document.getElementById(productsDisplayId);
+
+                var answerText = reactantsDisplay.innerHTML + productsDisplay.value;
+
+                for (var productsListIndex = 0; productsListIndex <= fieldCount - 1; productsListIndex++) {
+                    if (answerText == productsList[productsListIndex]) {
+                        productsDisplay.classList.remove("productsDisplayError");
+                        productsDisplay.classList.add("productsDisplaySuccess");
+                        break;
+                    } else {
+                        productsDisplay.classList.add("productsDisplayError");
+                        productsDisplay.classList.remove("productsDisplaySuccess");
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body onload="intialize()" style="background-color:black;">
+    <div style="position:fixed;top:0;left:0;width:100%;background-color:orange;height:140px;">
+        <div style="display:inline-block;margin-left:270px;margin-top:20px;">
+            <div style="margin-bottom:20px;float:right;font-size:300%;color:black;">Colors of Chemicals</div>
+            <br/>
+            <div style="float:right;font-size:100%;color:gray;margin-left:20px;">&copy; Nirmal Diaz</div>
+            <div style="float:right;font-size:100%;color:black;margin-left:20px;" onclick="intialize()">Randomize</div>
+            <div style="float:right;font-size:100%;color:black;" onclick="checkAnswers(reactantsList.length)">Validate Answers</div>
+        </div>
+    </div>
+    <p style="height:80px;"></p>
+    <div id="body">
+    </div>
+</body>
+
+</html>

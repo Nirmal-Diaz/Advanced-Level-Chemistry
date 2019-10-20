@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Organic Reactions</title>
+    <style>
+        * {
+            font-family: 'Trebuchet MS';
+            color: white;
+        }
+
+        .reactionGroupDisplay {
+            display: block;
+            margin-top: 80px;
+            width: 700px;
+            float:left;
+            margin-left:20px;
+        }
+
+        .reactantsDisplay {
+            display: inline-block;
+            width: 35%;
+            font-size: 200%;
+            text-align: right;
+        }
+
+        .productsDisplay {
+            display: inline-block;
+            width: 35%;
+            font-size: 200%;
+            text-align: left;
+        }
+
+        /* .productsDisplaySuccess {
+            display: inline-block;
+            border: none;
+            margin-left: 20px;
+            width: 40%;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+            color: lightskyblue;
+        } */
+
+        /* .productsDisplayError {
+            display: inline-block;
+            border: solid;
+            margin-left: 20px;
+            width: 40%;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+        } */
+
+        .arrowDisplay {
+            font-size: 200%;
+            text-align: center;
+        }
+
+        .yeildsArrowGroup {
+            display: inline-block;
+            width: 25%;
+        }
+
+        .yeildsDisplayError {
+            font-size: 120%;
+            text-align: center;
+            border:solid;
+            height:22px;
+        }
+
+        .yeildsDisplaySuccess {
+            font-size: 120%;
+            text-align: center;
+            border:none;
+            color:violet;
+            height:22px;
+        }
+
+        kbd {
+            color: violet;
+        }
+    </style>
+    <script>
+        function intialize() {
+            reactantsList = [
+                //Alkanes
+                "CH\u2083",
+                //Alkyl Haylides
+                "CH\u2083-Cl",
+                "CH\u2083-CH\u2082-Cl",
+                "CH\u2083-Cl",
+                "CH\u2083-Cl",
+                "CH\u2083-Cl",
+                "CH\u2083-Cl",
+                "CH\u2083-Cl",
+                "CH\u2083-Cl",
+                //Alkenes
+                "CH\u2082=CH\u2082",
+                "CH\u2082=CH\u2082",
+                "CH\u2083-CH=CH\u2082",
+                "CH\u2082=CH\u2082",
+                "CH\u2082=CH\u2082",
+                "CH\u2082=CH\u2082",
+                //Alkynes
+                "CH\u2261CH",
+                "CH\u2261CH",
+                "CH\u2261CH",
+                "CH\u2261CH",
+                "CH\u2261CH",
+                // "CH\u2261CH",
+                "CH\u2261CH",
+                "CH\u2261CH",
+                "CH\u2261CH",
+                "CH\u2261CH",
+                //Benzene
+                "\u232C",
+                "\u232C",
+                "\u232C",
+                "\u232C",
+                "\u232C",
+                "\u232C",
+                "\u232C",
+                //Aryl Haylides
+                "\u232C-Cl",
+                //R-Benzene
+                "\u232C-CH\u2083",
+                //Phenol
+                "\u232C-OH",
+                "\u232C-OH",
+                "\u232C-OH",
+                "\u232C-OH",
+                "\u232C-OH",
+                "\u232C-OH",
+                //Anelene
+                "\u232C-NH\u2082",
+                "\u232C-NH\u2082",
+                "\u232C-NH\u2083",
+                //Diazonium Salts
+                "\u232C-N\u2261NCl",
+                "\u232C-N\u2261NCl",
+                "\u232C-N\u2261NCl",
+                "\u232C-N\u2261NCl",
+                "\u232C-N\u2261NCl",
+                "\u232C-N\u2261NCl",
+                //Alcohols
+                "CH\u2083-OH",
+                "CH\u2083-OH",
+                "CH\u2083-OH",
+                "CH\u2083-OH",
+                "CH\u2083-OH",
+                "CH\u2083-CH\u2082-OH",
+                "CH\u2083-OH",
+                "CH\u2083-OH",
+                "CH\u2083-OH",
+                //Carboxyl Acids
+                "CH\u2083-COOH",
+                "CH\u2083-COOH",
+                "CH\u2083-COOH",
+                "CH\u2083-COOH",
+                //Esters
+                "CH\u2083-CO-O-CH\u2083",
+                "CH\u2083-CO-O-CH\u2083",
+                "CH\u2083-CO-O-CH\u2083",
+                "CH\u2083-CO-O-CH\u2083",
+                //Amides
+                "CH\u2083-CO-NH\u2082",
+                "CH\u2083-CO-NH\u2082",
+                //Amines
+                "CH\u2083-NH\u2082",
+                "CH\u2083-NH\u2082",
+                "CH\u2083-NH\u2082",
+                "CH\u2083-NH\u2082",
+                "CH\u2083-NH\u2082",
+                //Acid Haylides
+                "CH\u2083-CO-Cl",
+                "CH\u2083-CO-Cl",
+                "CH\u2083-CO-Cl",
+                "CH\u2083-CO-Cl",
+                "CH\u2083-CO-Cl",
+                "CH\u2083-CO-Cl",
+                "CH\u2083-CO-Cl",
+                //Ketones
+                "CH\u2083-CO-CH\u2083",
+                "CH\u2083-CO-CH\u2083",
+                "CH\u2083-CO-CH\u2083",
+                "CH\u2083-CO-CH\u2083",
+                "CH\u2083-CO-CH\u2083",
+                "CH\u2083-CO-CH\u2083",
+                "CH\u2083-CO-CH\u2083",
+                //Aldehydes
+                "CH\u2083-CO-H",
+                "CH\u2083-CO-H",
+                "CH\u2083-CO-H",
+                "CH\u2083-CO-H",
+                "CH\u2083-CO-H",
+                "CH\u2083-CO-H",
+                "CH\u2083-CO-H",
+                "CH\u2083-CO-H",
+                "CH\u2083-CO-H",
+                "CH\u2083-CO-H",
+            ];
+
+            var reactionsCount = reactantsList.length;
+            var parent = document.getElementById("body");
+
+            generateFields(parent, reactionsCount);
+
+            randomizeReactions(reactionsCount);
+        }
+
+        function generateFields(fieldParent, fieldCount) {
+            while (fieldParent.hasChildNodes() == true) { fieldParent.removeChild(fieldParent.firstChild); }
+
+            for (var reactionGroup = 1; reactionGroup <= fieldCount; reactionGroup++) {
+
+                var reactantsDisplayId = "reactantsDisplay" + reactionGroup;
+                var reactantsDisplayText = document.createTextNode("null");
+                var reactantsDisplay = document.createElement("div");
+                reactantsDisplay.id = reactantsDisplayId;
+                reactantsDisplay.appendChild(reactantsDisplayText);
+                reactantsDisplay.classList.add("reactantsDisplay");
+
+                var arrowDisplayText = document.createTextNode("\u2192");
+                var arrowDisplay = document.createElement("div");
+                arrowDisplay.appendChild(arrowDisplayText);
+                arrowDisplay.classList.add("arrowDisplay");
+
+                var yeildsDisplayTopId = "yeildsDisplayTop" + reactionGroup;
+                var yeildsDisplayTop = document.createElement("div");
+                yeildsDisplayTop.id = yeildsDisplayTopId;
+                yeildsDisplayTop.classList.add("yeildsDisplayError");
+
+                var yeildsDisplayBottomId = "yeildsDisplayBottom" + reactionGroup;
+                var yeildsDisplayBottom = document.createElement("div");
+                yeildsDisplayBottom.id = yeildsDisplayBottomId;
+                yeildsDisplayBottom.classList.add("yeildsDisplayError");
+
+                var yeildsArrowGroupId = "yeildsArrowGroup" + reactionGroup;
+                var yeildsArrowGroup = document.createElement("div");
+                yeildsArrowGroup.id = yeildsArrowGroupId;
+                yeildsArrowGroup.classList.add("yeildsArrowGroup");
+                yeildsArrowGroup.appendChild(yeildsDisplayTop);
+                yeildsArrowGroup.appendChild(arrowDisplay);
+                yeildsArrowGroup.appendChild(yeildsDisplayBottom);
+
+                var productsDisplayId = "productsDisplay" + reactionGroup;
+                var productsDisplay = document.createElement("div");
+                productsDisplay.id = productsDisplayId;
+                productsDisplay.classList.add("productsDisplay");
+
+                var reactionGroupDisplay = document.createElement("div");
+                reactionGroupDisplay.classList.add("reactionGroupDisplay");
+                reactionGroupDisplay.appendChild(reactantsDisplay);
+                reactionGroupDisplay.appendChild(yeildsArrowGroup);
+                reactionGroupDisplay.appendChild(productsDisplay);
+
+                fieldParent.appendChild(reactionGroupDisplay);
+            }
+        }
+
+        function randomizeReactions(fieldCount) {
+
+            var yeildsTopList = [
+                //Alkanes
+                "Cl2",
+                //Alkyl Haylides
+                "Mg",
+                "KOH",
+                "KOH",
+                "KCN",
+                "NaO-CH3",
+                "NaCCH3",
+                "Benzene",
+                "NH3",
+                //Alkenes
+                "H2",
+                "Br2",
+                "HBr",
+                "HBr",
+                "H2O",
+                "OH-",
+                //Alkynes
+                "H2",
+                "H2",
+                "Br2",
+                "HBr",
+                "H2O",
+                "OH-",
+                "Na",
+                "NaNH3",
+                "AgNO3",
+                "Cu2Cl2",
+                //Benzene
+                "Cl2",
+                "CH3-Cl",
+                "CH3-CO-Cl",
+                "H-CO-Cl",
+                "(conc)HNO3 + (conc)H2SO4",
+                "(conc)HNO3 + (conc)H2SO4",
+                "H2",
+                //Aryl Haylides
+                "Mg",
+                //R-Benzene
+                "H+",
+                //Phenol
+                "Na",
+                "NaOH",
+                "CH3-CO-Cl",
+                "Br2",
+                "(dil)HNO3",
+                "Benzene-N2Cl",
+                //Anelene
+                "Br2",
+                "HCl",
+                "NaNO2",
+                //Diazonium Salts
+                "H2O",
+                "(conc)HCl",
+                "KI",
+                "KCN",
+                "H3PO2",
+                "Phenol",
+                //Alcohols
+                "Na",
+                "CH3-CO-OH",
+                "PCl3",
+                "HBr",
+                "ZnCl2",
+                "(conc)H2SO4",
+                "H+",
+                "PCC",
+                "CH3-CO-Cl",
+                //Carboxyl Acids
+                "Na",
+                "PBr3",
+                "i) LiAlH4",
+                "CH3-OH",
+                //Esters
+                "H+",
+                "NaOH",
+                "i) CH3-MgCl",
+                "i) LiAlH4 + Dry Ether",
+                //Amides
+                "NaOH",
+                "i) LiAlH4",
+                //Amines
+                "CH3-CO-Cl",
+                "NaNO2",
+                "CH3-Cl",
+                "CH3-CO-CH3",
+                "CH3-CO-H",
+                //Acid Haylides
+                "Benzene",
+                "Benzene-OH",
+                "NaOH",
+                "H2O",
+                "CH3-OH",
+                "NH3",
+                "i) CH3-MgCl + Dry Ether",
+                //Ketones
+                "HCN",
+                "i) CH3-MgCl + Dry Ether",
+                "2,4-DNP",
+                "i) CH3-MgCl + Dry Ether",
+                " ",
+                "CH3-NH2",
+                "i) NaOH + H2O",
+                //Aldehydes
+                "HCN",
+                "i) CH3-MgCl + Dry Ether",
+               "2,4-DNP",
+                "i) LiAlH4 + Dry Ether",
+                " ",
+                "AgNO3",
+                " ",
+                "H+",
+                "CH3-NH2",
+                "i) NaOH + H2O",
+            ];
+
+            var yeildsBottomList = [
+                //Alkanes
+                "hu",
+                //Alkyl Haylides
+                "Dry Ether",
+                "Alcohol",
+                " ",
+                " ",
+                " ",
+                " ",
+                "(dehydrated)AlCl3",
+                " ",
+                //Alkenes
+                "Ni",
+                "CCl4",
+                " ",
+                "Peroxide",
+                "H2SO4",
+                "KMnO4",
+                //Alkynes
+                "Ni",
+                "Pd + BaSO4 + Quinolene",
+                "CCl4",
+                " ",
+                "H2SO4 + Hg2+",
+                "KMnO4",
+                " ",
+                " ",
+                "NH3",
+                "NH3",
+                //Benzene
+                "(dehydrated)AlCl3",
+                "(dehydrated)AlCl3",
+                "(dehydrated)AlCl3",
+                "(dehydrated)AlCl3",
+                "^50",
+                "^55",
+                "(rainy)Ni ^150",
+                //Aryl Haylides
+                "Dry Ether",
+                //R-Benzene
+                "KMnO4",
+                //Phenol
+                " ",
+                " ",
+                " ",
+                " ",
+                "^20",
+                "NaOH",
+                //Anelene
+                " ",
+                "H2O",
+                "HCl (0-5)",
+                //Diazonium Salts
+                " ",
+                "Cu2Cl2", ,
+                " ",
+                " ",
+                " ",
+                "NaOH (0-5)",
+                //Alcohols
+                " ",
+                "(conc)H2SO4",
+                "^",
+                "",
+                "(conc)HCl",
+                "^170",
+                "KMnO4",
+                " ",
+                " ",
+                //Carboxyl Acids
+                " ",
+                " ",
+                "ii) H+ + H2O",
+                "(conc)H2SO4",
+                //Esters
+                "H2O",
+                "H2O ^",
+                "ii)H+ + H2O",
+                "ii) H+ + H2O",
+                //Amides
+                "H2O ^",
+                "ii) H+ + H2O",
+                //Amines
+                "",
+                "HCl + H2O",
+                " ",
+                " ",
+                " ",
+                //Acid Haylides
+                "(dehydrated)AlCl3",
+                " ",
+                "H2O",
+                " ",
+                " ",
+                " ",
+                "ii) H+ + H2O",
+                //Ketones
+                " ",
+                "ii) H+ + H2O",
+                "",
+                "ii) H + + H2O",
+                "Zn + Hg (conc)HCl",
+                " ",
+                "ii) H+ ^",
+                //Aldehydes
+                " ",
+                "ii) H+ + H2O",
+                " ",
+                "ii) H + + H2O",
+                "Zn + Hg (conc)HCl",
+                "AgNO3 + NH3",
+                "Cu2+",
+                "KMnO4",
+                " ",
+                "ii) H+ ^",
+            ];
+
+            var productsList = [
+                //Alkanes
+                "CCl\u2084",
+                //Alkyl Haylides
+                "CH\u2083-MgCl",
+                "CH\u2082=CH\u2082",
+                "CH\u2083-OH",
+                "CH\u2083-C\u2261N",
+                "CH\u2083-O-CH\u2083",
+                "CH\u2083-C\u2261C-CH\u2083",
+                "\u232C-CH\u2083",
+                "CH\u2083-NH\u2082",
+                //Alkenes
+                "CH\u2083-CH\u2083",
+                "CHBr-CH2Br",
+                "CH\u2083-CH\u2082Br",
+                "CH\u2083-CHBr-CH\u2083",
+                "CH\u2083-CH\u2083-OH",
+                "CH\u2082OH-CH\u2082OH",
+                //Alkynes
+                "CH\u2083-CH\u2083",
+                "CH\u2082=CH\u2082",
+                "CHBr\u2082-CHBr\u2082",
+                "CH\u2083-CHBr\u2082",
+                // "CH(OH)2-CH(OH)2",
+                "CH\u2261CH",
+                "CH\u2261CNa + H\u2082",
+                "CH\u2261CNa + NH\u2083",
+                "CH\u2261C-Ag",
+                "CH\u2261C-Cu",
+                //Benzene
+                "\u232C-Cl",
+                "\u232C-CH\u2083",
+                "\u232C-OC-CH\u2083",
+                "\u232C-OC-H",
+                "\u232C-(NO\u2082)\u2082",
+                "\u232C-(NO\u2082)\u2082",
+                "Cyclohexane",
+                //Aryl Haylides
+                "\u232C-MgCl",
+                //R-Benzene
+                "\u232C-COOH",
+                //Phenol
+                "\u232C-ONa + H\u2082",
+                "\u232C-ONa + H\u2082O",
+                "\u232C-O-CO-CH\u2083",
+                "(Br)\u2083-\u232C-OH",
+                "NO\u2082-\u232C-OH",
+                "OH-\u232C-N\u2261N-\u232C",
+                //Anelene
+                "(Br)\u2083-\u232C-NH\u2082",
+                "\u232C-NH3Cl",
+                "\u232C-N\u2261N-Cl",
+                //Diazonium Salts
+                "\u232C-OH",
+                "\u232C-Cl",
+                "\u232C-I",
+                "\u232C-Cu\u2261N",
+                "\u232C",
+                "\u232C-N\u2261N-\u232C-OH",
+                //Alcohols
+                "CH\u2083-ONa",
+                "CH\u2083-CO-CH\u2083",
+                "CH\u2083-Cl",
+                "CH\u2083-Br",
+                "CH\u2083-Cl",
+                "CH\u2082=CH\u2082",
+                "H-CO-OH",
+                "CH\u2082=O",
+                "CH3-O-CO-CH\u2083",
+                //Carboxyl Acids
+                "CH\u2083-COONa",
+                "CH\u2083-CO-Br",
+                "CH\u2083-CH\u2082-OH",
+                "CH\u2083-CO-O-CH\u2083",
+                //Esters
+                "CH\u2083-CO-OH + CH\u2083-OH",
+                "CH\u2083-CO-ONa + CH\u2083-OH",
+                "(CH\u2083)\u2083-C-OH",
+                "CH\u2083-CH\u2082-OH + CH\u2083-OH",
+                //Amides
+                "CH\u2083-CO-ONa + NH\u2083",
+                "CH\u2083-CH\u2082-NH2",
+                //Amines
+                "CH\u2083-NH-CO-CH\u2083",
+                "CH\u2083-OH + N\u2082",
+                "CH\u2083-NH-CH\u2083",
+                "CH\u2083-N=CH-CH3",
+                "CH\u2083-N=C-(CH\u2083)\u2082",
+                //Acid Haylides
+                "CH\u2083-CO-\u232C",
+                "CH\u2083-CO-O-\u232C",
+                "CH\u2083-CO-ONa",
+                "CH\u2083-CO-OH",
+                "CH\u2083-CO-O-CH\u2083",
+                "CH\u2083-CO-NH\u2082",
+                "(CH\u2083)\u2082-C-ClOH",
+                //Ketones
+                "(CH\u2083)\u2082-C-OH-CN",
+                "(CH\u2083)\u2083-C-OH",
+                "(CH\u2083)\u2082-C=N-NH-\u232C-(NO\u2082)\u2082",
+                "(CH\u2083)\u2082-CH-OH",
+                "CH\u2083-CH\u2082-CH\u2083",
+                "(CH\u2084)\u2083-C=N-CH\u2083",
+                "(CH\u2083)\u2082=CH\u2082-C=O-CH\u2083",
+                //Aldehydes
+                "CH\u2083CNOH-CH",
+                "(CH\u2083)\u2082OH-CH",
+                "(CH\u2083)\u2082-C=N-NH-\u232C-(NO\u2082)\u2082",
+                "CH\u2083-CH\u2083",
+                "CH\u2083OH-CH\u2082",
+                "CH\u2083-CO-OH + Ag",
+                "CH3-CO-OH + Cu\u2082O",
+                "CH3-CO-OH",
+                "(CH\u2084)\u2083-C=N-CH\u2083",
+                "CH\u2083OH-CH-CH\u2082-COH",
+            ];
+            
+            window.alert(yeildsTopList.lenght);
+            window.alert(yeildsBottomList.lenght);
+            window.alert(productsList.lenght);
+
+            for (var reactantsListIndex = 0; reactantsListIndex <= fieldCount - 1;) {
+                //Select a display randomly
+                var randomGroupNumber = parseInt(Math.random() * fieldCount + 1);
+                var randomReactantsDisplayId = "reactantsDisplay" + randomGroupNumber;
+                var releventYeildsDisplayTopId = "yeildsDisplayTop" + randomGroupNumber;
+                var releventYeildsDisplayBottomId = "yeildsDisplayBottom" + randomGroupNumber;
+var releventProductsDisplayId = "productsDisplay" + randomGroupNumber;
+
+                var randomReactantsDisplay = document.getElementById(randomReactantsDisplayId);
+                var releventYeildsDisplayTop = document.getElementById(releventYeildsDisplayTopId);
+                var releventYeildsDisplayBottom = document.getElementById(releventYeildsDisplayBottomId);
+var releventProductsDisplay = document.getElementById(releventProductsDisplayId);
+                //Assign data to the selected display
+                for (var reactionGroup = 1; reactionGroup <= fieldCount; reactionGroup++) {
+                    if (randomReactantsDisplay.innerHTML == "null" && randomGroupNumber == reactionGroup) {
+                        randomReactantsDisplay.innerHTML = reactantsList[reactantsListIndex];
+                        releventYeildsDisplayTop.innerHTML = yeildsTopList[reactantsListIndex];
+                        releventYeildsDisplayBottom.innerHTML = yeildsBottomList[reactantsListIndex];
+releventProductsDisplay.innerHTML = productsList[reactantsListIndex];
+                        reactantsListIndex++;
+                    }
+                }
+            }
+        }
+        function checkAnswers(fieldCount) {
+            var productsList = [
+                //Alkanes
+                "CCl4",
+                //Alkyl Haylides
+                "CH3-MgCl",
+                "CH2=CH2",
+                "CH3-OH",
+                "CH3-C\u2261N",
+                "CH3-O-CH3",
+                "CH3-C\u2261C-CH3",
+                "\u232C-CH3",
+                "CH3-NH2",
+                //Alkenes
+                "CH3-CH3",
+                "CHBr-CH2Br",
+                "CH3-CH2Br",
+                "CH3-CHBr-CH3",
+                "CH3-CH2-OH",
+                "CH2OH-CH2OH",
+                //Alkynes
+                "CH3-CH3",
+                "CH2=CH2",
+                "CHBr2-CHBr2",
+                "CH3=CHBr2",
+                // "CH(OH)2-CH(OH)2",
+                "CH\u2261CH",
+                "CH\u2261CNa + H2",
+                "CH\u2261CNa + NH3",
+                "CH\u2261C-Ag",
+                "CH\u2261C-Cu",
+                //Benzene
+                "\u232C-Cl",
+                "\u232C-CH3",
+                "\u232C-OC-CH3",
+                "\u232C-OC-H",
+                "\u232C-(NO2)2",
+                "\u232C-(NO2)2",
+                "Cyclohexane",
+                //Aryl Haylides
+                "\u232C-MgCl",
+                //R-Benzene
+                "\u232C-COOH",
+                //Phenol
+                "\u232C-ONa + H2",
+                "\u232C-ONa + H2O",
+                "\u232C-O-CO-CH3",
+                "(Br)3-\u232C-OH",
+                "NO2-\u232C-OH",
+                "OH-\u232C-N\u2261N-\u232C",
+                //Anelene
+                "(Br)3-\u232C-NH2",
+                "\u232C-NH3Cl",
+                "\u232C-N\u2261N-Cl",
+                //Diazonium Salts
+                "\u232C-OH",
+                "\u232C-Cl",
+                "\u232C-I",
+                "\u232C-Cu\u2261N",
+                "\u232C",
+                "\u232C-N\u2261N-\u232C-OH",
+                //Alcohols
+                "CH3-OH",
+                "CH3-OH",
+                "CH3-OH",
+                "CH3-OH",
+                "H3-CH2-OH",
+                "CH3-OH",
+                "CH3-OH",
+                "CH3-OH",
+                "CH3-OH",
+                //Carboxyl Acids
+                "CH3-COOH",
+                "CH3-COOH",
+                "CH3-COOH",
+                "CH3-COOH",
+                //Esters
+                "CH3-CO-O-CH3",
+                "CH3-CO-O-CH3",
+                "CH3-CO-O-CH3",
+                "CH3-CO-O-CH3",
+                //Amides
+                "CH3-CO-NH2",
+                "CH3-CO-NH2",
+                //Amines
+                "CH3-NH2",
+                "CH3-NH2",
+                "CH3-NH2",
+                "CH3-NH2",
+                "CH3-NH2",
+                //Acid Haylides
+                "CH3-CO-Cl",
+                "CH3-CO-Cl",
+                "CH3-CO-Cl",
+                "CH3-CO-Cl",
+                "CH3-CO-Cl",
+                "CH3-CO-Cl",
+                "CH3-CO-Cl",
+                //Ketones
+                "CH3-CO-CH3",
+                "CH3-CO-CH3",
+                "CH3-CO-CH3",
+                "CH3-CO-CH3",
+                "CH3-CO-CH3",
+                "CH3-CO-CH3",
+                "CH3-CO-CH3",
+                //Aldehydes
+                "CH3-CO-H",
+                "CH3-CO-H",
+                "CH3-CO-H",
+                "CH3-CO-H",
+                "CH3-CO-H",
+                "CH3-CO-H",
+                "CH3-CO-H",
+                "CH3-CO-H",
+                "CH3-CO-H",
+                "CH3-CO-H",
+            ];
+
+            var formattedProductsList = [
+                //With H2O
+                "LiOH(aq) + H\u2082(g)",
+                "LiOH(aq) + H\u2082(g)",
+                "Li\u2082O(s) + H\u2082(g)",
+                "NaOH(aq) + H\u2082(g)",
+                "NaOH(aq) + H\u2082(g)",
+                "NaOH(aq) + H\u2082(g)",
+                "KOH(aq) + H\u2082(g)",
+                "KOH(aq) + H\u2082(g)",
+                "KOH(aq) + H\u2082(g)",
+                "//",
+                "//",
+                "BeO(s) + H\u2082(g)",
+                "//",
+                "Mg(OH)\u2082(aq) + H\u2082(g)",
+                "MgO(s) + H\u2082(g)",
+                //With O2
+                "Li\u2082O(s)",
+                "Na\u2082O(s)",
+                "Na\u2082O\u2082(s)",
+                "KO\u2082(s)",
+                "BeO(s)",
+                "MgO(s)",
+                //Oxides With H2O
+                "LiOH(aq)",
+                "NaOH(aq)",
+                "NaOH(aq) + H\u2082O\u2082(aq)",
+                "KOH + H\u2082O\u2082(aq)",
+                "Be(OH)\u2082(aq)",
+                "Mg(OH)\u2082(aq)",
+                //With H2
+                "LiH(s)",
+                "NaH(s)",
+                "KH(s)",
+                "BeH(s)",
+                "MgH(s)",
+                //Hidrides With H2O
+                "LiOH(aq) + H\u2082(g)",
+                "NaOH(aq) + H\u2082(g)",
+                "KOH(aq) + H\u2082(g)",
+                "Be(OH)\u2082(aq) + H\u2082(g)",
+                "Mg(OH)\u2082(aq) + H\u2082(g)",
+                //With N2
+                "Li\u2083N(s)",
+                "//",
+                "//",
+                "Be\u2083N\u2082(s)",
+                "Mg\u2083N\u2082(s)",
+                //Nitrides With H2O
+                "LiOH(aq) + NH\u2083(g)",
+                "Be(OH)\u2082(aq) + NH\u2083(g)",
+                "Mg(OH)\u2082(aq) + NH\u2083(g)",
+                //With Acids
+                "Li\u2082SO\u2084(aq) + H\u2082(g)",
+                "Na\u2082SO\u2084(aq) + H\u2082(g)",
+                "K\u2082SO\u2084(aq) + H\u2082(g)",
+                "BeSO\u2084(aq) + H\u2082(g)",
+                "MgSO\u2084(aq) + H\u2082(g)",
+                "MgSO\u2084(aq) + SO\u2082(g) + H\u2082O(l)",
+                "Mg(NO3)\u2082(aq) + NO\u2082(g) + H\u2082O(l)",
+                //Heating Nitrates
+                "Li\u2082O(s) + NO\u2082(g) + O\u2082(g)",
+                "NaNO\u2082(s) + O\u2082(g)",
+                "KNO\u2082(s) + O\u2082(g)",
+                "BeO(s) + NO\u2082(g) + O\u2082(g)",
+                "MgO(s) + NO\u2082(g) + O\u2082(g)",
+                //Heating Carbonates
+                "Li\u2082O(s) + CO\u2082(g)",
+                "//",
+                "//",
+                "BeO(s) + CO\u2082(g)",
+                "MgO(s) + CO\u2082(g)",
+                //Heating Hydrogen Carbonates
+                "Li\u2082CO\u2083(s) + CO\u2082(g) + H\u2082O(l)",
+                "Na\u2082CO\u2083(s) + CO\u2082(g) + H\u2082O(l)",
+                "K\u2082CO\u2083(s) + CO\u2082(g) + H\u2082O(l)",
+                "BeCO\u2083(s) + CO\u2082(g) + H\u2082O(l)",
+                "MgCO\u2083(s) + CO\u2082(g) + H\u2082O(l)",
+                //Heating Hydroxides
+                "Li\u2082O(s) + H\u2082O(l)",
+                "//",
+                "//",
+                "BeO(s) + H\u2082O(l)",
+                "MgO(s) + H\u2082O(l)",
+                //Heating Sulphates
+                "//",
+                "//",
+                "//",
+                "BeO(s) + SO\u2083(g)",
+                "MgO(s) + SO\u2083(g)",
+            ];
+
+            for (var reactionGroup = 1; reactionGroup <= fieldCount; reactionGroup++) {
+                var reactantsDisplayId = "reactantsDisplay" + reactionGroup;
+                var productsDisplayId = "productsDisplay" + reactionGroup;
+
+                var reactantsDisplay = document.getElementById(reactantsDisplayId);
+                var productsDisplay = document.getElementById(productsDisplayId);
+
+                var answerText = reactantsDisplay.innerHTML + productsDisplay.value;
+
+                for (var productsListIndex = 0; productsListIndex < 77; productsListIndex++) {
+                    if (answerText == productsList[productsListIndex] || productsDisplay.value == formattedProductsList[productsListIndex]) {
+                        productsDisplay.value = formattedProductsList[productsListIndex];
+                        productsDisplay.classList.remove("productsDisplayError");
+                        productsDisplay.classList.add("productsDisplaySuccess");
+                        break;
+                    } else {
+                        productsDisplay.classList.add("productsDisplayError");
+                        productsDisplay.classList.remove("productsDisplaySuccess");
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body onload="intialize()" style="background-color:black;">
+    <div style="position:fixed;top:0;left:0;width:100%;background-color:violet;height:140px;">
+        <div style="display:inline-block;margin-left:550px;margin-top:20px;">
+            <div style="margin-bottom:20px;float:right;font-size:300%;color:black;">Organic Reactions</div>
+            <br/>
+            <div style="float:right;font-size:100%;color:gray;margin-left:20px;">&copy; Nirmal Diaz</div>
+            <div style="float:right;font-size:100%;color:black;margin-left:20px;" onclick="intialize()">Randomize</div>
+            <div style="float:right;font-size:100%;color:black;" onclick="checkAnswers(reactantsList.length)">Validate Answers</div>
+        </div>
+    </div>
+    <p style="height:80px;"></p>
+    <div id="body">
+    </div>
+    <br/>
+</body>
+
+</html>

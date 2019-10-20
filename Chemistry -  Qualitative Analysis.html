@@ -1,0 +1,2866 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Qualitative Analysis</title>
+    <style>
+        * {
+            font-family: 'Trebuchet MS';
+            color: white;
+        }
+    
+        h1,h1>sub,h1>sup {
+            color: green;
+        }
+    
+        h2,
+        h2>sub,h2>sup {
+            color: lightseagreen;
+        }
+    
+        .table {
+            border: 1px solid white;
+            border-spacing: 19px;
+        }
+    
+        table.table>tbody>tr>td input {
+            display: inline-block;
+            border: solid;
+            margin-left: 20px;
+            width: 200px;
+            font-size: 200%;
+            text-align: center;
+            background-color: black;
+        }
+    
+        table.table>tbody>tr>th {
+            text-align: right;
+        }
+    
+        table.table>tbody>tr>td {
+            text-align: center;
+        }
+    
+        .reactionGroupDisplay {
+            display: inline-block;
+            padding: 0;
+            margin-top: 10px;
+        }
+    
+        .reactantsDisplay {
+            display: inline-block;
+            width: 400px;
+            font-size: 200%;
+            text-align: right;
+            margin-left: 50px;
+        }
+    
+        .productsDisplayError {
+            display: inline-block;
+            border: solid;
+            margin-left: 20px;
+            width: 500px;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+        }
+    
+        .productsDisplaySuccess {
+            display: inline-block;
+            border: none !important;
+            margin-left: 20px;
+            width: 500px;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+            color: green;
+        }
+    
+        .arrowDisplay {
+            display: inline-block;
+            font-size: 200%;
+            margin-left: 20px;
+        }
+    
+        .yeildsArrowGroup {
+            display: inline-block;
+            width: 25px;
+            margin-left: 20px;
+        }
+    
+        .yeildsDisplay {
+            font-size: 120%;
+            text-align: center;
+        }
+    
+        kbd,
+        kbd>sup,
+        kbd>sub {
+            color:green;
+        }
+    </style>
+    <script>
+        var inputIdList = [
+            //Analysis By Groups
+            "group1Reactants1",
+            "group1Reactants2",
+            "group1Reactants3",
+            "group1Reactants4",
+            "group1Color1",
+            "group1Products1",
+            "group1Products2",
+            "group1Products3",
+            "group1Products4",
+
+            "group2Reactants1",
+            "group2Reactants2",
+            "group2Reactants3",
+            "group2Reactants4",
+            "group2Color1",
+            "group2Products1",
+            "group2Products2",
+            "group2Products3",
+            "group2Products4",
+            "group2Color2",
+            "group2Products5",
+            "group2Products6",
+            "group2Products7",
+            "group2Products8",
+            "group2Color3",
+            "group2Products9",
+            "group2Products10",
+            "group2Products11",
+            "group2Products12",
+            "group2Color4",
+            "group2Products13",
+            "group2Products14",
+            "group2Products15",
+            "group2Products16",
+
+            "group3Reactants1",
+            "group3Reactants2",
+            "group3Reactants3",
+            "group3Reactants4",
+            "group3Color1",
+            "group3Products1",
+            "group3Products2",
+            "group3Products3",
+            "group3Products4",
+            "group3Color2",
+            "group3Products5",
+            "group3Products6",
+            "group3Products7",
+            "group3Products8",
+            "group3Color3",
+            "group3Products9",
+            "group3Products10",
+            "group3Products11",
+            "group3Products12",
+
+            "group4Reactants1",
+            "group4Reactants2",
+            "group4Reactants3",
+            "group4Reactants4",
+            "group4Color1",
+            "group4Products1",
+            "group4Products2",
+            "group4Products3",
+            "group4Products4",
+            "group4Color2",
+            "group4Products5",
+            "group4Products6",
+            "group4Products7",
+            "group4Products8",
+            "group4Color3",
+            "group4Products9",
+            "group4Products10",
+            "group4Products11",
+            "group4Products12",
+
+            "group5Reactants1",
+            "group5Reactants2",
+            "group5Reactants3",
+            "group5Reactants4",
+            "group5Color1",
+            "group5Products1",
+            "group5Products2",
+            "group5Products3",
+            "group5Products4",
+
+            "groupCations1",
+            "groupCations2",
+            "groupCations3",
+            //Flame Test
+            "flameReactants1",
+            "flameColor1",
+            "flameReactants2",
+            "flameColor2",
+            "flameReactants3",
+            "flameColor3",
+            "flameReactants4",
+            "flameColor4",
+            "flameReactants5",
+            "flameColor5",
+            "flameReactants6",
+            "flameColor6",
+            "flameReactants7",
+            "flameColor7",
+            "flameReactants8",
+            "flameColor8",
+            "flameReactants9",
+            "flameColor9",
+            //Hexaaqua Complexes
+            "HexaaquaCationColor1",
+            "HexaaquaCation1",
+            "HexaaquaCation2",
+            "HexaaquaCation3",
+            "HexaaquaCation4",
+
+            "HexaaquaCationColor2",
+            "HexaaquaCation5",
+            "HexaaquaCation6",
+            "HexaaquaCation7",
+            "HexaaquaCation8",
+
+            "HexaaquaCationColor3",
+            "HexaaquaCation9",
+            "HexaaquaCation10",
+            "HexaaquaCation11",
+
+            "HexaaquaCationColor4",
+            "HexaaquaCation12",
+            "HexaaquaCation13",
+
+            "HexaaquaCationColor5",
+            "HexaaquaCation14",
+            "HexaaquaCation15",
+
+            "HexaaquaCationColor6",
+            "HexaaquaCation16",
+            //Ammine & Chlorido Complexes
+            "ammineComplex1",
+            "chloridoComplex1",
+            "ammineColor1",
+            "chloridoColor1",
+
+            "ammineComplex2",
+            "chloridoComplex2",
+            "ammineColor2",
+            "chloridoColor2",
+
+            "ammineComplex3",
+            "chloridoComplex3",
+            "ammineColor3",
+            "chloridoColor3",
+
+            "ammineComplex4",
+            "chloridoComplex4",
+            "ammineColor4",
+            "chloridoColor4",
+
+            "ammineComplex5",
+            "ammineColor5",
+
+            "ammineComplex6",
+            "chloridoComplex6",
+            "ammineColor6",
+            "chloridoColor6",
+
+            "ammineComplex7",
+            "chloridoComplex7",
+            "ammineColor7",
+            "chloridoColor7",
+
+            "ammineComplex8",
+            "ammineColor8",
+
+            "ammineComplex9",
+            "ammineColor9",
+
+            "ammineComplex10",
+            "ammineColor10",
+
+            "ammineComplex11",
+            "ammineColor11",
+            //NH4+
+            "ammoniumReactants1",
+            "ammoniumProducts1",
+            //NH3
+            "ammoniaReactants1",
+            "ammoniaProducts1",
+            "ammoniaReactants2",
+            "ammoniaProducts2",
+            "ammoniaReactants3",
+            "ammoniaProducts3",
+            "ammoniaReactantsColor3",
+            //Gasses with Dil/Conc
+            "anionsDiluteReactants1",
+            "anionsDiluteProducts1",
+            "anionsDiluteObservation1",
+            "anionsDiluteReactants2",
+            "anionsDiluteProducts2",
+            "anionsDiluteObservation2",
+            "anionsDiluteReactants3",
+            "anionsDiluteProducts3",
+            "anionsDiluteReactants4",
+            "anionsDiluteProducts4",
+            "anionsDiluteReactants5",
+            "anionsDiluteProducts5",
+
+            "anionsDiluteAnions1",
+            "anionsDiluteAnions2",
+            "anionsDiluteAnions3",
+            //CO32- vs HCO3-
+            "CO32-vsHCO32-Reactants1",
+            "CO32-vsHCO32-Products1",
+            "CO32-vsHCO32-Products2",
+            "CO32-vsHCO32-Color1",
+            "CO32-vsHCO32-Color2",
+
+            "CO32-vsHCO32-Reactants2",
+            "CO32-vsHCO32-Products3",
+            "CO32-vsHCO32-Products4",
+            "CO32-vsHCO32-Color3",
+            "CO32-vsHCO32-Color4",
+            //H2S vs SO2
+            "H2SvsSO2Test1",
+            "H2SvsSO2Reactants1",
+            "H2SvsSO2Products1",
+            "H2SvsSO2Reactants2",
+            "H2SvsSO2Products2",
+            "H2SvsSO2Reactants3",
+            "H2SvsSO2Products3",
+            "H2SvsSO2Reactants4",
+            "H2SvsSO2Products4",
+
+            "H2SvsSO2Test2",
+            "H2SvsSO2Reactants5",
+            "H2SvsSO2Products5",
+            "H2SvsSO2Reactants6",
+            "H2SvsSO2Products6",
+            "H2SvsSO2Reactants7",
+            "H2SvsSO2Products7",
+            "H2SvsSO2Reactants8",
+            "H2SvsSO2Products8",
+
+            "H2SvsSO2Test3",
+            "H2SvsSO2Reactants9",
+            "H2SvsSO2Products9",
+            "H2SvsSO2Reactants10",
+            "H2SvsSO2Products10",
+            
+            "H2SvsSO2Test4",
+            "H2SvsSO2Reactants11",
+            "H2SvsSO2Products11",
+            "H2SvsSO2Reactants12",
+            "H2SvsSO2Products12",
+            //CO2
+            "CO2Reactants1",
+            "CO2Products1",
+            "CO2ProductsColor1",
+
+            "CO2Reactants2",
+            "CO2Products2",
+            "CO2ProductsColor2",
+            //Gasses with Conc H2SO4
+            "anionsConcReactants1",
+            "anionsConcProducts1",
+            "anionsConcReactants2",
+            "anionsConcProducts2",
+            "anionsConcReactants3",
+            "anionsConcProducts3",
+            "anionsConcReactants4",
+            "anionsConcProducts4",
+            "anionsConcReactants5",
+            "anionsConcProducts5",
+            "anionsConcReactants6",
+            "anionsConcProducts6",
+
+            "anionsConcAnion1",
+            //NO3- (Test 1)
+            "NO3-Reactants1",
+            "NO3-Products1",
+
+            "NO3-InterruptAnions1",
+            "NO3-Reactants2",
+            "NO3-Products2",
+
+            "NO3-InterruptAnions2",
+            "NO3-Reactants3",
+            "NO3-Products3",
+
+            "NO3-Catalyst1",
+            "NO3-Catalyst2",
+            //NO3- (Brown Ring Test)
+            "NO3-Reactants4",
+            "NO3-Products4",
+
+            "NO3-InterruptAnions3",
+            "NO3-Reactants5",
+            "NO3-Products5",
+
+            "NO3-InterruptAnions4",
+            "NO3-Reactants6",
+            "NO3-Products6",
+            //Cl- vs Br- vs I-
+            "Cl-vsBr-vsI-Reactants1",
+            "Cl-vsBr-vsI-Products1",
+            "Cl-vsBr-vsI-Products2",
+            "Cl-vsBr-vsI-Products3",
+            "Cl-vsBr-vsI-Color1",
+            "Cl-vsBr-vsI-Color2",
+            "Cl-vsBr-vsI-Color3",
+
+            "Cl-vsBr-vsI-Reactants2",
+            "Cl-vsBr-vsI-Products4",
+            "Cl-vsBr-vsI-Products5",
+            "Cl-vsBr-vsI-Products6",
+            //S2- vs SO32- vs SO42- vs S2O32-
+            "sAnionsReactants1",
+            "sAnionsProducts1",
+            "sAnionsProducts2",
+            "sAnionsProducts3",
+            "sAnionsProducts4",
+            "sAnionsColor1",
+            "sAnionsColor2",
+            "sAnionsColor3",
+            "sAnionsColor4",
+
+            "sAnionsReactants2",
+            "sAnionsProducts5",
+            "sAnionsProducts6",
+            "sAnionsProducts7",
+            "sAnionsProducts8",
+            "sAnionsColor5",
+            "sAnionsColor6",
+            "sAnionsColor7",
+            "sAnionsColor8",
+
+            "sAnionsReactants3",
+            "sAnionsProducts9",
+            "sAnionsProducts10",
+            "sAnionsProducts11",
+            "sAnionsProducts12",
+            "sAnionsColor9",
+            "sAnionsColor10",
+            "sAnionsColor11",
+            "sAnionsColor12",
+
+            "sAnionsReactants4",
+            "sAnionsProducts13",
+            "sAnionsProducts14",
+            "sAnionsProducts15",
+            "sAnionsColor13",
+            "sAnionsColor14",
+            "sAnionsColor15",
+            //BaSO3 vs BaSO4
+            "BaSO3vsBaSO4Reactants1",
+            "BaSO3vsBaSO4Products1",
+            "BaSO3vsBaSO4Products2",
+            //Fe2+ vs Fe3+
+            "Fe2+vsFe3+Reactants1",
+            "Fe2+vsFe3+Products1",
+            "Fe2+vsFe3+Products2",
+            "Fe2+vsFe3+Color1",
+            "Fe2+vsFe3+Color2",
+
+            "Fe2+vsFe3+Reactants2",
+            "Fe2+vsFe3+Products3",
+            "Fe2+vsFe3+Products4",
+            "Fe2+vsFe3+Color3",
+            "Fe2+vsFe3+Color4",
+
+            "Fe2+vsFe3+Reactants3",
+            "Fe2+vsFe3+Products5",
+            "Fe2+vsFe3+Products6",
+            "Fe2+vsFe3+Color5",
+            "Fe2+vsFe3+Color6",
+
+            "Fe2+vsFe3+Reactants4",
+            "Fe2+vsFe3+Products7",
+            "Fe2+vsFe3+Products8",
+            "Fe2+vsFe3+Color7",
+            "Fe2+vsFe3+Color8",
+            //Pb2+
+            "Pb2+Reactants1",
+            "Pb2+Products1",
+            "Pb2+ProductsColor1",
+
+            "Pb2+Reactants2",
+            "Pb2+Products2",
+            "Pb2+ProductsColor2",
+            
+            "Pb2+Reactants3",
+            "Pb2+Products3",
+            "Pb2+ProductsColor3",
+
+            "Pb2+Reactants4",
+            "Pb2+Products4",
+            "Pb2+ProductsColor4",
+            //Pb(OH)2 vs PbCl2
+            "PbOH2vsPbCl2Reactants1",
+            "PbOH2vsPbCl2Products1",
+            "PbOH2vsPbCl2Products2",
+
+            "PbOH2vsPbCl2Reactants2",
+            "PbOH2vsPbCl2Products3",
+            "PbOH2vsPbCl2Products4",
+            //PbI2 vs PbCrO4
+            "PbI2vsPbCrO4Reactants1",
+            "PbI2vsPbCrO4Products1",
+            "PbI2vsPbCrO4Products2",
+
+            "PbI2vsPbCrO4Reactants2",
+            "PbI2vsPbCrO4Products3",
+            "PbI2vsPbCrO4Products4",
+            //Al3+ vs Zn2+
+            "Al3+vsZn2+Reactants1",
+            "Al3+vsZn2+Products1",
+            "Al3+vsZn2+Products2",
+            "Al3+vsZn2+Color1",
+            "Al3+vsZn2+Color2",
+
+            "Al3+vsZn2+Reactants2",
+            "Al3+vsZn2+Products3",
+            "Al3+vsZn2+Products4",
+            "Al3+vsZn2+Color3",
+            "Al3+vsZn2+Color4",
+            //Haylides with H2O
+            "haylideH2O1",
+            "haylideH2O2",
+            "haylideH2O3",
+            "haylideH2O4",
+            "haylideH2O5",
+            "haylideH2O6",
+            "haylideH2O7",
+            "haylideH2O8",
+            "haylideH2O9",
+            "haylideH2O10",
+            "haylideH2O11",
+
+            "haylide1",
+            "haylide2",
+            "haylide3",
+        ];
+
+        var productsList = [
+            //Analysis By Groups
+            "H2O",
+            "(cold,dil) HCl",
+            "//",
+            "//",
+            "White",
+            "AgCl",
+            "PbCl2",
+            "Hg2Cl2",
+            "//",
+
+            "0.2M-0.3M HCl",
+            "H2S",
+            "//",
+            "//",
+            "Black",
+            "CuS",
+            "PbS",
+            "HgS",
+            "Bi2S3",
+            "Yellow",
+            "CdS",
+            "SnS2",
+            "As2S3",
+            "//",
+            "Orange",
+            "Sb2S3",
+            "//",
+            "//",
+            "//",
+            "Brown",
+            "SnS",
+            "//",
+            "//",
+            "//",
+
+            "^",
+            "(conc) HNO3",
+            "^",
+            "NH4OH + NH4Cl",
+            "Green",
+            "Cr(OH)3",
+            "//",
+            "//",
+            "//",
+            "Yellow Brown",
+            "Fe(OH)3",
+            "//",
+            "//",
+            "//",
+            "White",
+            "Al(OH)3",
+            "//",
+            "//",
+            "//",
+
+            "NH4OH",
+            "H2S",
+            "//",
+            "//",
+            "Black",
+            "CoS",
+            "NiS",
+            "//",
+            "//",
+            "Pink",
+            "MnS",
+            "//",
+            "//",
+            "//",
+            "White",
+            "ZnS",
+            "//",
+            "//",
+            "//",
+
+            "^",
+            "NH4OH + NH4Cl",
+            "^",
+            "(NH4)2CO3",
+            "White",
+            "CaCO3",
+            "BaCO3",
+            "SrCO3",
+            "//",
+
+            "Na+",
+            "Mg2+",
+            "K+",
+            //Flame Test
+            "Li",
+            "Red",
+            "Ca",
+            "Orange",
+            "Na",
+            "Yellow",
+            "Cu",
+            "Green",
+            "Cs",
+            "Blue",
+            "K",
+            "Purple",
+            "Rb",
+            "Red Purple",
+            "Sr",
+            "Crimson",
+            "Ba",
+            "Apple Green",
+            //Hexaaqua Complexes
+            "//",
+            "Cu+",
+            "Zn2+",
+            "Sc3+",
+            "Ti4+",
+
+            "Purple",
+            "Ti3+",
+            "Cr3+",
+            "Mn3+",
+            "V2+",
+
+            "Green",
+            "Fe2+",
+            "Ni2+",
+            "V3+",
+
+            "Light Blue",
+            "Cu2+",
+            "Cr2+",
+
+            "Pink",
+            "Co2+",
+            "Mn2+",
+
+            "Yellow Brown",
+            "Fe3+",
+            //Ammine & Chlorido Complexes
+            "[Cr(NH3)6]3+",
+            "[CrCl4]-",
+            "Yellow",
+            "Blue",
+
+            "//",
+            "[MnCl4]2-",
+            "//",
+            "Yellow Green",
+
+            "//",
+            "[FeCl4]-",
+            "//",
+            "Yellow Brown",
+
+            "[Co(NH3)6]2+",
+            "[CoCl4]2-",
+            "Yellow Brown",
+            "Blue",
+
+            "[Co(NH3)6]3+",
+            "Orange Brown",
+
+            "[Ni(NH3)6]2+",
+            "[NiCl4]2-",
+            "Blue",
+            "Yellow",
+
+            "[Cu(NH3)4]2+",
+            "[CuCl4]2-",
+            "Blue",
+            "Yellow",
+
+            "[Cu(NH3)2]+",
+            "//",
+
+            "[Zn(NH3)4]2+",
+            "//",
+
+            "[Cd(NH3)4]2+",
+            "//",
+
+            "[Ag(NH3)2]+",
+            "//",
+            //NH4+
+            "NH4+ + OH-",
+            "NH3 + H2O",
+            //NH3
+            "Red Litmus + NH3",
+            "Blue Litmus",
+            "Nesler + NH3",
+            "Brown",
+            "HCl + NH3",
+            "NH4Cl",
+            "White",
+            //Gasses with Dil/Conc
+            "NO2- + H+",
+            "NO2",
+            "Brown",
+            "S2O32- + H+",
+            "S + SO2",
+            "Yellow",
+            "SO32- + H+",
+            "SO2",
+            "S2- + H+",
+            "H2S",
+            "CO32- + H+",
+            "CO2",
+
+            "HSO3-",
+            "HS-",
+            "HCO3-",
+            //CO32- vs HCO3-
+            "CaCl2",
+            "CaCO3",
+            "Ca(HCO3)2",
+            "White",
+            "//",
+
+            "^",
+            "//",
+            "CaCO3",
+            "//",
+            "White",
+            //H2S vs SO2
+            "H+ + MnO4",
+            "MnO4-",
+            "Mn2+",
+            "MnO4-",
+            "Mn2+",
+            "H2S",
+            "S",
+            "SO2",
+            "SO42-",
+
+            "H+ + Cr2O72-",
+            "Cr2O72-",
+            "Cr3+",
+            "Cr2O72-",
+            "Cr3+",
+            "H2S",
+            "S",
+            "SO2",
+            "SO42-",
+
+            "Pb2+",
+            "Pb2+",
+            "PbS",
+            "Pb2+",
+            "PbSO4",
+
+            "Colorful X",
+            "X",
+            "//",
+            "X + nH",
+            "XHn",
+            //CO2
+            "Ca(OH)2 + CO2",
+            "CaCO3 + H2O",
+            "White",
+
+            "CaCO3 + H2O + CO2",
+            "Ca(HCO3)2",
+            "//",
+            //Gasses with Conc H2SO4
+            "NO3- + (conc) H2SO4",
+            "NO2",
+            "Br- + (conc) H2SO4",
+            "Br2",
+            "I- + (conc) H2SO4",
+            "I2",
+            "Cl- + (conc) H2SO4",
+            "HCl",
+            "C2O42- + (conc) H2SO4",
+            "CO2 + CO",
+            "CH3COO- + (conc) H2SO4",
+            "CH3COOH",
+
+            "NO3-",
+            //NO3- (Test 1)
+            "NaNO3 + NaOH + Al + H2O",
+            "NaAlO2 + NH3",
+
+            "NH4+",
+            "NH4+ + OH-",
+            "NH3 + H2O",
+
+            "NO2-",
+            "NO3-Reactants3",
+            "NO3-Products3",
+
+            "Zn",
+            "Deverda",
+            //NO3- (Brown Ring Test)
+            "NO3- + FeSO4 + (conc) H2SO4",
+            "Fe(NO)SO4",
+
+            "Br-",
+            "Br- + (conc) H2SO4",
+            "Br2",
+
+            "NO2-",
+            "NO2- + (conc) H2SO4",
+            "NO2",
+            //Cl- vs Br- vs I-
+            "AgNO3",
+            "AgCl",
+            "AgBr",
+            "AgI",
+            "White",
+            "Yellow",
+            "Brown",
+
+            "NH3",
+            "S",
+            "S",
+            "NS",
+            //S2- vs SO32- vs SO42- vs S2O32-
+            "(dil) H+",
+            "H2S",
+            "SO2",
+            "//",
+            "S + SO2",
+            "//",
+            "//",
+            "//",
+            "Yellow",
+
+            "Pb(NO3)2",
+            "PbS",
+            "PbSO3",
+            "PbSO4",
+            "PbS2O3",
+            "Black",
+            "White",
+            "White",
+            "White",
+
+            "AgNO3",
+            "Ag2S",
+            "Ag2SO3",
+            "Ag2SO4",
+            "Ag2S2O3",
+            "Black",
+            "White",
+            "White",
+            "White",
+
+            "BaCl2",
+            "//",
+            "BaSO3",
+            "BaSO4",
+            "//",
+            "White",
+            "White",
+            //BaSO3 vs BaSO4
+            "(dil) HNO3",
+            "S",
+            "NS",
+            //Fe2+ vs Fe3+
+            "OH-",
+            "Fe(OH)2",
+            "Fe(OH)3",
+            "Green",
+            "Yellow Brown",
+
+            "K3[Fe(CN)6]",
+            "KFe[Fe(CN)6]",
+            "Precipitation",
+            "Blue",
+            "White",
+
+            "K4[Fe(CN)6]",
+            "Precipitation",
+            "KFe[Fe(CN)6]",
+            "Yellow Brown",
+            "Blue",
+
+            "SCN-",
+            "//",
+            "[Fe(SCN)n]m",
+            "//",
+            "Red",
+            //Pb2+
+            "Pb2+ + OH-",
+            "Pb(OH)2",
+            "White",
+
+            "Pb2+ + (dil,cold) HCl",
+            "PbCl2 + H+",
+            "White",
+
+            "Pb2+ + I-",
+            "PbI2",
+            "Yellow",
+
+            "Pb2+ + CrO42-",
+            "PbCrO4",
+            "Yellow",
+            //Pb(OH)2 vs PbCl2
+            "(excessive) OH-",
+            "S",
+            "//",
+
+            "(hot) H2O",
+            "//",
+            "S",
+            //PbI2 vs PbCrO4
+            "(dil) H+",
+            "//",
+            "S",
+
+            "(hot) H2O",
+            "S",
+            "//",
+            //Al3+ vs Zn2+
+            "OH-",
+            "Al(OH)3",
+            "Zn(OH)2",
+            "White",
+            "White",
+
+            "NH3",
+            "//",
+            "[Zn(NH3)4]2+",
+            "NS",
+            "S",
+            //Haylides with H2O
+            "H3BO3 + HCl",
+            "//",
+            "SiO2 + HCl",
+            "H2SiO3 + HCl",
+            "NH3 + HOCl",
+            "POCl3 + HCl",
+            "H3PO4 + HCl",
+            "H3PO3 + HCl",
+            "H3AsO3 + HCl",
+            "SbOCl + HCl",
+            "BiOCl + HCl",
+
+            "NCl3",
+            "SbCl3",
+            "BiCl3",
+        ];
+
+        var formattedProductsList = [
+            
+            //Analysis By Groups
+            "H\u2082O",
+            "(cold,dil) HCl",
+            " ",
+            " ",
+            "White",
+            "AgCl",
+            "PbCl\u2082",
+            "Hg\u2082Cl\u2082",
+            " ",
+
+            "0.2M-0.3M HCl",
+            "H\u2082S",
+            " ",
+            " ",
+            "Black",
+            "CuS",
+            "PbS",
+            "HgS",
+            "Bi\u2082S\u2083",
+            "Yellow",
+            "CdS",
+            "SnS\u2082",
+            "As\u2082S\u2083",
+            " ",
+            "Orange",
+            "Sb\u2082S\u2083",
+            " ",
+            " ",
+            " ",
+            "Brown",
+            "SnS",
+            " ",
+            " ",
+            " ",
+
+            "\u0394",
+            "(conc) HNO\u2083",
+            "\u0394",
+            "NH\u2084OH + NH\u2084Cl",
+            "Green",
+            "Cr(OH)\u2083",
+            " ",
+            " ",
+            " ",
+            "Yellow Brown",
+            "Fe(OH)\u2083",
+            " ",
+            " ",
+            " ",
+            "White",
+            "Al(OH)\u2083",
+            " ",
+            " ",
+            " ",
+
+            "NH\u2084OH",
+            "H\u2082S",
+            " ",
+            " ",
+            "Black",
+            "CoS",
+            "NiS",
+            " ",
+            " ",
+            "Pink",
+            "MnS",
+            " ",
+            " ",
+            " ",
+            "White",
+            "ZnS",
+            " ",
+            " ",
+            " ",
+
+            "\u0394",
+            "NH\u2084OH + NH\u2084Cl",
+            "\u0394",
+            "(NH\u2084)\u2082CO\u2083",
+            "White",
+            "CaCO\u2083",
+            "BaCO\u2083",
+            "SrCO\u2083",
+            " ",
+
+            "Na\u207A",
+            "Mg\u00B2\u207A",
+            "K\u207A",
+            //Flame Test
+            "Li",
+            "Red",
+            "Ca",
+            "Orange",
+            "Na",
+            "Yellow",
+            "Cu",
+            "Green",
+            "Cs",
+            "Blue",
+            "K",
+            "Purple",
+            "Rb",
+            "Red Purple",
+            "Sr",
+            "Crimson",
+            "Ba",
+            "Apple Green",
+            //Hexaaqua Complexes
+            "//",
+            "Cu\u207A",
+            "Zn\u00B2\u207A",
+            "Sc\u00B3\u207A",
+            "Ti4\u207A",
+
+            "Purple",
+            "Ti\u00B3\u207A",
+            "Cr\u00B3\u207A",
+            "Mn\u00B3\u207A",
+            "V\u00B2\u207A",
+
+            "Green",
+            "Fe\u00B2\u207A",
+            "Ni\u00B2\u207A",
+            "V\u00B3\u207A",
+
+            "Light Blue",
+            "Cu\u00B2\u207A",
+            "Cr\u00B2\u207A",
+
+            "Pink",
+            "Co\u00B2\u207A",
+            "Mn\u00B2\u207A",
+
+            "Yellow Brown",
+            "Fe\u00B3\u207A",
+            //Ammine & Chlorido Complexes
+            "[Cr(NH\u2083)\u2086]\u00B3\u207A",
+            "[CrCl\u2084]\u207B",
+            "Yellow",
+            "Blue",
+
+            "//",
+            "[MnCl\u2084]\u00B2\u207B",
+            "//",
+            "Yellow Green",
+
+            "//",
+            "[FeCl\u2084]\u207B",
+            "//",
+            "Yellow Brown",
+
+            "[Co(NH\u2083)\u2086]\u00B2\u207A",
+            "[CoCl\u2084]\u00B2\u207B",
+            "Yellow Brown",
+            "Blue",
+
+            "[Co(NH\u2083)\u2086]\u00B3\u207A",
+            "Orange Brown",
+
+            "[Ni(NH\u2083)\u2086]\u00B2\u207A",
+            "[NiCl\u2084]\u00B2\u207B",
+            "Blue",
+            "Yellow",
+
+            "[Cu(NH\u2083)\u2084]\u00B2\u207A",
+            "[CuCl\u2084]\u00B2\u207B",
+            "Blue",
+            "Yellow",
+
+            "[Cu(NH\u2083)\u2082]\u207A",
+            "//",
+
+            "[Zn(NH\u2083)\u2084]\u00B2\u207A",
+            "//",
+
+            "[Cd(NH\u2083)\u2084]\u00B2\u207A",
+            "//",
+
+            "[Ag(NH\u20823)\u2082]\u207A",
+            "//",
+            //NH4+
+            "NH\u2084\u207A + OH\u207B",
+            "NH3 + H2O",
+            //NH3
+            "Red Litmus + NH\u2083",
+            "Blue Litmus",
+            "Nesler + NH\u2083",
+            "Brown",
+            "HCl + NH\u2083",
+            "NH\u2084Cl",
+            "White",
+            //Gasses with Dil/Conc
+            "NO\u2082\u207B + H\u207A",
+            "NO\u2082",
+            "Brown",
+            "S\u2082O\u2082\u00B2\u207B + H\u207A",
+            "S + SO\u2082",
+            "Yellow",
+            "SO\u2083\u00B2\u207B + H\u207A",
+            "SO\u2082",
+            "S\u00B2\u207B + H\u207A",
+            "H\u2082S",
+            "CO\u2083\u00B2\u207B + H\u207A",
+            "CO\u2082",
+
+            "HSO\u2082\u207B",
+            "HS\u207B",
+            "HCO\u2083\u207B",
+            //CO32- vs HCO3-
+            "CaCl\u2082",
+            "CaCO\u2083",
+            "Ca(HCO\u2083)\u2082",
+            "White",
+            "//",
+
+            "\u0394",
+            "//",
+            "CaCO\u2083",
+            "//",
+            "White",
+            //H2S vs SO2
+            "H\u207A + MnO\u2084",
+            "MnO\u2082\u207B",
+            "Mn\u00B2\u207A",
+            "MnO\u2084\u207B",
+            "Mn\u00B2\u207A",
+            "H\u2082S",
+            "S",
+            "SO\u2082",
+            "SO\u2084\u00B2\u207B",
+
+            "H\u207A + Cr\u2082O\u2087\u00B2\u207B",
+            "Cr\u2082O\u2087\u00B2\u207B",
+            "Cr\u00B3\u207A",
+            "Cr2O72-",
+            "Cr\u00B3\u207A",
+            "H\u2082S",
+            "S",
+            "SO\u2082",
+            "SO\u2084\u00B2\u207B",
+
+            "Pb\u00B2\u207A",
+            "Pb\u00B2\u207A",
+            "PbS",
+            "Pb\u00B2\u207A",
+            "PbSO\u2084",
+
+            "Colorful X",
+            "X",
+            "//",
+            "X + nH",
+            "XHn",
+            //CO2
+            "Ca(OH)\u2082 + CO\u2082",
+            "CaCO\u2083 + H\u2082O",
+            "White",
+
+            "CaCO\u2083 + H\u2082O + CO\u2082",
+            "Ca(HCO\u2083)\u2082",
+            "//",
+            //Gasses with Conc H2SO4
+            "NO\u2082\u207B + (conc) H\u2082SO\u2084",
+            "NO\u2082",
+            "Br\u207B + (conc) H\u2082SO\u2084",
+            "Br\u2082",
+            "I\u207B + (conc) H\u2082SO\u2084",
+            "I\u2082",
+            "Cl\u207B + (conc) H\u2082SO\u2084",
+            "HCl",
+            "C\u2082O\u2084\u00B2\u207B + (conc) H\u2082SO\u2084",
+            "CO\u2082 + CO",
+            "CH\u2083COO\u207B + (conc) H\u2082SO\u2084",
+            "CH\u2083COOH",
+
+            "NO\u2083\u207B",
+            //NO3- (Test 1)
+            "NaNO\u2083 + NaOH + Al + H\u2082O",
+            "NaAlO\u2082 + NH\u2083",
+
+            "NH\u2084\u207A",
+            "NH\u2084\u207A + OH\u207B",
+            "NH\u2083 + H\u2082O",
+
+            "NO\u2082\u207B",
+            "NO3-Reactants3",
+            "NO3-Products3",
+
+            "Zn",
+            "Deverda",
+            //NO3- (Brown Ring Test)
+            "NO\u2082\u207B + FeSO\u2084 + (conc) H\u2082SO\u2084",
+            "Fe(NO)SO\u2084",
+
+            "Br\u207B",
+            "Br\u207B + (conc) H\u2082SO\u2084",
+            "Br\u2082",
+
+            "NO\u2082\u207B",
+            "NO\u2082\u207B + (conc) H\u2082SO\u2084",
+            "NO\u2082",
+            //Cl- vs Br- vs I-
+            "AgNO\u2083",
+            "AgCl",
+            "AgBr",
+            "AgI",
+            "White",
+            "Yellow",
+            "Brown",
+
+            "NH\u2083",
+            "S",
+            "S",
+            "NS",
+            //S2- vs SO32- vs SO42- vs S2O32-
+            "(dil) H\u207A",
+            "H\u2082S",
+            "SO\u2082",
+            "//",
+            "S + SO\u2082",
+            "//",
+            "//",
+            "//",
+            "Yellow",
+
+            "Pb(NO\u2083)\u2082",
+            "PbS",
+            "PbSO\u2083",
+            "PbSO\u2084",
+            "PbS\u2082O\u2083",
+            "Black",
+            "White",
+            "White",
+            "White",
+
+            "AgNO\u2083",
+            "Ag\u2082S",
+            "Ag\u2082SO\u2083",
+            "Ag\u2082SO\u2084",
+            "Ag\u2082S\u2082O\u2083",
+            "Black",
+            "White",
+            "White",
+            "White",
+
+            "BaCl\u2082",
+            "//",
+            "BaSO\u2083",
+            "BaSO\u2084",
+            "//",
+            "White",
+            "White",
+            //BaSO3 vs BaSO4
+            "(dil) HNO\u2083",
+            "S",
+            "NS",
+            //Fe2+ vs Fe3+
+            "OH\u207B",
+            "Fe(OH)\u2082",
+            "Fe(OH)\u2083",
+            "Green",
+            "Yellow Brown",
+
+            "K\u2083[Fe(CN)\u2086]",
+            "KFe[Fe(CN)\u2086]",
+            "Precipitation",
+            "Blue",
+            "White",
+
+            "K\u2084[Fe(CN)\u2086]",
+            "Precipitation",
+            "KFe[Fe(CN)\u2086]",
+            "Yellow Brown",
+            "Blue",
+
+            "SCN-\u207B",
+            "//",
+            "[Fe(SCN)n]m",
+            "//",
+            "Red",
+            //Pb2+
+            "Pb\u00B2\u207A + OH\u207B",
+            "Pb(OH)\u2082",
+            "White",
+
+            "Pb\u00B2\u207A + (dil,cold) HCl",
+            "PbCl\u2082 + H\u207A",
+            "White",
+
+            "Pb\u00B2\u207A + I\u207B",
+            "PbI\u2082",
+            "Yellow",
+
+            "Pb\u00B2\u207A + CrO\u2084\u00B2\u207B",
+            "PbCrO4",
+            "Yellow",
+            //Pb(OH)2 vs PbCl2
+            "(excessive) OH\u207B",
+            "S",
+            "//",
+
+            "(hot) H\u2082O",
+            "//",
+            "S",
+            //PbI2 vs PbCrO4
+            "(dil) H\u207A",
+            "//",
+            "S",
+
+            "(hot) H\u2082O",
+            "S",
+            "//",
+            //Al3+ vs Zn2+
+            "OH\u207B",
+            "Al(OH)\u2083",
+            "Zn(OH)\u2082",
+            "White",
+            "White",
+
+            "NH\u2083",
+            "//",
+            "[Zn(NH\u2083)\u2084]\u00B2\u207A",
+            "NS",
+            "S",
+            //Haylides with H2O
+            "H\u2083BO\u2083(aq) + HCl(aq)",
+            "//",
+            "SiO\u2082(aq) + HCl(aq)",
+            "H\u2082SiO\u2083(aq) + HCl(aq)",
+            "NH\u2083(aq) + HOCl(aq)",
+            "POCl\u2083(aq) + HCl(aq)",
+            "H\u2083PO\u2084(aq) + HCl(aq)",
+            "H\u2083PO\u2083(aq) + HCl(aq)",
+            "H\u2083AsO\u2083(aq) + HCl(aq)",
+            "SbOCl(s) + HCl(aq)",
+            "BiOCl(s) + HCl(aq)",
+
+            "NCl\u2083",
+            "SbCl\u2083",
+            "BiCl\u2083",
+        ];
+
+        function checkAnswers() {
+            for (var inputIdListIndex = 0; inputIdListIndex < inputIdList.length; inputIdListIndex++) {
+                var inputId = inputIdList[inputIdListIndex];
+                var input = document.getElementById(inputId);
+                var answer = productsList[inputIdListIndex];
+                if (input.value == answer || input.value == formattedProductsList[inputIdListIndex]) {
+                    input.classList.remove("productsDisplayError");
+                    input.classList.add("productsDisplaySuccess");
+                    input.value = formattedProductsList[inputIdListIndex];
+                } else {
+                    input.classList.remove("productsDisplaySuccess");
+                    input.classList.add("productsDisplayError");
+                }
+            }
+        }
+    </script>
+</head>
+
+<body onload="intialize()" style="background-color:black;">
+    <div style="position:fixed;top:0;left:0;width:100%;background-color:green;height:140px;">
+        <div style="display:inline-block;margin-left:270px;margin-top:20px;">
+            <div style="margin-bottom:20px;float:right;font-size:300%;color:black;">Qualitative Analysis</div>
+            <br/>
+            <div style="float:right;font-size:100%;color:white;margin-left:20px;">&copy; Nirmal Diaz</div>
+            <div style="float:right;font-size:100%;color:black;margin-left:20px;" onclick="intialize()">Randomize</div>
+            <div style="float:right;font-size:100%;color:black;" onclick="checkAnswers(31)">Validate Answers</div>
+        </div>
+    </div>
+    <p style="height:150px;"></p>
+    <div id="body">
+        <h1>Analysis By Groups</h1>
+        <h2>First Analytical Group</h2>
+        <p>Reagents</p>
+        <input id="group1Reactants1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group1Reactants2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group1Reactants3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group1Reactants4" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <p>Precipitations</p>
+        <div style="margin-top:20px;">
+            <input id="group1Color1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+            <input id="group1Products1" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group1Products2" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group1Products3" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group1Products4" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+        </div>
+        <h2>Seond Analytical Group</h2>
+        <p>Reagents</p>
+        <input id="group2Reactants1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group2Reactants2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group2Reactants3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group2Reactants4" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <p>Precipitations</p>
+        <div style="margin-top:20px;">
+            <input id="group2Color1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+            <input id="group2Products1" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group2Products2" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group2Products3" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group2Products4" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+        </div>
+        <div style="margin-top:20px;">
+            <input id="group2Color2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+            <input id="group2Products5" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group2Products6" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group2Products7" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group2Products8" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+        </div>
+        <div style="margin-top:20px;">
+            <input id="group2Color3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+            <input id="group2Products9" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group2Products10" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group2Products11" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group2Products12" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+        </div>
+        <div style="margin-top:20px;">
+            <input id="group2Color4" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+            <input id="group2Products13" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group2Products14" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group2Products15" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group2Products16" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+        </div>
+        <h2>Third Analytical Group</h2>
+        <p>Reagents</p>
+        <input id="group3Reactants1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group3Reactants2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group3Reactants3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group3Reactants4" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <p>Precipitations</p>
+        <div style="margin-top:20px;">
+            <input id="group3Color1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+            <input id="group3Products1" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group3Products2" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group3Products3" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group3Products4" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+        </div>
+        <div style="margin-top:20px;">
+            <input id="group3Color2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+            <input id="group3Products5" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group3Products6" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group3Products7" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group3Products8" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+        </div>
+        <div style="margin-top:20px;">
+            <input id="group3Color3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+            <input id="group3Products9" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group3Products10" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group3Products11" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group3Products12" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+        </div>
+        <h2>Fourth Analytical Group</h2>
+        <p>Reagents</p>
+        <input id="group4Reactants1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group4Reactants2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group4Reactants3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group4Reactants4" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <p>Precipitations</p>
+        <div style="margin-top:20px;">
+            <input id="group4Color1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+            <input id="group4Products1" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group4Products2" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group4Products3" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group4Products4" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+        </div>
+        <div style="margin-top:20px;">
+            <input id="group4Color2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+            <input id="group4Products5" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group4Products6" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group4Products7" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group4Products8" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+        </div>
+        <div style="margin-top:20px;">
+            <input id="group4Color3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+            <input id="group4Products9" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group4Products10" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group4Products11" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group4Products12" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+        </div>
+        <h2>Fifth Analytical Group</h2>
+        <p>Reagents</p>
+        <input id="group5Reactants1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group5Reactants2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group5Reactants3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <input id="group5Reactants4" type="text" class="productsDisplayError" style="width:300px;" placeholder="Reagent" />
+        <p>Precipitations</p>
+        <div style="margin-top:20px;">
+            <input id="group5Color1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+            <input id="group5Products1" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group5Products2" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group5Products3" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+            <input id="group5Products4" type="text" class="productsDisplayError" style="width:200px;" placeholder="Precipitation" />
+        </div>
+        <h2>Remaining Cations After the Test</h2>
+        <input id="groupCations1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Cation" />
+        <input id="groupCations2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Cation" />
+        <input id="groupCations3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Cation" />
+        
+        <h1>Flame Test</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Element</td>
+                    <td>Flame Color</td>
+                </tr>
+                <tr>
+                    <td><input id="flameReactants1" type="text" /></td>
+                    <td><input id="flameColor1" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="flameReactants2" type="text" />
+                    </td>
+                    <td>
+                        <input id="flameColor2" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="flameReactants3" type="text" />
+                    </td>
+                    <td>
+                        <input id="flameColor3" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="flameReactants4" type="text" />
+                    </td>
+                    <td>
+                        <input id="flameColor4" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="flameReactants5" type="text" />
+                    </td>
+                    <td>
+                        <input id="flameColor5" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="flameReactants6" type="text" />
+                    </td>
+                    <td>
+                        <input id="flameColor6" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="flameReactants7" type="text" />
+                    </td>
+                    <td>
+                        <input id="flameColor7" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="flameReactants8" type="text" />
+                    </td>
+                    <td>
+                        <input id="flameColor8" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="flameReactants9" type="text" />
+                    </td>
+                    <td>
+                        <input id="flameColor9" type="text" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Colors of Hexaaqua Complexes</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Color</td>
+                    <td>Cations</td>
+                </tr>
+                <tr>
+                    <td><input id="HexaaquaCationColor1" type="text" /></td>
+                    <td><input id="HexaaquaCation1" type="text" /></td>
+                    <td>
+                        <input id="HexaaquaCation2" type="text" />
+                    </td>
+                    <td>
+                        <input id="HexaaquaCation3" type="text" />
+                    </td>
+                    <td><input id="HexaaquaCation4" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="HexaaquaCationColor2" type="text" />
+                    </td>
+                    <td>
+                        <input id="HexaaquaCation5" type="text" />
+                    </td>
+                    <td>
+                        <input id="HexaaquaCation6" type="text" />
+                    </td>
+                    <td>
+                        <input id="HexaaquaCation7" type="text" />
+                    </td>
+                    <td>
+                        <input id="HexaaquaCation8" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="HexaaquaCationColor3" type="text" />
+                    </td>
+                    <td>
+                        <input id="HexaaquaCation9" type="text" />
+                    </td>
+                    <td>
+                        <input id="HexaaquaCation10" type="text" />
+                    </td>
+                    <td>
+                        <input id="HexaaquaCation11" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="HexaaquaCationColor4" type="text" />
+                    </td>
+                    <td>
+                        <input id="HexaaquaCation12" type="text" />
+                    </td>
+                    <td>
+                        <input id="HexaaquaCation13" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="HexaaquaCationColor5" type="text" />
+                    </td>
+                    <td>
+                        <input id="HexaaquaCation14" type="text" />
+                    </td>
+                    <td>
+                        <input id="HexaaquaCation15" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="HexaaquaCationColor6" type="text" />
+                    </td>
+                    <td>
+                        <input id="HexaaquaCation16" type="text" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Colors of Ammine and Tetrachlorido Complexes</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Cation</td>
+                    <td>Ammine Complex and Color</td>
+                    <td>Tetrachlorido Complex and Color</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        Cr<sup>3+</sup>
+                    </td>
+                    <td>
+                        <input id="ammineComplex1" type="text" placeholder="Complex"/>
+                    </td>
+                    <td>
+                        <input id="chloridoComplex1" type="text" placeholder="Complex"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="ammineColor1" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="chloridoColor1" type="text" placeholder="Color"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                        Mn<sup>2+</sup>
+                    </td>
+                    <td>
+                        <input id="ammineComplex2" type="text" placeholder="Complex"/>
+                    </td>
+                    <td>
+                        <input id="chloridoComplex2" type="text" placeholder="Complex"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="ammineColor2" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="chloridoColor2" type="text" placeholder="Color"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                         Fe<sup>3+</sup>
+                    </td>
+                    <td>
+                        <input id="ammineComplex3" type="text" placeholder="Complex"/>
+                    </td>
+                    <td>
+                        <input id="chloridoComplex3" type="text" placeholder="Complex"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="ammineColor3" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="chloridoColor3" type="text" placeholder="Color"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                         Co<sup>2+</sup>
+                    </td>
+                    <td>
+                        <input id="ammineComplex4" type="text" placeholder="Complex"/>
+                    </td>
+                    <td>
+                        <input id="chloridoComplex4" type="text" placeholder="Complex"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="ammineColor4" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="chloridoColor4" type="text" placeholder="Color"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                         Co<sup>3+</sup>
+                    </td>
+                    <td>
+                        <input id="ammineComplex5" type="text" placeholder="Complex"/>
+                    </td>
+                    <!-- <td>
+                        <input id="chloridoComplex5" type="text" placeholder="Complex"/>
+                    </td> -->
+                </tr>
+                <tr>
+                    <td>
+                        <input id="ammineColor5" type="text" placeholder="Color"/>
+                    </td>
+                    <!-- <td>
+                        <input id="chloridoColor5" type="text" placeholder="Color"/>
+                    </td> -->
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                         Ni<sup>2+</sup>
+                    </td>
+                    <td>
+                        <input id="ammineComplex6" type="text" placeholder="Complex"/>
+                    </td>
+                    <td>
+                        <input id="chloridoComplex6" type="text" placeholder="Complex"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="ammineColor6" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="chloridoColor6" type="text" placeholder="Color"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                         Cu<sup>2+</sup>
+                    </td>
+                    <td>
+                        <input id="ammineComplex7" type="text" placeholder="Complex"/>
+                    </td>
+                    <td>
+                        <input id="chloridoComplex7" type="text" placeholder="Complex"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="ammineColor7" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="chloridoColor7" type="text" placeholder="Color"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                         Cu<sup>+</sup>
+                    </td>
+                    <td>
+                        <input id="ammineComplex8" type="text" placeholder="Complex"/>
+                    </td>
+                    <!-- <td>
+                        <input id="chloridoComplex8" type="text" placeholder="Complex"/>
+                    </td> -->
+                </tr>
+                <tr>
+                    <td>
+                        <input id="ammineColor8" type="text" placeholder="Color"/>
+                    </td>
+                    <!-- <td>
+                        <input id="chloridoColor8" type="text" placeholder="Color"/>
+                    </td> -->
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                        Zn<sup>2+</sup>
+                    </td>
+                    <td>
+                        <input id="ammineComplex9" type="text" placeholder="Complex"/>
+                    </td>
+                    <!-- <td>
+                        <input id="chloridoComplex9" type="text" placeholder="Complex"/>
+                    </td> -->
+                </tr>
+                <tr>
+                    <td>
+                        <input id="ammineColor9" type="text" placeholder="Color"/>
+                    </td>
+                    <!-- <td>
+                        <input id="chloridoColor9" type="text" placeholder="Color"/>
+                    </td> -->
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                        Cd<sup>2+</sup>
+                    </td>
+                    <td>
+                        <input id="ammineComplex10" type="text" placeholder="Complex"/>
+                    </td>
+                    <td>
+                        <!-- <input id="chloridoComplex6" type="text" /> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="ammineColor10" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <!-- <input id="chloridoComplexColor6" type="text" /> -->
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                        Ag<sup>+</sup>
+                    </td>
+                    <td>
+                        <input id="ammineComplex11" type="text" placeholder="Complex"/>
+                    </td>
+                    <td>
+                        <!-- <input id="chloridoComplex6" type="text" /> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="ammineColor11" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <!-- <input id="chloridoComplexColor6" type="text" /> -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Recognizing NH<sub>4</sub><sup>+</sup></h1>
+        <div class="reactionGroupDisplay">
+            <input id="ammoniumReactants1" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="ammoniumProducts1" class="productsDisplayError" type="text" />
+        </div>
+        <h2>Recognizing NH<sub>3</sub></h2>
+        <div class="reactionGroupDisplay">
+            <input id="ammoniaReactants1" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="ammoniaProducts1" class="productsDisplayError" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <input id="ammoniaReactants2" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="ammoniaProducts2" class="productsDisplayError" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <input id="ammoniaReactants3" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="ammoniaProducts3" class="productsDisplayError" type="text" />
+        </div>
+        <input id="ammoniaReactantsColor3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+        
+        <h1>Anions Producing Gasses with Dilute/Concentrated Acids</h1>
+        <p>Colorful gas</p>
+        <div class="reactionGroupDisplay">
+            <input id="anionsDiluteReactants1" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="anionsDiluteProducts1" class="productsDisplayError" type="text" />
+        </div>
+        <input id="anionsDiluteObservation1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color"/>
+        <p>Precipitation</p>
+        <div class="reactionGroupDisplay">
+            <input id="anionsDiluteReactants2" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="anionsDiluteProducts2" class="productsDisplayError" type="text" />
+        </div>
+        <input id="anionsDiluteObservation2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color"/>
+        <p>Bleecher & reducer gas</p>
+        <div class="reactionGroupDisplay">
+            <input id="anionsDiluteReactants3" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="anionsDiluteProducts3" class="productsDisplayError" type="text" />
+        </div>
+        <p>Reducer gas</p>
+        <div class="reactionGroupDisplay">
+            <input id="anionsDiluteReactants4" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="anionsDiluteProducts4" class="productsDisplayError" type="text" />
+        </div>
+        <p>Acidic gas</p>
+        <div class="reactionGroupDisplay">
+            <input id="anionsDiluteReactants5" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="anionsDiluteProducts5" class="productsDisplayError" type="text" />
+        </div>
+        <p>The half anions producing the same above results</p>
+        <input id="anionsDiluteAnions1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Anion" />
+        <input id="anionsDiluteAnions2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Anion" />
+        <input id="anionsDiluteAnions3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Anion" />
+        <h2>Recognizing CO<sub>3</sub><sup>2-</sup> vs HCO<sub>3</sub><sup>-</sup></h2>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>CO<sub>3</sub><sup>2-</sup></td>
+                    <td>HCO<sub>3</sub><sup>-</sup></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        <input id="CO32-vsHCO32-Reactants1" type="text" />
+                    </td>
+                    <td>
+                        <input id="CO32-vsHCO32-Products1" type="text" placeholder="Product"/>
+                    </td>
+                    <td>
+                        <input id="CO32-vsHCO32-Products2" type="text" placeholder="Product"/>
+                        </sub>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- <td rowspan="1">
+                        <input id="CO32-vsHCO32-Reactants2" type="text" />
+                    </td> -->
+                    <td>
+                        <input id="CO32-vsHCO32-Color1" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="CO32-vsHCO32-Color2" type="text" placeholder="Color"/>
+                        </sub>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                        <input id="CO32-vsHCO32-Reactants2" type="text" />
+                    </td>
+                    <td>
+                        <input id="CO32-vsHCO32-Products3" type="text" placeholder="Product" />
+                    </td>
+                    <td>
+                        <input id="CO32-vsHCO32-Products4" type="text" placeholder="Product" />
+                        </sub>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- <td rowspan="1">
+                        <input id="CO32-vsHCO32-Reactants2" type="text" />
+                    </td> -->
+                    <td>
+                        <input id="CO32-vsHCO32-Color3" type="text" placeholder="Color" />
+                    </td>
+                    <td>
+                        <input id="CO32-vsHCO32-Color4" type="text" placeholder="Color" />
+                        </sub>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Recognzing H<sub>2</sub>S vs SO<sub>2</sub></h2>
+        <table class="table" >
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>Results for H<sub>2</sub>S</td>
+                    <td>Results for SO<sub>2</sub></td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><input id="H2SvsSO2Test1" type="text" style="width:300px;"/></td>
+                    <td>
+                        <div class="reactionGroupDisplay">
+                            <input id="H2SvsSO2Reactants1" type="text" style="text-align:right;" />
+                            <div class="arrowDisplay">&rarr;</div>
+                            <input id="H2SvsSO2Products1" type="text" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="reactionGroupDisplay">
+                            <input id="H2SvsSO2Reactants2" type="text" style="text-align:right;" />
+                            <div class="arrowDisplay">&rarr;</div>
+                            <input id="H2SvsSO2Products2" type="text" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="reactionGroupDisplay">
+                            <input id="H2SvsSO2Reactants3" type="text" style="text-align:right;" />
+                            <div class="arrowDisplay">&rarr;</div>
+                            <input id="H2SvsSO2Products3" type="text" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="reactionGroupDisplay">
+                            <input id="H2SvsSO2Reactants4" type="text" style="text-align:right;" />
+                            <div class="arrowDisplay">&rarr;</div>
+                            <input id="H2SvsSO2Products4" type="text" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        <input id="H2SvsSO2Test2" type="text" style="width:300px;" />
+                    </td>
+                    <td>
+                        <div class="reactionGroupDisplay">
+                            <input id="H2SvsSO2Reactants5" type="text" style="text-align:right;" />
+                            <div class="arrowDisplay">&rarr;</div>
+                            <input id="H2SvsSO2Products5" type="text" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="reactionGroupDisplay">
+                            <input id="H2SvsSO2Reactants6" type="text" style="text-align:right;" />
+                            <div class="arrowDisplay">&rarr;</div>
+                            <input id="H2SvsSO2Products6" type="text" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="reactionGroupDisplay">
+                            <input id="H2SvsSO2Reactants7" type="text" style="text-align:right;" />
+                            <div class="arrowDisplay">&rarr;</div>
+                            <input id="H2SvsSO2Products7" type="text" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="reactionGroupDisplay">
+                            <input id="H2SvsSO2Reactants8" type="text" style="text-align:right;" />
+                            <div class="arrowDisplay">&rarr;</div>
+                            <input id="H2SvsSO2Products8" type="text" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="H2SvsSO2Test3" type="text" class="productsDisplayError" style="width:300px;" rowspan="2" />
+                    </td>
+                    <td>
+                        <div class="reactionGroupDisplay">
+                            <input id="H2SvsSO2Reactants9" type="text" style="text-align:right;" />
+                            <div class="arrowDisplay">&rarr;</div>
+                            <input id="H2SvsSO2Products9" type="text" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="reactionGroupDisplay">
+                            <input id="H2SvsSO2Reactants10" type="text" style="text-align:right;" />
+                            <div class="arrowDisplay">&rarr;</div>
+                            <input id="H2SvsSO2Products10" type="text" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="H2SvsSO2Test4" type="text" class="productsDisplayError" style="width:300px;" rowspan="2" />
+                    </td>
+                    <td>
+                        <div class="reactionGroupDisplay">
+                            <input id="H2SvsSO2Reactants11" type="text" style="text-align:right;" />
+                            <div class="arrowDisplay">&rarr;</div>
+                            <input id="H2SvsSO2Products11" type="text" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="reactionGroupDisplay">
+                            <input id="H2SvsSO2Reactants12" type="text" style="text-align:right;" />
+                            <div class="arrowDisplay">&rarr;</div>
+                            <input id="H2SvsSO2Products12" type="text" />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Recognizng CO<sub>2</sub></h2>
+        <div class="reactionGroupDisplay">
+            <input id="CO2Reactants1" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="CO2Products1" class="productsDisplayError" type="text" />
+        </div>
+        <input id="CO2ProductsColor1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+        <div class="reactionGroupDisplay">
+            <input id="CO2Reactants2" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="CO2Products2" class="productsDisplayError" type="text" />
+        </div>
+        <input id="CO2ProductsColor2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+        
+        <h1>Anions Producing Gasses with (conc) H<sub>2</sub>SO<sub>4</sub></h1>
+        <p>Brown gas</p>
+        <div class="reactionGroupDisplay">
+            <input id="anionsConcReactants1" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="anionsConcProducts1" class="productsDisplayError" type="text" />
+        </div>
+        <p>Red-Brown gas</p>
+        <div class="reactionGroupDisplay">
+            <input id="anionsConcReactants2" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="anionsConcProducts2" class="productsDisplayError" type="text" />
+        </div>
+        <p>Purple gas</p>
+        <div class="reactionGroupDisplay">
+            <input id="anionsConcReactants3" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="anionsConcProducts3" class="productsDisplayError" type="text" />
+        </div>
+        <p>Acidic gas</p>
+        <div class="reactionGroupDisplay">
+            <input id="anionsConcReactants4" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="anionsConcProducts4" class="productsDisplayError" type="text" />
+        </div>
+        <p>Both acidic and toxic gasses</p>
+        <div class="reactionGroupDisplay">
+            <input id="anionsConcReactants5" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="anionsConcProducts5" class="productsDisplayError" type="text" />
+        </div>
+        <p>Other gas</p>
+        <div class="reactionGroupDisplay">
+            <input id="anionsConcReactants6" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="anionsConcProducts6" class="productsDisplayError" type="text" />
+        </div>
+        <p>The only anion that doesn't dissolve in (conc) HNO<sub>3</sub></p>
+        <input id="anionsConcAnion1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Anion" />
+        <h2>Recognizing NO<sub>3</sub><sup>-</sup> (Test 1)</h2>
+        <div class="reactionGroupDisplay">
+            <input id="NO3-Reactants1" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="NO3-Products1" class="productsDisplayError" type="text" />
+        </div>
+        <p>Inturrupting anions</p>
+        <input id="NO3-InterruptAnions1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Anion" />
+        <div class="reactionGroupDisplay">
+            <input id="NO3-Reactants2" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="NO3-Products2" class="productsDisplayError" type="text" />
+        </div>
+        <input id="NO3-InterruptAnions2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Anion" />
+        <div class="reactionGroupDisplay">
+            <input id="NO3-Reactants3" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="NO3-Products3" class="productsDisplayError" type="text" />
+        </div>
+        <p>Catalyst Replacers</p>
+        <input id="NO3-Catalyst1" type="text" class="productsDisplayError" style="width:300px;" />
+        <input id="NO3-Catalyst2" type="text" class="productsDisplayError" style="width:300px;" />
+        <h2>Recognizing NO<sub>3</sub><sup>-</sup> (Test 2 :  Brown Ring Test)</h2>
+        <div class="reactionGroupDisplay">
+            <input id="NO3-Reactants4" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="NO3-Products4" class="productsDisplayError" type="text" />
+        </div>
+        <p>Inturrupting anions</p>
+        <input id="NO3-InterruptAnions3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Anion" />
+        <div class="reactionGroupDisplay">
+            <input id="NO3-Reactants5" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="NO3-Products5" class="productsDisplayError" type="text" />
+        </div>
+        <input id="NO3-InterruptAnions4" type="text" class="productsDisplayError" style="width:300px;" placeholder="Anion" />
+        <div class="reactionGroupDisplay">
+            <input id="NO3-Reactants6" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="NO3-Products6" class="productsDisplayError" type="text" />
+        </div>
+        <h2>Recognizing Cl<sup>-</sup> vs Br<sup>-</sup> vs I<sup>-</sup></h2>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>Cl<sup>-</sup></td>
+                    <td>Br<sup>-</sup></td>
+                    <td>I<sup>-</sup></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        <input id="Cl-vsBr-vsI-Reactants1" type="text" />
+                    </td>
+                    <td>
+                        <input id="Cl-vsBr-vsI-Products1" type="text" placeholder="Product" />
+                    </td>
+                    <td>
+                        <input id="Cl-vsBr-vsI-Products2" type="text" placeholder="Product" />
+                        </sub>
+                    </td>
+                    <td>
+                        <input id="Cl-vsBr-vsI-Products3" type="text" placeholder="Product" />
+                        </sub>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- <td rowspan="1">
+                        <input id="CO32-vsHCO32-Reactants2" type="text" />
+                    </td> -->
+                    <td>
+                        <input id="Cl-vsBr-vsI-Color1" type="text" placeholder="Color" />
+                    </td>
+                    <td>
+                        <input id="Cl-vsBr-vsI-Color2" type="text" placeholder="Color" />
+                        </sub>
+                    </td>
+                    <td>
+                        <input id="Cl-vsBr-vsI-Color3" type="text" placeholder="Color" />
+                        </sub>
+                    </td>
+                </tr>
+        
+                <tr>
+                    <td>
+                        <input id="Cl-vsBr-vsI-Reactants2" type="text" />
+                    </td>
+                    <td>
+                        <input id="Cl-vsBr-vsI-Products4" type="text" placeholder="Solubility" />
+                    </td>
+                    <td>
+                        <input id="Cl-vsBr-vsI-Products5" type="text" placeholder="Solubility" />
+                        </sub>
+                    </td>
+                    <td>
+                        <input id="Cl-vsBr-vsI-Products6" type="text" placeholder="Solubility" />
+                        </sub>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Recognizing S<sup>2-</sup> vs SO<sub>3</sub><sup>2-</sup> vs SO<sub>4</sub><sup>2-</sup> vs S<sub>2</sub>O<sub>3</sub><sup>2-</sup></h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>S<sup>2-</sup></td>
+                    <td>SO<sub>3</sub><sup>2-</sup></td>
+                    <td>SO<sub>4</sub><sup>2-</sup></td>
+                    <td>S<sub>2</sub>O<sub>3</sub><sup>2-</sup></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        <input id="sAnionsReactants1" type="text" />
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts1" type="text" placeholder="Product"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts2" type="text" placeholder="Product"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts3" type="text" placeholder="Product"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts4" type="text" placeholder="Product"/>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- <td rowspan="2">
+                        <input id="sAnionsReactants1" type="text" />
+                    </td> -->
+                    <td>
+                        <input id="sAnionsColor1" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsColor2" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsColor3" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsColor4" type="text" placeholder="Color"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                        <input id="sAnionsReactants2" type="text"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts5" type="text" placeholder="Product"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts6" type="text" placeholder="Product"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts7" type="text" placeholder="Product"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts8" type="text" placeholder="Product"/>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- <td rowspan="2">
+                        <input id="sAnionsReactants1" type="text" />
+                    </td> -->
+                    <td>
+                        <input id="sAnionsColor5" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsColor6" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsColor7" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsColor8" type="text" placeholder="Color"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                        <input id="sAnionsReactants3" type="text"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts9" type="text" placeholder="Product"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts10" type="text" placeholder="Product"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts11" type="text" placeholder="Product"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts12" type="text" placeholder="Product"/>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- <td rowspan="2">
+                        <input id="sAnionsReactants1" type="text" />
+                    </td> -->
+                    <td>
+                        <input id="sAnionsColor9" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsColor10" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsColor11" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsColor12" type="text" placeholder="Color"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                        <input id="sAnionsReactants4" type="text" />
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts13" type="text" placeholder="Product"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts14" type="text" placeholder="Product"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsProducts15" type="text" placeholder="Product"/>
+                    </td>
+                    <td>
+                        <!-- <input id="sAnionsProducts16" type="text" /> -->
+                    </td>
+                </tr>
+                <tr>
+                    <!-- <td rowspan="2">
+                        <input id="sAnionsReactants1" type="text" />
+                    </td> -->
+                    <td>
+                        <input id="sAnionsColor13" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsColor14" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="sAnionsColor15" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <!-- <input id="sAnionsColor16" type="text" /> -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Recognizing BaSO<sub>3</sub> vs BaSO<sub>4</sub></h2>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>BaSO<sub>3</sub></td>
+                    <td>BaSO<sub>4</sub></td>
+                </tr>
+                <tr>
+                    <td><input id="BaSO3vsBaSO4Reactants1" type="text" /></td>
+                    <td><input id="BaSO3vsBaSO4Products1" type="text" placeholder="solubility"/></td>
+                    <td><input id="BaSO3vsBaSO4Products2" type="text" placeholder="solubility"/></sub></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Recognizing Fe<sup>2+</sup> vs Fe<sup>3+</sup></h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>Fe<sup>2+</sup></td>
+                    <td>Fe<sup>3+</sup></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        <input id="Fe2+vsFe3+Reactants1" type="text" />
+                    </td>
+                    <td>
+                        <input id="Fe2+vsFe3+Products1" type="text" placeholder="Products"/>
+                    </td>
+                    <td>
+                        <input id="Fe2+vsFe3+Products2" type="text" placeholder="Products"/>
+                        </sub>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- <td colspan="2">
+                        <input id="Fe2+vsFe3+Reactants1" type="text" />
+                    </td> -->
+                    <td>
+                        <input id="Fe2+vsFe3+Color1" type="text" placeholder="Color"/>
+                    </td>
+                    <td>
+                        <input id="Fe2+vsFe3+Color2" type="text" placeholder="Color"/>
+                        </sub>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                        <input id="Fe2+vsFe3+Reactants2" type="text" />
+                    </td>
+                    <td>
+                        <input id="Fe2+vsFe3+Products3" type="text" placeholder="Products" />
+                    </td>
+                    <td>
+                        <input id="Fe2+vsFe3+Products4" type="text" placeholder="Products" />
+                        </sub>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- <td colspan="2">
+                        <input id="Fe2+vsFe3+Reactants1" type="text" />
+                    </td> -->
+                    <td>
+                        <input id="Fe2+vsFe3+Color3" type="text" placeholder="Color" />
+                    </td>
+                    <td>
+                        <input id="Fe2+vsFe3+Color4" type="text" placeholder="Color" />
+                        </sub>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                        <input id="Fe2+vsFe3+Reactants3" type="text" />
+                    </td>
+                    <td>
+                        <input id="Fe2+vsFe3+Products5" type="text" placeholder="Products" />
+                    </td>
+                    <td>
+                        <input id="Fe2+vsFe3+Products6" type="text" placeholder="Products" />
+                        </sub>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- <td colspan="2">
+                        <input id="Fe2+vsFe3+Reactants1" type="text" />
+                    </td> -->
+                    <td>
+                        <input id="Fe2+vsFe3+Color5" type="text" placeholder="Color" />
+                    </td>
+                    <td>
+                        <input id="Fe2+vsFe3+Color6" type="text" placeholder="Color" />
+                        </sub>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2">
+                        <input id="Fe2+vsFe3+Reactants4" type="text" />
+                    </td>
+                    <td>
+                        <input id="Fe2+vsFe3+Products7" type="text" placeholder="Products" />
+                    </td>
+                    <td>
+                        <input id="Fe2+vsFe3+Products8" type="text" placeholder="Products" />
+                        </sub>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- <td colspan="2">
+                        <input id="Fe2+vsFe3+Reactants1" type="text" />
+                    </td> -->
+                    <td>
+                        <input id="Fe2+vsFe3+Color7" type="text" placeholder="Color" />
+                    </td>
+                    <td>
+                        <input id="Fe2+vsFe3+Color8" type="text" placeholder="Color" />
+                        </sub>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Recognizing Pb<sup>2+</sup></h1>
+        <div class="reactionGroupDisplay">
+            <input id="Pb2+Reactants1" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="Pb2+Products1" class="productsDisplayError" type="text" />
+        </div>
+        <input id="Pb2+ProductsColor1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+        <div class="reactionGroupDisplay">
+            <input id="Pb2+Reactants2" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="Pb2+Products2" class="productsDisplayError" type="text" />
+        </div>
+        <input id="Pb2+ProductsColor2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+        <div class="reactionGroupDisplay">
+            <input id="Pb2+Reactants3" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="Pb2+Products3" class="productsDisplayError" type="text" />
+        </div>
+        <input id="Pb2+ProductsColor3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+        <div class="reactionGroupDisplay">
+            <input id="Pb2+Reactants4" class="productsDisplayError" type="text" style="text-align:right" />
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="Pb2+Products4" class="productsDisplayError" type="text" />
+        </div>
+        <input id="Pb2+ProductsColor4" type="text" class="productsDisplayError" style="width:300px;" placeholder="Color" />
+        <h2>Recognizing Pb(OH)<sub>2</sub> vs PbCl<sub>2</sub></h2>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>Pb(OH)<sub>2</sub></td>
+                    <td>PbCl<sub>2</sub></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="PbOH2vsPbCl2Reactants1" type="text" />
+                    </td>
+                    <td>
+                        <input id="PbOH2vsPbCl2Products1" type="text" placeholder="Solubility" />
+                    </td>
+                    <td>
+                        <input id="PbOH2vsPbCl2Products2" type="text" placeholder="Solubility" />
+                        </sub>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="PbOH2vsPbCl2Reactants2" type="text" />
+                    </td>
+                    <td>
+                        <input id="PbOH2vsPbCl2Products3" type="text" placeholder="Solubility"/>
+                    </td>
+                    <td>
+                        <input id="PbOH2vsPbCl2Products4" type="text" placeholder="Solubility"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Recognizing PbI<sub>2</sub> vs PbCrO<sub>4</sub>
+        </h2>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>PbI<sub>2</sub></td>
+                    <td>PbCrO<sub>4</sub></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="PbI2vsPbCrO4Reactants1" type="text" />
+                    </td>
+                    <td>
+                        <input id="PbI2vsPbCrO4Products1" type="text" placeholder="Solubility" />
+                    </td>
+                    <td>
+                        <input id="PbI2vsPbCrO4Products2" type="text" placeholder="Solubility" />
+                        </sub>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="PbI2vsPbCrO4Reactants2" type="text" />
+                    </td>
+                    <td>
+                        <input id="PbI2vsPbCrO4Products3" type="text" placeholder="Solubility" />
+                    </td>
+                    <td>
+                        <input id="PbI2vsPbCrO4Products4" type="text" placeholder="Solubility" />
+                        </sub>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Recognizing Al<sup>3+</sup> vs Zn<sup>2+</sup></h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>Al<sup>3+</sup></td>
+                    <td>Zn<sup>2+</sup></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        <input id="Al3+vsZn2+Reactants1" type="text" />
+                    </td>
+                    <td>
+                        <input id="Al3+vsZn2+Products1" type="text" placeholder="Products" />
+                    </td>
+                    <td>
+                        <input id="Al3+vsZn2+Products2" type="text" placeholder="Products" />
+                        </sub>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- <td colspan="2">
+                        <input id="Fe2+vsFe3+Reactants1" type="text" />
+                    </td> -->
+                    <td>
+                        <input id="Al3+vsZn2+Color1" type="text" placeholder="Color" />
+                    </td>
+                    <td>
+                        <input id="Al3+vsZn2+Color2" type="text" placeholder="Color" />
+                        </sub>
+                    </td>
+                </tr>
+        
+                <tr>
+                    <td rowspan="2">
+                        <input id="Al3+vsZn2+Reactants2" type="text" />
+                    </td>
+                    <td>
+                        <input id="Al3+vsZn2+Products3" type="text" placeholder="Products" />
+                    </td>
+                    <td>
+                        <input id="Al3+vsZn2+Products4" type="text" placeholder="Products" />
+                        </sub>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- <td colspan="2">
+                        <input id="Fe2+vsFe3+Reactants1" type="text" />
+                    </td> -->
+                    <td>
+                        <input id="Al3+vsZn2+Color3" type="text" placeholder="Solubility" />
+                    </td>
+                    <td>
+                        <input id="Al3+vsZn2+Color4" type="text" placeholder="Solubility" />
+                        </sub>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h1>Haylides With H2O</h1>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">BCl<sub>3</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O1" class="productsDisplayError" />
+        </div>
+
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">CCl<sub>4</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O2" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay"><kbd>(half)</kbd> SiCl<sub>4</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O3" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay"><kbd>(full)</kbd> SiCl<sub>4</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O4" class="productsDisplayError" />
+        </div>
+
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">NCl<sub>3</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O5" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay"><kbd>(half)</kbd> PCl<sub>5</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O6" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay"><kbd>(full)</kbd> PCl<sub>5</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O7" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">PCl<sub>3</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O8" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">AsCl<sub>3</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O9" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">SbCl<sub>3</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O10" class="productsDisplayError" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">BiCl<sub>3</sub><sub>(l)</sub> + H<sub>2</sub>O<sub>(l)</sub></div>
+            <div class="arrowDisplay">&rarr;</div>
+            <input id="haylideH2O11" class="productsDisplayError" />
+        </div>
+        <p>Only haylide which produces an acid and a base</p>
+        <input id="haylide1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Formula" />
+        <p>Two haylides which produce precipitations</p>
+        <input id="haylide2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Formula" />
+        <input id="haylide3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Formula" />
+
+</body>
+
+</html>

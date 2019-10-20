@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inorganic Reactions (d Block)</title>
+    <style>
+        * {
+            font-family: 'Trebuchet MS';
+            color: white;
+        }
+
+        h1 {
+            color:yellow;
+        }
+
+        h2, h2>sub {
+            color:rgb(180, 100, 175);
+        }
+
+        .table {
+            border: 1px solid white;
+            width: 100%;
+            border-spacing: 19px;
+        }
+
+        table.table>tbody>tr>td>input {
+            display: inline-block;
+            border: solid;
+            margin-left: 20px;
+            width: 140px;
+            font-size: 200%;
+            text-align: center;
+            background-color: black;
+        }
+
+        table.table>tbody>tr>th {
+            text-align: right;
+        }
+
+        table.table>tbody>tr>td {
+            text-align: center;
+        }
+
+        .reactionGroupDisplay {
+            display: inline-block;
+            padding: 0;
+            margin-top: 70px;
+        }
+
+        .reactantsDisplay {
+            display: inline-block;
+            width: 250px;
+            font-size: 200%;
+            text-align: right;
+            margin-left: 50px;
+        }
+
+        .productsDisplayError {
+            display: inline-block;
+            border: solid;
+            margin-left: 20px;
+            width: 450px;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+        }
+
+        .productsDisplaySuccess {
+            display: inline-block;
+            border: none !important;
+            margin-left: 20px;
+            width: 450px;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+            color: yellow;
+        }
+
+        .arrowDisplay {
+            display:block;
+            font-size: 200%;
+            margin-left: 20px;
+            text-align:center;
+        }
+
+        .yeildsArrowGroup {
+            display: inline-block;
+            width: 300px;
+            margin-left: 20px;
+        }
+
+        .yeildsDisplay {
+            font-size: 120%;
+            text-align: center;
+        }
+
+        kbd,
+        kbd>sup,
+        kbd>sub {
+            color: yellow;
+        }
+        
+        .container{
+            display:inline-block;
+            width:200px;
+        }
+    </style>
+    <script>
+    var inputIdList =  [
+        //Physical Arributes
+        "physicalAttribue1",
+        "physicalAttribue2",
+        "physicalAttribue3",
+        "physicalAttribue4",
+        "physicalAttribue5",
+        "physicalAttribue6",
+        //Metals as Catalysts
+        "catalystMetal1",
+        "catalystFormula1",
+        "catalystReaction1",
+        "catalystMetal2",
+        "catalystFormula2",
+        "catalystReaction2",
+        "catalystMetal3",
+        "catalystFormula3",
+        "catalystReaction3",
+        "catalystMetal4",
+        "catalystFormula4",
+        "catalystReaction4",
+        "catalystMetal5",
+        "catalystFormula5",
+        "catalystReaction5",
+        "catalystMetal6",
+        "catalystFormula6",
+        "catalystReaction6",
+        //Oxidation States
+        "oxidationSc1",
+        "oxidationTi1",
+        "oxidationV1",
+        "oxidationCr1",
+        "oxidationMn1",
+        "oxidationFe1",
+        "oxidationCo1",
+        "oxidationNi1",
+        "oxidationCu1",
+        "oxidationZn1",
+
+        "oxidationSc2",
+        "oxidationTi2",
+        "oxidationV2",
+        "oxidationCr2",
+        "oxidationMn2",
+        "oxidationFe2",
+        "oxidationCo2",
+        "oxidationNi2",
+        "oxidationCu2",
+        "oxidationZn2",
+
+        "oxidationSc3",
+        "oxidationTi3",
+        "oxidationV3",
+        "oxidationCr3",
+        "oxidationMn3",
+        "oxidationFe3",
+        "oxidationCo3",
+        "oxidationNi3",
+        "oxidationCu3",
+        "oxidationZn3",
+
+        "oxidationSc4",
+        "oxidationTi4",
+        "oxidationV4",
+        "oxidationCr4",
+        "oxidationMn4",
+        "oxidationFe4",
+        "oxidationCo4",
+        "oxidationNi4",
+        "oxidationCu4",
+        "oxidationZn4",
+
+        "oxidationSc5",
+        "oxidationTi5",
+        "oxidationV5",
+        "oxidationCr5",
+        "oxidationMn5",
+        "oxidationFe5",
+        "oxidationCo5",
+        "oxidationNi5",
+        "oxidationCu5",
+        "oxidationZn5",
+
+        "oxidationSc6",
+        "oxidationTi6",
+        "oxidationV6",
+        "oxidationCr6",
+        "oxidationMn6",
+        "oxidationFe6",
+        "oxidationCo6",
+        "oxidationNi6",
+        "oxidationCu6",
+        "oxidationZn6",
+
+        "oxidationSc7",
+        "oxidationTi7",
+        "oxidationV7",
+        "oxidationCr7",
+        "oxidationMn7",
+        "oxidationFe7",
+        "oxidationCo7",
+        "oxidationNi7",
+        "oxidationCu7",
+        "oxidationZn7",
+        //Oxides of V
+        "oxide2+V",
+        "oxide3+V",
+        "oxide4+V",
+        "oxide5+V",
+        "oxide6+V",
+        "oxide7+V",
+        //Ocide States of V
+        "oxideState2+V",
+        "oxideState3+V",
+        "oxideState4+V",
+        "oxideState5+V",
+        "oxideState6+V",
+        "oxideState7+V",
+        //Oxides of Cr
+        "oxide2+Cr",
+        "oxide3+Cr",
+        "oxide4+Cr",
+        "oxide5+Cr",
+        "oxide6+Cr",
+        "oxide7+Cr",
+        //Ocide States of Cr
+        "oxideState2+Cr",
+        "oxideState3+Cr",
+        "oxideState4+Cr",
+        "oxideState5+Cr",
+        "oxideState6+Cr",
+        "oxideState7+Cr",
+        //Oxides of Mn
+        "oxide2+Mn",
+        "oxide3+Mn",
+        "oxide4+Mn",
+        "oxide5+Mn",
+        "oxide6+Mn",
+        "oxide7+Mn",
+        //Ocide States of Mn
+        "oxideState2+Mn",
+        "oxideState3+Mn",
+        "oxideState4+Mn",
+        "oxideState5+Mn",
+        "oxideState6+Mn",
+        "oxideState7+Mn",
+        //Cromium
+        "Cr1",
+        "CrColor1",
+        "Cr2",
+        "CrColor2",
+        "Cr3",
+        "CrColor3",
+        "Cr4",
+        "CrColor4",
+        "Cr5",
+        "CrColor5",
+        "Cr6",
+        "CrColor6",
+        "Cr7",
+        "CrColor7",
+        "Cr8",
+        "CrColor8",
+        "Cr9",
+        "CrColor9",
+        "Cr10",
+        "CrColor10",
+        "Cr11",
+        "CrColor11",
+        "Cr12",
+        "CrColor12",
+        "Cr13",
+        "CrColor13",
+        "Cr14",
+        "CrColor14",
+        //Iron
+        "Fe1",
+        "FeColor1",
+        "Fe2",
+        "FeColor2",
+        "Fe3",
+        "FeColor3",
+        "Fe4",
+        "FeColor4",
+        "Fe5",
+        "FeColor5",
+        "Fe6",
+        "FeColor6",
+        "Fe7",
+        "FeColor7",
+        "Fe8",
+        "FeColor8",
+        "Fe9",
+        "FeColor9",
+        "Fe10",
+        "FeColor10",
+        "Fe11",
+        "FeColor11",
+        "Fe12",
+        "FeColor12",
+        "Fe13",
+        "FeColor13",
+        "Fe14",
+        "FeColor14",
+        //Copper
+        "Cu1",
+        "CuColor1",
+        "Cu2",
+        "CuColor2",
+        "Cu3",
+        "CuColor3",
+        "Cu4",
+        "CuColor4",
+        "Cu5",
+        "CuColor5",
+        "Cu6",
+        "CuColor6",
+        "Cu7",
+        "CuColor7",
+        "Cu8",
+        "CuColor8",
+        "Cu9",
+        "CuColor9",
+        "Cu10",
+        "CuColor10",
+        "Cu11",
+        "CuColor11",
+        //Vanadium
+        "VOxidationState1",
+        "VOxidationState2",
+        "VOxoCataionFormula1",
+        "VOxoCataionFormula2",
+        "VOxoCataionColor1",
+        "VOxoCataionColor2",
+        //Geometry of Complexes
+        "complexGeometry1",
+        "complexGeometry2",
+        "complexGeometry3",
+        "complexGeometry4",
+        "complexGeometry5",
+    ]
+
+    var productsList = [
+        //Physical Arributes
+        "V",
+        "Zn",
+        "Cu",
+        "Mn",
+        "Cu",
+        "Sc",
+        //Metals as Catalysts
+        "Ti",
+        "TiCl3",
+        "n(CH2=CH2) > (-CH2-CH2-)n",
+        "V",
+        "V2O5",
+        "SO2 + O2 <> SO3",
+        "Fe",
+        "Fe2O3",
+        "N2 + H2 <> NH3",
+        "Ni",
+        "Ni + H2",
+        "R-CH=CH2 > R-CH2-CH3",
+        "Cu",
+        "CuCl + HCl",
+        "Benzene-N2Cl > Benzene-Cl",
+        "Pt",
+        "Pt + Rh",
+        "NH3 + O2 > NO + H2O",
+        //Oxidation States
+        "//",
+        "//",
+        "//",
+        "+1",
+        "//",
+        "//",
+        "//",
+        "//",
+        "+1",
+        "//",
+
+        "//",
+        "+2",
+        "+2",
+        "+2",
+        "((+2))",
+        "((+2))",
+        "((+2))",
+        "((+2))",
+        "((+2))",
+        "((+2))",
+
+        "((+3))",
+        "((+3))",
+        "((+3))",
+        "((+3))",
+        "+3",
+        "((+3))",
+        "((+3))",
+        "+3",
+        "//",
+        "//",
+
+        "//",
+        "(+4)",
+        "+4",
+        "+4",
+        "(+4)",
+        "//",
+        "+4",
+        "//",
+        "//",
+        "//",
+
+        "//",
+        "//",
+        "(+5)",
+        "+5",
+        "+5",
+        "//",
+        "//",
+        "//",
+        "//",
+        "//",
+
+        "//",
+        "//",
+        "//",
+        "(+6)",
+        "+6",
+        "+6",
+        "//",
+        "//",
+        "//",
+        "//",
+
+        "//",
+        "//",
+        "//",
+        "//",
+        "(+7)",
+        "//",
+        "//",
+        "//",
+        "//",
+        "//",
+        //Oxides of V
+        "VO",
+        "V2O3",
+        "VO2",
+        "V2O5",
+        "//",
+        "//",
+        //Oxide States of V
+        "B",
+        "B",
+        "U",
+        "A",
+        "//",
+        "//",
+        //Oxides of Cr
+        "CrO",
+        "Cr2O3",
+        "CrO2",
+        "//",
+        "CrO3",
+        "//",
+        //Oxide States of Cr
+        "B",
+        "U",
+        "A",
+        "//",
+        "A",
+        "//",
+        //Oxides of Mn
+        "MnO",
+        "Mn2O3",
+        "MnO2",
+        "//",
+        "MnO3",
+        "Mn2O7",
+        //Oxide States of Mn
+        "B",
+        "B",
+        "U",
+        "//",
+        "A",
+        "A",
+        //Cromium
+        "Cr2+",
+        "Blue",
+        "Cr3+",
+        "Purple",
+        "[Cr(NH3)6]3+",
+        "Purple",
+        "Cr(OH)3",
+        "Green",
+        "[CrCl4]-",
+        "Blue Purple",
+        "[Cr(H2O)6]3+",
+        "Purple",
+        "CrO42-",
+        "Yellow",
+        "Cr2O3",
+        "Green",
+        "Cr2O72-",
+        "Orange",
+        "CrO42-",
+        "Yellow",
+        "[CrCl2(H2O)4]+",
+        "Green",
+        "[Cr(SO4)(H2O)5]+",
+        "Green",
+        "Cr2O3",
+        "Green",
+        "Cr2O3",
+        "Green",
+        //Iron
+        "Fe2+",
+        "Green",
+        "Fe3+",
+        "Yellow Brown",
+        "Fe(OH)2",
+        "Green",
+        "Fe(OH)3",
+        "Yellow Brown",
+        "Fe(OH)3",
+        "Yellow Brown",
+        "KFe[Fe(CN)6]",
+        "Blue",
+        "KFe[Fe(CN)6]",
+        "Blue",
+        "[Fe(SCN)n]m",
+        "Red",
+        "[Fe(H2O)6]3+",
+        "Yellow Brown",
+        "[FeCl4]-",
+        "Yellow Brown",
+        "[Fe(OH)(H2O)5]2+",
+        "Yellow Brown",
+        "[Fe(H2O)6]3+",
+        "Yellow Brown",
+        "Fe",
+        "//",
+        "Fe2O3",
+        "Black Brown",
+        //Copper
+        "Cu2+",
+        "Light Blue",
+        "Cu2O",
+        "Brick Red",
+        "CuI",
+        "White",
+        "Cu(OH)2",
+        "Light Blue",
+        "[CuCl4]2-",
+        "Yellow",
+        "[Cu(H2O)6]2+",
+        "Light Blue",
+        "[Cu(NH3)4]2+",
+        "Blue",
+        "[Cu(NH3)2]+",
+        "//",
+        "Cu",
+        "//",
+        "CuO",
+        "Black",
+        "[Cu(NH3)2]+",
+        "//",
+        //Vanadium
+        "+5",
+        "+4",
+        "VO2(+)",
+        "VO(2+)",
+        "Yellow",
+        "Blue",
+        //Geometry of Complexes
+        "AT",
+        "ST",
+        "ST",
+        "CT",
+        "R",
+    ]
+
+    var formattedProductsList = [
+        //Physical Arributes
+        "V",
+        "Zn",
+        "Cu",
+        "Mn",
+        "Cu",
+        "Sc",
+        //Metals as Catalysts
+        "Ti",
+        "TiCl\u2083",
+        "n(CH\u2082=CH\u2082) \u2192 (-CH\u2082-CH\u2082-)n",
+        "V",
+        "V\u2082O\u2085",
+        "SO\u2082 + O\u2082 \u21CC SO\u2083",
+        "Fe",
+        "Fe\u2082O\u2083",
+        "N\u2082 + H\u2082 \u21CC NH\u2083",
+        "Ni",
+        "Ni + H\u2082",
+        "R-CH=CH\u2082 \u2192 R-CH\u2082-CH\u2083",
+        "Cu",
+        "CuCl + HCl",
+        "\u232C-N\u2082Cl \u2192 \u232C-Cl",
+        "Pt",
+        "Pt + Rh",
+        "NH\u2082 + O\u2082 \u2192 NO + H\u2082O",
+        //Oxidation States
+        //+1
+        " ",
+        " ",
+        " ",
+        "+1",
+        " ",
+        " ",
+        " ",
+        " ",
+        "+1",
+        " ",
+        //+2
+        " ",
+        "+2",
+        "+2",
+        "+2",
+        "\u2777",
+        "\u2777",
+        "\u2777",
+        "\u2777",
+        "\u2777",
+        "\u2777",
+        //+3
+        "\u2778",
+        "\u2778",
+        "\u2778",
+        "\u2778",
+        "+3",
+        "\u2778",
+        "\u2778",
+        "+3",
+        " ",
+        " ",
+        //+4
+        " ",
+        "\u2463",
+        "+4",
+        "+4",
+        "\u2463",
+        " ",
+        "+4",
+        " ",
+        " ",
+        " ",
+        //+5
+        " ",
+        " ",
+        "\u2464",
+        "+5",
+        "+5",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        //+6
+        " ",
+        " ",
+        " ",
+        "\u2465",
+        "+6",
+        "+6",
+        " ",
+        " ",
+        " ",
+        " ",
+        //+7
+        " ",
+        " ",
+        " ",
+        " ",
+        "\u2466",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        //Oxides of V
+        "VO",
+        "V\u2082O\u2083",
+        "VO\u2082",
+        "V\u2082O\u2085",
+        "//",
+        "//",
+        //Oxide States of V
+        "B",
+        "B",
+        "U",
+        "A",
+        "//",
+        "//",
+        //Oxides of Cr
+        "CrO",
+        "Cr\u2082O\u2083",
+        "CrO\u2082",
+        "//",
+        "CrO\u2083",
+        "//",
+        //Oxide States of Cr
+        "B",
+        "U",
+        "A",
+        "//",
+        "A",
+        "//",
+        //Oxides of Mn
+        "MnO",
+        "Mn\u2082O\u2083",
+        "MnO\u2082",
+        "//",
+        "MnO\u2083",
+        "Mn\u2082O\u2087",
+        //Oxide States of Mn
+        "B",
+        "B",
+        "U",
+        "//",
+        "A",
+        "A",
+        //Cromium
+        "Cr\u00B2\u207A",
+        "Blue",
+        "Cr\u00B3\u207A",
+        "Purple",
+        "[Cr(NH\u2083)\u2086]\u00B3\u207A",
+        "Purple",
+        "Cr(OH)\u2083",
+        "Green",
+        "[CrCl\u2084]\u207B",
+        "Blue Purple",
+        "[Cr(H\u2082O)\u2086]\u00B3\u207A",
+        "Purple",
+        "CrO\u2084\u00B2\u207B",
+        "Yellow",
+        "Cr\u2082O\u2083",
+        "Green",
+        "Cr\u2082O\u2087\u00B2\u207B",
+        "Orange",
+        "CrO\u2084\u00B2\u207B",
+        "Yellow",
+        "[CrCl\u2082(H\u2082O)\u2084]\u207B",
+        "Green",
+        "[Cr(SO\u2084)(H\u2082O)\u2085]\u207A",
+        "Green",
+        "Cr\u2082O\u2083",
+        "Green",
+        "Cr\u2082O\u2083",
+        "Green",
+        //Iron
+        "Fe\u00B2\u207A",
+        "Green",
+        "Fe\u00B3\u207A",
+        "Yellow Brown",
+        "Fe(OH)\u2082",
+        "Green",
+        "Fe(OH)\u2083",
+        "Yellow Brown",
+        "Fe(OH)\u2083",
+        "Yellow Brown",
+        "KFe[Fe(CN)\u2086]",
+        "Blue",
+        "KFe[Fe(CN)\u2086]",
+        "Blue",
+        "[Fe(SCN)\u207F]m",
+        "Red",
+        "[Fe(H\u2082O)6]\u00B3\u207A",
+        "Yellow Brown",
+        "[FeCl\u2083]\u207B",
+        "Yellow Brown",
+        "[Fe(OH)(H\u2082O)\u2085]\u00B2\u207A",
+        "Yellow  Brown",
+        "[Fe(H\u2082O)\u2086]\u00B3\u207A",
+        "Yellow Brown",
+        "Fe",
+        " ",
+        "Fe\u2082O\u2083",
+        "Black Brown",
+        //Copper
+        "Cu\u00B2\u207A",
+        "Light Blue",
+        "Cu\u2082O",
+        "Brick Red",
+        "CuI",
+        "White",
+        "Cu(OH)\u2082",
+        "Light Blue",
+        "[CuCl\u2084]\u00B2\u207B",
+        "Yellow",
+        "[Cu(H\u2082O)6]\u00B2\u207A",
+        "Light Blue",
+        "[Cu(NH\u2083)\u2084]\u00B2\u207A",
+        "Blue",
+        "[Cu(NH\u2083)\u2082]\u207A",
+        " ",
+        "Cu",
+        " ",
+        "CuO",
+        "Black",
+        "[Cu(NH\u2083)\u2082]\u207A",
+        " ",
+        //Vanadium
+        "+5",
+        "+4",
+        "VO\u2082\u207A",
+        "VO\u00B2\u207A",
+        "Yellow",
+        "Blue",
+        //Geometry of Complexes
+        "AT",
+        "ST",
+        "ST",
+        "CT",
+        "R",
+    ]
+
+    function checkAnswers() {
+        for (var inputIdListIndex = 0; inputIdListIndex < inputIdList.length; inputIdListIndex ++) {
+            var inputId = inputIdList[inputIdListIndex];
+            var input = document.getElementById(inputId);
+            var answer = productsList[inputIdListIndex];
+            if (input.value == answer || input.value == formattedProductsList[inputIdListIndex]) {
+                input.classList.remove("productsDisplayError");
+                input.classList.add("productsDisplaySuccess");
+                input.value = formattedProductsList[inputIdListIndex];
+            } else {
+                input.classList.remove("productsDisplaySuccess");
+                input.classList.add("productsDisplayError");
+            }
+        }
+    }
+    </script>
+</head>
+
+<body onload="intialize()" style="background-color:black;">
+    <div style="position:fixed;top:0;left:0;width:100%;background-color:yellow;height:140px;">
+        <div style="display:inline-block;margin-left:270px;margin-top:20px;">
+            <div style="margin-bottom:20px;float:right;font-size:300%;color:black;">Inorganic Reactions (d Block)</div>
+            <br/>
+            <div style="float:right;font-size:100%;color:gray;margin-left:20px;">&copy; Nirmal Diaz</div>
+            <div style="float:right;font-size:100%;color:black;margin-left:20px;" onclick="intialize()">Randomize</div>
+            <div style="float:right;font-size:100%;color:black;" onclick="checkAnswers(31)">Validate Answers</div>
+        </div>
+    </div>
+    <p style="height:150px;"></p>
+    <div id="body">
+        <h1>Physical Attributes of 'd' Block</h1>
+        <div class="container"><p>Element with the <br/><kbd>Highest Melting Point</kbd><br/> ?</p>
+        <input id="physicalAttribue1" class="productsDisplayError" style="width:140px;margin-left:0;" type="text"/></div>
+        <div class="container"><p>Element with the <br/><kbd>Lowest Melting Point</kbd><br/> ?</p>
+        <input id="physicalAttribue2" class="productsDisplayError" style="width:140px;margin-left:0;" type="text"/></div>
+        <div class="container"><p>Element with the <br/><kbd>Highest Electrical/Heat Conductivity</kbd> ?</p>
+        <input id="physicalAttribue3" class="productsDisplayError" style="width:140px;margin-left:0;" type="text"/></div>
+        <div class="container"><p>Element with the <br/><kbd>Lowest Electrical/Heat Conductivity</kbd> ?</p>
+        <input id="physicalAttribue4" class="productsDisplayError" style="width:140px;margin-left:0;" type="text"/></div>
+        <div class="container"><p>Element with the <br/><kbd>Highest Density</kbd><br/> ?</p>
+        <input id="physicalAttribue5" class="productsDisplayError" style="width:140px;margin-left:0;" type="text"/></div>
+        <div class="container" ><p>Element with the <br/><kbd>Lowest Density</kbd><br/> ?</p>
+        <input id="physicalAttribue6" class="productsDisplayError" style="width:140px;margin-left:0;" type="text"/></div>
+
+        <h1 style="clear:left;">Metals of 'd' Block as Catalysts</h1>
+        <table class="table" style="width:auto;">
+            <tbody>
+                <tr>
+                    <td>Metal</td>
+                    <td>Chemical Formula of Catalyst</td>
+                    <td>Reaction</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="catalystMetal1" type="text" />
+                    </td>
+                    <td>
+                        <input id="catalystFormula1" type="text" style="width:170px;"/>
+                    </td>
+                    <td>
+                        <input id="catalystReaction1" style="width:600px;text-align:left;" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="catalystMetal2" type="text" />
+                    </td>
+                    <td>
+                        <input id="catalystFormula2" type="text" style="width:170px;"/>
+                    </td>
+                    <td>
+                        <input id="catalystReaction2" style="width:600px;text-align:left;" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="catalystMetal3" type="text" />
+                    </td>
+                    <td>
+                        <input id="catalystFormula3" type="text" style="width:170px;"/>
+                    </td>
+                    <td>
+                        <input id="catalystReaction3" style="width:600px;text-align:left;" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="catalystMetal4" type="text" />
+                    </td>
+                    <td>
+                        <input id="catalystFormula4" type="text" style="width:170px;"/>
+                    </td>
+                    <td>
+                        <input id="catalystReaction4" style="width:600px;text-align:left;" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="catalystMetal5" type="text" />
+                    </td>
+                    <td>
+                        <input id="catalystFormula5" type="text" style="width:170px;"/>
+                    </td>
+                    <td>
+                        <input id="catalystReaction5" style="width:600px;text-align:left;" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="catalystMetal6" type="text" />
+                    </td>
+                    <td>
+                        <input id="catalystFormula6" type="text" style="width:170px;"/>
+                    </td>
+                    <td>
+                        <input id="catalystReaction6" style="width:600px;text-align:left;" type="text" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h1>Oxidation States of 'd' Block</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Sc</td>
+                    <td>Ti</td>
+                    <td>V</td>
+                    <td>Cr</td>
+                    <td>Mn</td>
+                    <td>Fe</td>
+                    <td>Co</td>
+                    <td>Ni</td>
+                    <td>Cu</td>
+                    <td>Zn</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="oxidationSc1" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationTi1" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationV1" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCr1" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationMn1" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationFe1" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCo1" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationNi1" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCu1" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationZn1" style="width:100px;" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="oxidationSc2" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationTi2" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationV2" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCr2" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationMn2" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationFe2" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCo2" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationNi2" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCu2" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationZn2" style="width:100px;" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="oxidationSc3" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationTi3" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationV3" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCr3" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationMn3" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationFe3" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCo3" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationNi3" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCu3" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationZn3" style="width:100px;" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="oxidationSc4" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationTi4" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationV4" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCr4" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationMn4" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationFe4" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCo4" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationNi4" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCu4" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationZn4" style="width:100px;" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="oxidationSc5" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationTi5" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationV5" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCr5" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationMn5" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationFe5" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCo5" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationNi5" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCu5" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationZn5" style="width:100px;" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="oxidationSc6" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationTi6" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationV6" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCr6" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationMn6" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationFe6" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCo6" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationNi6" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCu6" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationZn6" style="width:100px;" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="oxidationSc7" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationTi7" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationV7" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCr7" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationMn7" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationFe7" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCo7" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationNi7" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationCu7" style="width:100px;" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxidationZn7" style="width:100px;" type="text" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Oxides of 'd' Bock</h1>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Element and Acidic/Basic State</td>
+                    <td>+2</td>
+                    <td>+3</td>
+                    <td>+4</td>
+                    <td>+5</td>
+                    <td>+6</td>
+                    <td>+7</td>
+                </tr>
+                <tr>
+                    <td>V</td>
+                    <td>
+                        <input id="oxide2+V" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide3+V" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide4+V" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide5+V" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide6+V" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide7+V" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Acidic/Basic State</td>
+                    <td>
+                        <input id="oxideState2+V" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState3+V" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState4+V" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState5+V" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState6+V" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState7+V" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Cr</td>
+                    <td>
+                        <input id="oxide2+Cr" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide3+Cr" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide4+Cr" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide5+Cr" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide6+Cr" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide7+Cr" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Acidic/Basic State</td>
+                    <td>
+                        <input id="oxideState2+Cr" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState3+Cr" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState4+Cr" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState5+Cr" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState6+Cr" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState7+Cr" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mn</td>
+                    <td>
+                        <input id="oxide2+Mn" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide3+Mn" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide4+Mn" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide5+Mn" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide6+Mn" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxide7+Mn" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Acidic/Basic State</td>
+                    <td>
+                        <input id="oxideState2+Mn" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState3+Mn" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState4+Mn" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState5+Mn" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState6+Mn" type="text" />
+                    </td>
+                    <td>
+                        <input id="oxideState7+Mn" type="text" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Cromium</h1>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cr</div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">H<sup>+</sup></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr1" class="productsDisplayError" type="text"/>
+            <input id="CrColor1" class="productsDisplayError" style="width:250px;" type="text"/>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cr<sup>2+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">O<sub>2</sub></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr2" class="productsDisplayError" type="text" />
+            <input id="CrColor2" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cr<sup>3+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">NH<sub>3</sub><sub>(l)</sub></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr3" class="productsDisplayError" type="text" />
+            <input id="CrColor3" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cr<sup>3+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">NH<sub>4</sub>OH</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr4" class="productsDisplayError" type="text" />
+            <input id="CrColor4" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cr<sup>3+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay"><kbd>(conc)</kbd> HCl</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr5" class="productsDisplayError" type="text" />
+            <input id="CrColor5" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cr<sup>3+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">H<sub>2</sub>O</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr6" class="productsDisplayError" type="text" />
+            <input id="CrColor6" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cr<sup>3+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">OH<sup>-</sup> + H<sub>2</sub>O<sub>2</sub<></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr7" class="productsDisplayError" type="text" />
+            <input id="CrColor7" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cr(OH)<sub>3</sub></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr8" class="productsDisplayError" type="text" />
+            <input id="CrColor8" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">CrO<sub>4</sub><sup>2-</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay"><kbd>(limited)</kbd> H<sup>+</sup></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr9" class="productsDisplayError" type="text" />
+            <input id="CrColor9" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">OH<sup>-</sup></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr10" class="productsDisplayError" type="text" />
+            <input id="CrColor10" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">[Cr(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay"><kbd>(dil)</kbd> HCl</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr11" class="productsDisplayError" type="text" />
+            <input id="CrColor11" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">[Cr(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay"><kbd>(dil)</kbd> H<sub>2</sub>SO<sub>4</sub></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr12" class="productsDisplayError" type="text" />
+            <input id="CrColor12" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">CrO<sub>3</sub></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr13" class="productsDisplayError" type="text" />
+            <input id="CrColor13" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">(NH<sub>4</sub>)<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cr14" class="productsDisplayError" type="text" />
+            <input id="CrColor14" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+
+        <h1>Iron</h1>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Fe</div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">H<sup>+</sup>
+                </div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe1" class="productsDisplayError" type="text" />
+            <input id="FeColor1" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Fe<sup>2+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">O<sub>2</sub>
+                </div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe2" class="productsDisplayError" type="text" />
+            <input id="FeColor2" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Fe<sup>2+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">NH<sub>4</sub>OH</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe3" class="productsDisplayError" type="text" />
+            <input id="FeColor3" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Fe<sup>3+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">NH<sub>4</sub>OH</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe4" class="productsDisplayError" type="text" />
+            <input id="FeColor4" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Fe(OH)<sub>2</sub></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">O<sub>2</sub></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe5" class="productsDisplayError" type="text" />
+            <input id="FeColor5" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Fe<sup>2+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">K<sub>3</sub>[Fe(CN)<sub>6</sub>]</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe6" class="productsDisplayError" type="text" />
+            <input id="FeColor6" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Fe<sup>3+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">K<sub>4</sub>[Fe(CN)<sub>6</sub>]</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe7" class="productsDisplayError" type="text" />
+            <input id="FeColor7" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Fe<sup>3+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">SCN<sup>-</sup></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe8" class="productsDisplayError" type="text" />
+            <input id="FeColor8" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Fe<sup>3+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">H<sub>2</sub>O</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe9" class="productsDisplayError" type="text" />
+            <input id="FeColor9" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Fe<sup>3+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">Cl<sup>-</sup></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe10" class="productsDisplayError" type="text" />
+            <input id="FeColor10" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">[Fe(H<sub>2</sub>O)<sub>6</sub>]<sup>3+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">OH<sup>-</sup></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe11" class="productsDisplayError" type="text" />
+            <input id="FeColor11" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">[Fe(OH)(H<sub>2</sub>O)<sub>5</sub>]<sup>2+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">H<sup>+</sup></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe12" class="productsDisplayError" type="text" />
+            <input id="FeColor12" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Fe<sub>2</sub>O<sub>3</sub></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">CO &Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe13" class="productsDisplayError" type="text" />
+            <input id="FeColor13" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Fe(OH)<sub>3</sub></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Fe14" class="productsDisplayError" type="text" />
+            <input id="FeColor14" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+
+        <h1>Copper</h1>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cu</div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">HNO<sub>3</sub></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cu1" class="productsDisplayError" type="text" />
+            <input id="CuColor1" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cu<sup>2+</sup>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">R-CHO</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cu2" class="productsDisplayError" type="text" />
+            <input id="CuColor2" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cu<sup>2+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">KI</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cu3" class="productsDisplayError" type="text" />
+            <input id="CuColor3" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cu<sup>2+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">NH<sub>4</sub>OH</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cu4" class="productsDisplayError" type="text" />
+            <input id="CuColor4" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cu<sup>2+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">Cl<sup>-</sup></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cu5" class="productsDisplayError" type="text" />
+            <input id="CuColor5" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cu<sup>2+</sup>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">H<sub>2</sub>O</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cu6" class="productsDisplayError" type="text" />
+            <input id="CuColor6" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cu<sup>2+</sup></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">NH<sub>3</sub><sub>(l)</sub></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cu7" class="productsDisplayError" type="text" />
+            <input id="CuColor7" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cu<sub>2</sub>O</div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">NH<sub>3</sub><sub>(l)</sub></div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cu8" class="productsDisplayError" type="text" />
+            <input id="CuColor8" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">CuO</div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cu9" class="productsDisplayError" type="text" />
+            <input id="CuColor9" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">Cu(OH)<sub>2</sub></div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">&Delta;</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cu10" class="productsDisplayError" type="text" />
+            <input id="CuColor10" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="reactantsDisplay">[Cu(NH<sub>3</sub>)<sub>4</sub>]<sup>2+</sup>
+            </div>
+            <div class="yeildsArrowGroup">
+                <div class="yeildsDisplay">Cu</div>
+                <div class="arrowDisplay" style="margin-left:0;">--------------&rarr;</div>
+            </div>
+            <input id="Cu11" class="productsDisplayError" type="text" />
+            <input id="CuColor11" class="productsDisplayError" style="width:250px;" type="text" />
+        </div>
+        
+        <h1>Vanadium</h1>
+        <table class="table" style="width:auto;">
+            <tbody>
+                <tr>
+                    <td>Oxidation State</td>
+                    <td><input id="VOxidationState1" type="text"></td>
+                    <td><input id="VOxidationState2" type="text"></td>
+                </tr>
+                <tr>
+                    <td>Oxo Cation Formula</td>
+                    <td>
+                        <input id="VOxoCataionFormula1" type="text">
+                    </td>
+                    <td>
+                        <input id="VOxoCataionFormula2" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Color of the Oxo Cataion</td>
+                    <td>
+                        <input id="VOxoCataionColor1" type="text">
+                    </td>
+                    <td>
+                        <input id="VOxoCataionColor2" type="text">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Geometry of Complexes</h1>
+        <table class="table" style="width:auto;">
+            <tbody>
+                <tr>
+                    <td>[Cu(H<sub>2</sub>O)<sub>6</sub>]<sup>2+</sup></td>
+                    <td>
+                        <input id="complexGeometry1" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <td>[Cu(NH<sub>3</sub>)<sub>4</sub>]<sup>2+</sup></td>
+                    <td>
+                        <input id="complexGeometry2" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <td>[Ni(CN)<sub>4</sub>]<sup>2-</sup></td>
+                    <td>
+                        <input id="complexGeometry3" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <td>[CuCl<sub>4</sub>]<sup>2-</sup></td>
+                    <td>
+                        <input id="complexGeometry4" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <td>[Fe(SCN)<sub>2</sub>]<sup>+</sup>
+                    </td>
+                    <td>
+                        <input id="complexGeometry5" type="text">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

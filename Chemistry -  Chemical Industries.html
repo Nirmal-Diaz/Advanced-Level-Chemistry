@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chemical Industries</title>
+    <style>
+        * {
+            font-family: 'Trebuchet MS';
+            color: white;
+            /* border:solid; */
+        }
+
+        h1, h1>sub {
+            color:rgb(255, 73, 73);
+        }
+
+        h2, h2>sub {
+            color:lightsalmon;
+        }
+
+        .table {
+            border: 1px solid white;
+            width: 100%;
+            border-spacing: 19px;
+        }
+
+        table.table>tbody>tr>td>input {
+            display: inline-block;
+            border: solid;
+            margin-left: 20px;
+            width: 140px;
+            font-size: 200%;
+            text-align: center;
+            background-color: black;
+        }
+
+        table.table>tbody>tr>th {
+            text-align: right;
+        }
+
+        table.table>tbody>tr>td {
+            text-align: center;
+        }
+
+        .inputGroup{
+            display:inline-block;
+            box-sizing:border-box;
+        }
+
+        .reactionGroupDisplay {
+            margin-top:20px;
+            display: inline-block;
+            padding: 0;
+        }
+
+        .reactantsDisplay {
+            display: inline-block;
+            width: 400px;
+            font-size: 200%;
+            text-align: right;
+            margin-left: 50px;
+        }
+
+        .productsDisplayError {
+            display: inline-block;
+            border: solid;
+            margin-left: 20px;
+            width: 500px;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+        }
+
+        .productsDisplaySuccess {
+            display: inline-block;
+            border: none !important;
+            margin-left: 20px;
+            width: 500px;
+            font-size: 200%;
+            text-align: left;
+            background-color: black;
+            color: rgb(255, 73, 73);
+        }
+
+        /* .arrowDisplay {
+            display: inline-block;
+            font-size: 200%;
+            margin-left: 20px;
+        }
+
+        .yeildsArrowGroup {
+            display: inline-block;
+            width: 25px;
+            margin-left: 20px;
+        }
+
+        .yeildsDisplay {
+            font-size: 120%;
+            text-align: center;
+        } */
+
+        .arrowDisplay {
+            font-size: 200%;
+            text-align: center;
+        }
+
+        .yeildsArrowGroup {
+            display: inline-block;
+            width: 400px;
+        }
+
+        .yeildsDisplayError {
+            margin:0;
+            font-size: 120%;
+            text-align: center;
+            border:solid;
+            height:22px;
+            width:100%;
+            background-color: black;
+        }
+
+        .yeildsDisplaySuccess {
+            margin:0;
+            font-size: 120%;
+            text-align: center;
+            border:none;
+            color:rgb(255, 73, 73);
+            height:22px;
+            width:100%;
+            background-color: black;
+        }
+
+        kbd,
+        kbd>sup,
+        kbd>sub {
+            color: rgb(255, 73, 73);
+        }
+    </style>
+    <script>
+        var inputIdList = [
+            //Na Extracion
+            "NaMaterials1",
+            "NaMaterials2",
+            "NaAnode1",
+            "NaCathode1",
+            "NaReactants1",
+            "NaYeildsTop1",
+            "NaYeildsBottom1",
+            "NaProducts1",
+            "NaReactants2",
+            "NaYeildsTop2",
+            "NaYeildsBottom2",
+            "NaProducts2",
+            "NaFProducts1",
+            "NaFProducts2",
+            //Salt Production
+            "NaClSalts1",
+            "NaClSalts2",
+            "NaClSalts3",
+            "NaClSalts4",
+            "NaClSalts5",
+            "NaClSalts6",
+            "NaClSalts7",
+            "NaClMaterials1",
+            "NaClPrecipitation1",
+            "NaClPrecipitation2",
+            "NaClPrecipitation3",
+            "NaClBitternIon1",
+            "NaClBitternIon2",
+            "NaClBitternIon3",
+            "NaClTableSalt1",
+            "NaClTableSalt2",
+            "NaClFProducts1",
+            "NaClFProducts2",
+            "NaClFProducts3",
+            //Caustic Soda
+            "NaOHBrinReactants1",
+            "NaOHBrinYeildsTop1",
+            "NaOHBrinYeildsBottom1",
+            "NaOHBrinProducts1",
+            "NaOHBrinReactants2",
+            "NaOHBrinYeildsTop2",
+            "NaOHBrinYeildsBottom2",
+            "NaOHBrinProducts2",
+            "NaOHBrinReactants3",
+            "NaOHBrinYeildsTop3",
+            "NaOHBrinYeildsBottom3",
+            "NaOHBrinProducts3",
+            "NaOHMaterials1",
+            "NaOHAnode1",
+            "NaOHCathode1",
+            "NaOHReactants1",
+            "NaOHYeildsTop1",
+            "NaOHYeildsBottom1",
+            "NaOHProducts1",
+            "NaOHReactants2",
+            "NaOHYeildsTop2",
+            "NaOHYeildsBottom2",
+            "NaOHProducts2",
+            "NaOHFProducts1",
+            "NaOHFProducts2",
+            "NaOHFProducts3",
+            //Soap Production
+            "soapMaterialsType1",
+            "soapMaterials1",
+            "soapMaterials2",
+            "soapMaterialsType2",
+            "soapMaterials3",
+            "soapMaterials4",
+            "soapStep1",
+            "soapStep2",
+            "soapStep3",
+            "soapStep4",
+            "soapReactants1",
+            "soapYeildsTop1",
+            "soapYeildsBottom1",
+            "soapProducts1",
+            "soapClensing1",
+            "soapCondensing1",
+            "soapFProducts1",
+            "soapFProducts2",
+            "soapTFM1",
+            //Na2CO3
+            "Na2CO3Materials1",
+            "Na2CO3Materials2",
+            "Na2CO3Materials3",
+            "Na2CO3Reactants1",
+            "Na2CO3YeildsTop1",
+            "Na2CO3YeildsBottom1",
+            "Na2CO3Products1",
+            "Na2CO3Reactants2",
+            "Na2CO3YeildsTop2",
+            "Na2CO3YeildsBottom2",
+            "Na2CO3Products2",
+            "Na2CO3Reactants3",
+            "Na2CO3YeildsTop3",
+            "Na2CO3YeildsBottom3",
+            "Na2CO3Products3",
+            "Na2CO3Reactants4",
+            "Na2CO3YeildsTop4",
+            "Na2CO3YeildsBottom4",
+            "Na2CO3Products4",
+            "Na2CO3Reactants5",
+            "Na2CO3YeildsTop5",
+            "Na2CO3YeildsBottom5",
+            "Na2CO3Products5",
+            "Na2CO3Reactants6",
+            "Na2CO3YeildsTop6",
+            "Na2CO3YeildsBottom6",
+            "Na2CO3Products6",
+            "Na2CO3Reactants7",
+            "Na2CO3YeildsTop7",
+            "Na2CO3YeildsBottom7",
+            "Na2CO3Products7",
+            "Na2CO3FProducts1",
+            "Na2CO3FProducts2",
+            "Na2CO3FProducts3",
+            //CaO
+            "CaOMaterials1",
+            "CaOReactants1",
+            "CaOYeildsTop1",
+            "CaOYeildsBottom1",
+            "CaOProducts1",
+            "CaOFProducts1",
+            "CaOFProducts2",
+            //CaC2
+            "CaC2Materials1",
+            "CaC2Materials2",
+            "CaC2Reactants1",
+            "CaC2YeildsTop1",
+            "CaC2YeildsBottom1",
+            "CaC2Products1",
+            "CaC2Reactants2",
+            "CaC2YeildsTop2",
+            "CaC2YeildsBottom2",
+            "CaC2Products2",
+            "CaC2Reactants3",
+            "CaC2YeildsTop3",
+            "CaC2YeildsBottom3",
+            "CaC2Products3",
+            "CaC2Reactants4",
+            "CaC2YeildsTop4",
+            "CaC2YeildsBottom4",
+            "CaC2Products4",
+            //Bleaching Powder
+            "bleachingMaterials1",
+            "bleachingMaterials2",
+            "bleachingReactants1",
+            "bleachingYeildsTop1",
+            "bleachingYeildsBottom1",
+            "bleachingProducts1",
+            "bleachingReactants2",
+            "bleachingYeildsTop2",
+            "bleachingYeildsBottom2",
+            "bleachingProducts2",
+            "bleachingReactants3",
+            "bleachingYeildsTop3",
+            "bleachingYeildsBottom3",
+            "bleachingProducts3",
+            "bleachingIngredient1",
+            "bleachingReactants4",
+            "bleachingYeildsTop4",
+            "bleachingYeildsBottom4",
+            "bleachingProducts4",
+            "bleachingReactants5",
+            "bleachingYeildsTop5",
+            "bleachingYeildsBottom5",
+            "bleachingProducts5",
+            //Posphate Production
+            "posphateMaterials1",
+            "posphateReactants1",
+            "posphateYeildsTop1",
+            "posphateYeildsBottom1",
+            "posphateProducts1",
+            "posphateReactants2",
+            "posphateYeildsTop2",
+            "posphateYeildsBottom2",
+            "posphateProducts2",
+            "posphateReactants3",
+            "posphateYeildsTop3",
+            "posphateYeildsBottom3",
+            "posphateProducts3",
+            "posphateReactants4",
+            "posphateYeildsTop4",
+            "posphateYeildsBottom4",
+            "posphateProducts4",
+            "posphateReactants5",
+            "posphateYeildsTop5",
+            "posphateYeildsBottom5",
+            "posphateProducts5",
+            "posphateIngredient1",
+            //Ammonia Production
+            "NH3Materials1",
+            "NH3Materials2",
+            "NH3Reactants1",
+            "NH3YeildsTop1",
+            "NH3YeildsBottom1",
+            "NH3Products1",
+            "NH3Reactants2",
+            "NH3YeildsTop2",
+            "NH3YeildsBottom2",
+            "NH3Products2",
+            "NH3Reactants3",
+            "NH3YeildsTop3",
+            "NH3YeildsBottom3",
+            "NH3Products3",
+            "NH3Reactants4",
+            "NH3YeildsTop4",
+            "NH3YeildsBottom4",
+            "NH3Products4",
+            "NH3Reactants5",
+            "NH3YeildsTop5",
+            "NH3YeildsBottom5",
+            "NH3Products5",
+            //Eurea
+            "eureaMaterials1",
+            "eureaMaterials2",
+            "eureaFormula1",
+            "eureaReactants1",
+            "eureaYeildsTop1",
+            "eureaYeildsBottom1",
+            "eureaProducts1",
+            "eureaReactants2",
+            "eureaYeildsTop2",
+            "eureaYeildsBottom2",
+            "eureaProducts2",
+            //HNO3
+            "HNO3Materials1",
+            "HNO3Materials2",
+            "HNO3Reactants1",
+            "HNO3YeildsTop1",
+            "HNO3YeildsBottom1",
+            "HNO3Products1",
+            "HNO3Reactants2",
+            "HNO3YeildsTop2",
+            "HNO3YeildsBottom2",
+            "HNO3Products2",
+            "HNO3Reactants3",
+            "HNO3YeildsTop3",
+            "HNO3YeildsBottom3",
+            "HNO3Products3",
+            "HNO3Condition1",
+            "HNO3Condition2",
+            "HNO3Condition3",
+            //Sulphuric
+            "H2SO4Materials1",
+            "H2SO4Materials2",
+            "H2SO4Reactants1",
+            "H2SO4YeildsTop1",
+            "H2SO4YeildsBottom1",
+            "H2SO4Products1",
+            "H2SO4Reactants2",
+            "H2SO4YeildsTop2",
+            "H2SO4YeildsBottom2",
+            "H2SO4Products2",
+            "H2SO4Reactants3",
+            "H2SO4YeildsTop3",
+            "H2SO4YeildsBottom3",
+            "H2SO4Products3",
+            "H2SO4Reactants4",
+            "H2SO4YeildsTop4",
+            "H2SO4YeildsBottom4",
+            "H2SO4Products4",
+            //Iron
+            "FeMaterials1",
+            "FeMaterials2",
+            "FeMaterials3",
+            "FeReactants1",
+            "FeYeildsTop1",
+            "FeYeildsBottom1",
+            "FeProducts1",
+            "FeReactants2",
+            "FeYeildsTop2",
+            "FeYeildsBottom2",
+            "FeProducts2",
+            "FeReactants3",
+            "FeYeildsTop3",
+            "FeYeildsBottom3",
+            "FeProducts3",
+            "FeReactants4",
+            "FeYeildsTop4",
+            "FeYeildsBottom4",
+            "FeProducts4",
+            "FeReactants5",
+            "FeYeildsTop5",
+            "FeYeildsBottom5",
+            "FeProducts5",
+            "FeReactants6",
+            "FeYeildsTop6",
+            "FeYeildsBottom6",
+            "FeProducts6",
+            "FeReactants7",
+            "FeYeildsTop7",
+            "FeYeildsBottom7",
+            "FeProducts7",
+            "FeReactants8",
+            "FeYeildsTop8",
+            "FeYeildsBottom8",
+            "FeProducts8",
+            "FeReactants9",
+            "FeYeildsTop9",
+            "FeYeildsBottom9",
+            "FeProducts9",
+            "FeGas1",
+            "FeGas2",
+            "FeGas3",
+            "FeElements1",
+            "FeElements2",
+            "FeElements3",
+            "FeElements4",
+            "FeElements5",
+            "steelElements1",
+            "steelElements2",
+            "steelElements3",
+            "steelElements4",
+        ]
+
+        var productsList = [
+            //Na Extracion
+            "NaCl(s)",
+            "CaCl2(s)",
+            "C (Graphite)",
+            "Fe (Steel)",
+            "2Cl-(l)",
+            "//",
+            "7V-8V, 25000A-40000A",
+            "Cl2(g) + 2e",
+            "Na+(l) + e",
+            "//",
+            "7V-8V, 25000A-40000A",
+            "Na(l)",
+            "Na(l)",
+            "Cl2(g)",
+            //Salt Production
+            "NaCl(aq)",
+            "MgCl2(aq)",
+            "MgSO4(aq)",
+            "CaSO4(aq)",
+            "KCl(aq)",
+            "CaCO3(aq)",
+            "MgBr2(aq)",
+            "Sea Water",
+            "CaCO3(s)",
+            "CaSO4(s)",
+            "NaCl(s)",
+            "Ca2+(aq)",
+            "Mg2+(aq)",
+            "SO42-(aq)",
+            "KI(s)",
+            "KIO3(s)",
+            "NaCl(s)",
+            "CaSO4(s)",
+            "Bittern Solution",
+            //Caustic Soda
+            "Ca2+(aq) + Na2CO3(aq)",
+            "//",
+            "//",
+            "CaCO3(s) + 2Na+(aq)",
+            "Mg2+(aq) + 2NaOH(aq)",
+            "//",
+            "//",
+            "Mg(OH)2(s) + 2Na+(aq)",
+            "SO42-(aq) + BaCl2(aq)",
+            "//",
+            "//",
+            "BaSO4(s) + 2Cl-(aq)",
+            "NaCl(aq)",
+            "Ti",
+            "Ni",
+            "2Cl-(aq)",
+            "//",
+            "//",
+            "Cl2(g) + 2e",
+            "2H+(aq) + 2e",
+            "//",
+            "//",
+            "H2(g)",
+            "NaOH(aq)",
+            "Cl2(g)",
+            "H2(g)",
+            //Soap Production
+            "Oil",
+            "Animal",
+            "Vegitable",
+            "Base",
+            "NaOH",
+            "KOH",
+            "Saphonization",
+            "Removing Glycerol",
+            "Clensing",
+            "Finishing",
+            "Oil + NaOH(aq)",
+            "//",
+            "^",
+            "3 R-CO-ONa(aq) + CH2OH-CH2OH-CH2OH",
+            "Citric Acid",
+            "NaCl(aq)",
+            "Soap",
+            "Glycerol",
+            "RCOONa",
+            //Na2CO3
+            "NaCl(aq)",
+            "NH3(g)",
+            "CaCO3(s)",
+            "H2O(l) + NH3(g)",
+            "//",
+            "35C ^",
+            "NH4+(aq) + OH-(aq)",
+            "CaCO3(s)",
+            "//",
+            "900C ^",
+            "CaO(s) + CO2(g)",
+            "OH-(aq) + CO2(g)",
+            "//",
+            "35C ^",
+            "HCO3-(aq)",
+            "2NaHCO3(s)",
+            "//",
+            "150C ^",
+            "Na2CO3(s) + CO2(g) + H2O(g)",
+            "2NaHCO3(s)",
+            "//",
+            "150C ^",
+            "Na2CO3(s) + CO2(g) + H2O(g)",
+            "CaO(s) + H2O(l)",
+            "//",
+            "//",
+            "Ca(OH)2(aq)",
+            "NH4Cl(aq) + Ca(OH)2(aq)",
+            "//",
+            "//",
+            "CaCl2(s) + NH3(g) + H2O(l)",
+            "Na2CO3(s)",
+            "NaHCO3(s)",
+            "CaCl2(s)",
+            //CaO
+            "CaCO3(s)",
+            "CaCO3(s)",
+            "//",
+            "900C ^",
+            "CaO(s) + CO2(g)",
+            "CaO(s)",
+            "CO2(g)",
+            //CaC2
+            "CaCO3(s)",
+            "C(s)",
+            "CaCO3(s)",
+            "//",
+            "900C ^",
+            "CaO(s) + CO2(g)",
+            "CaO(s) + 3C(s)",
+            "//",
+            "2000C ^, Electric Arc",
+            "CaC2(s) + CO(g)",
+            "2CaO(s) + 5C(s)",
+            "//",
+            "2000C ^, Electric Arc",
+            "2CaC2(s) + CO2(g)",
+            "CaC2(s) + 2H2O(l)",
+            "//",
+            "//",
+            "C2H2(g) + Ca(OH)2(aq)",
+            //Bleaching Powder
+            "CaCO3(s)",
+            "Cl2(g)",
+            "CaCO3(s)",
+            "//",
+            "900C ^",
+            "CaO(s) + CO2(s)",
+            "CaO(s) + H2O(l)",
+            "//",
+            "//",
+            "Ca(OH)2(s)",
+            "3Ca(OH)2(s) + 2Cl2(g)",
+            "//",
+            "//",
+            "Ca(OCl)2.CaCl2.Ca(OH)2.2H2O(s)",
+            "Ca(OCl)2(s)",
+            "OCl-(s) + H+(aq)",
+            "//",
+            "//",
+            "HOCl(aq)",
+            "HOCl(aq)",
+            "//",
+            "//",
+            "HCl(aq) + O(g)",
+            //Posphate Production
+            "3Ca3(PO4)2.CaX2(s)",
+            "3Ca3(PO4)2.CaX2(s) + (conc) 7H2SO4(l)",
+            "//",
+            "//",
+            "3Ca(H2PO4)2(s) + 7CaSO4(s) + 2HX(aq)",
+            "3Ca3(PO4)2.CaX2(s) + (conc) 14HCl(l)",
+            "//",
+            "//",
+            "3Ca(H2PO4)2(s) + 7CaCl2(s) + 2HX(aq)",
+            "CaCl2(s) + (NH4)2SO4(aq)",
+            "//",
+            "//",
+            "CaSO4(s) + 2NH4Cl(aq)",
+            "3Ca3(PO4)2.CaX2(s) + (conc) 7HNO3(l)",
+            "//",
+            "//",
+            "3Ca(H2PO4)2(s) + 7Ca(NO3)2(s) + 2HX(aq)",
+            "3Ca3(PO4)2.CaX2(s) + (conc) H3PO4(l)",
+            "//",
+            "//",
+            "working on it",
+            "Ca(H2PO4)2(s)",
+            //Ammonia Production
+            "N2(g)",
+            "H2(g)",
+            "C6H14(g) + 6H2O(g)",
+            "//",
+            "//",
+            "6CO(g) + 13H2(g)",
+            "CH4(g) + H2O(g)",
+            "//",
+            "//",
+            "CO(g) + 3H2(g)",
+            "C6H14(g) + 3O2(g)",
+            "//",
+            "//",
+            "6CO(g) + 7H2(g)",
+            "2CH4(g) + O2(g)",
+            "//",
+            "//",
+            "2CO(g) + 4H2(g)",
+            "N2(g) + 3H2(g)",
+            "Fe, K2O, Al2O3",
+            "450C ^, 250atm",
+            "2NH3(g)",
+            //Eurea
+            "NH3(l)",
+            "CO2(l)",
+            "NH2-CO-NH2(s)",
+            "2NH3(l) + CO2(l)",
+            "//",
+            "180C ^, 150atm",
+            "NH2-CO-ONH4(s)",
+            "NH2-CO-ONH4(s)",
+            "//",
+            "//",
+            "NH2-CO-NH2(aq) + H2O(l)",
+            //HNO3
+            "NH3(g)",
+            "O2(g)",
+            "4NH3(g) + 5O2(g)",
+            "Pt, 10%Rh",
+            "850C ^",
+            "4NO(g) + 6H2O(g)",
+            "2NO(g) + O2(g)",
+            "//",
+            "<150C ^",
+            "2NO2(g)",
+            "4NO2(g) + O2(g) + 2H2O(l)",
+            "//",
+            "//",
+            "4HNO3(l)",
+            "850C ^",
+            "1atm-9atm",
+            "Pt, 10%Rh",
+            //Sulphuric
+            "S(s)",
+            "O2(g)",
+            "S(s) + O2(g)",
+            "//",
+            "//",
+            "SO2(g)",
+            "2SO2(g) + O2(g)",
+            "V2O5",
+            "450C ^, 1atm",
+            "2SO3(g)",
+            "SO3(g) + (conc) H2SO4(l)",
+            "//",
+            "//",
+            "H2S2O7(l)",
+            "H2S2O7(l) + H2O(l)",
+            "//",
+            "//",
+            "2H2SO4(aq)",
+            //Iron
+            "Fe2O3(s)",
+            "C(s)",
+            "CaCO3(s)",
+            "3Fe2O3(s) + CO(g)",
+            "//",
+            "<1000C ^",
+            "2Fe3O4(s) + CO2(g)",
+            "Fe3O4(s) + CO(g)",
+            "//",
+            "<1000C ^",
+            "3FeO(s) + CO2(g)",
+            "FeO(s) + CO(g)",
+            "//",
+            "<1000C ^",
+            "Fe(l) + CO2(g)",
+            "CaCO3(s)",
+            "//",
+            "900C ^",
+            "CaO(s) + CO2(g)",
+            "O2(g) + C(s)",
+            "//",
+            ">1000C ^",
+            "CO2(g)",
+            "CO2(g) + C(s)",
+            "//",
+            ">1000C ^",
+            "2CO(g)",
+            "2FeO(s) + C(s)",
+            "//",
+            ">1000C ^",
+            "2Fe(l) + CO2(g)",
+            "CaO(s) + SiO2(s)",
+            "//",
+            ">1000C ^",
+            "CaSiO3(s)",
+            "CaO(s) + Al2O3(s)",
+            "//",
+            ">1000C ^",
+            "Ca(AlO2)2(s)",
+            "CO2(g)",
+            "CO(g)",
+            "N2(g)",
+            "C",
+            "P",
+            "S",
+            "Si",
+            "Mn",
+            "Fe",
+            "Ni",
+            "C",
+            "Cr",
+        ]
+
+        var formattedProductsList = [
+            //Na Extracion
+            "NaCl(s)",
+            "CaCl\u2082(s)",
+            "C (Graphite)",
+            "Fe (Steel)",
+            "2Cl\u207B(l)",
+            " ",
+            "7V-8V, 25000A-40000A",
+            "Cl\u2082(g) + 2e",
+            "Na\u207A(l) + e",
+            " ",
+            "7V-8V, 25000A-40000A",
+            "Na(l)",
+            "Na(l)",
+            "Cl\u2082(g)",
+            //Salt Production
+            "NaCl(aq)",
+            "MgCl\u2082(aq)",
+            "MgSO\u2084(aq)",
+            "CaSO\u2084(aq)",
+            "KCl(aq)",
+            "CaCO\u2083(aq)",
+            "MgBr\u2082(aq)",
+            "Sea Water",
+            "CaCO\u2083(s)",
+            "CaSO\u2084(s)",
+            "NaCl(s)",
+            "Ca\u00B2\u207A(aq)",
+            "Mg\u00B2\u207A(aq)",
+            "SO\u2084\u00B2\u207B(aq)",
+            "KI(s)",
+            "KIO\u2083(s)",
+            "NaCl(s)",
+            "CaSO\u2084(s)",
+            "Bittern Solution",
+            //Caustic Soda
+            "Ca\u00B2\u207A(aq) + Na\u2082CO\u2083(aq)",
+            " ",
+            " ",
+            "CaCO\u2083(s) + 2Na\u207A(aq)",
+            "Mg\u00B2\u207A(aq) + 2NaOH(aq)",
+            " ",
+            " ",
+            "Mg(OH)\u2082(s) + 2Na\u207A(aq)",
+            "SO\u2084\u00B2\u207B(aq) + BaCl\u2082(aq)",
+            " ",
+            " ",
+            "BaSO\u2084(s) + 2Cl\u207B(aq)",
+            "NaCl(aq)",
+            "Ti",
+            "Ni",
+            "2Cl\u207B(aq)",
+            " ",
+            " ",
+            "Cl\u2082(g) + 2e",
+            "2H\u207A(aq) + 2e",
+            " ",
+            " ",
+            "H\u2082(g)",
+            "NaOH(aq)",
+            "Cl\u2082(g)",
+            "H\u2082(g)",
+            //Soap Production
+            "Oil",
+            "Animal",
+            "Vegitable",
+            "Base",
+            "NaOH",
+            "KOH",
+            "Saphonization",
+            "Removing Glycerol",
+            "Clensing",
+            "Finishing",
+            "Oil + NaOH(aq)",
+            " ",
+            "\u0394",
+            "3 R-CO-ONa(aq) + CH\u2082OH-CH\u2082OH-CH\u2082OH",
+            "Citric Acid",
+            "NaCl(aq)",
+            "Soap",
+            "Glycerol",
+            "RCOO\u207BNa\u207A",
+            //Na2CO3
+            "NaCl(aq)",
+            "NH\u2083(g)",
+            "CaCO\u2083(s)",
+            "H\u2082O(l) + NH\u2083(g)",
+            " ",
+            "35C\u2103 \u0394",
+            "NH\u2084\u207A(aq) + OH\u207B(aq)",
+            "CaCO\u2083(s)",
+            " ",
+            "900\u2103 \u0394",
+            "CaO(s) + CO2(g)",
+            "OH\u207B(aq) + CO\u2082(g)",
+            " ",
+            "35\u2103 \u0394",
+            "HCO\u2083\u207B(aq)",
+            "2NaHCO\u2083(s)",
+            " ",
+            "150\u2103 \u0394",
+            "Na\u2082CO\u2083(s) + CO\u2082(g) + H\u2082O(g)",
+            "2NaHCO\u2083(s)",
+            " ",
+            "150\u2103 \u0394",
+            "Na\u2082CO\u2083(s) + CO\u2082(g) + H\u2082O(g)",
+            "CaO(s) + H\u2082O(l)",
+            " ",
+            " ",
+            "Ca(OH)\u2082(aq)",
+            "NH\u2084Cl(aq) + Ca(OH)\u2082(aq)",
+            " ",
+            " ",
+            "CaCl\u2082(s) + NH\u2083(g) + H\u2082O(l)",
+            "Na\u2082CO\u20833(s)",
+            "NaHCO\u2083(s)",
+            "CaCl\u2082(s)",
+            //CaO
+            "CaCO\u2083(s)",
+            "CaCO\u2083(s)",
+            " ",
+            "900\u2103 \u0394",
+            "CaO(s) + CO\u2082(g)",
+            "CaO(s)",
+            "CO\u2082(g)",
+            //CaC2
+            "CaCO\u2083(s)",
+            "C(s)",
+            "CaCO\u2083(s)",
+            " ",
+            "900\u2103 \u0394",
+            "CaO(s) + CO\u2082(g)",
+            "CaO(s) + 3C(s)",
+            " ",
+            "2000\u2103 \u0394, Electric Arc",
+            "CaC\u2082(s) + CO(g)",
+            "2CaO(s) + 5C(s)",
+            " ",
+            "2000\u2103 \u0394, Electric Arc",
+            "2CaC\u2082(s) + CO\u2082(g)",
+            "CaC\u2082(s) + 2H\u2082O(l)",
+            " ",
+            " ",
+            "CH\u2261CH(g) + Ca(OH)\u2082(aq)",
+            //Bleaching Powder
+            "CaCO\u2083(s)",
+            "Cl\u2082(g)",
+            "CaCO\u2083(s)",
+            " ",
+            "900\u2103 \u0394",
+            "CaO(s) + CO\u2082(s)",
+            "CaO(s) + H\u2082O(l)",
+            " ",
+            " ",
+            "Ca(OH)\u2082(s)",
+            "3Ca(OH)\u2082(s) + 2Cl\u2082(g)",
+            " ",
+            " ",
+            "Ca(OCl)\u2082.CaCl\u2082.Ca(OH)\u2082.2H\u2082O(s)",
+            "Ca(OCl)\u2082(s)",
+            "OCl\u207B(s) + H\u207A(aq)",
+            " ",
+            " ",
+            "HOCl(aq)",
+            "HOCl(aq)",
+            " ",
+            " ",
+            "HCl(aq) + O(g)",
+            //Posphate Production
+            "3Ca\u2083(PO\u2084)\u2082.CaX\u2082(s)",
+            "3Ca\u2083(PO\u2084)\u2082.CaX\u2082(s) + (conc) 7H\u2082SO\u2084(l)",
+            " ",
+            " ",
+            "3Ca(H\u2082PO\u2084)\u2082(s) + 7CaSO\u2084(s) + 2HX(aq)",
+            "3Ca\u2083(PO\u2084)\u2082.CaX\u2082(s) + (conc) 14HCl(l)",
+            " ",
+            " ",
+            "3Ca(H\u2082PO\u2084)\u2082(s) + 7CaCl\u2082(s) + 2HX(aq)",
+            "CaCl\u2082(s) + (NH\u2084)\u2082SO\u2084(aq)",
+            " ",
+            " ",
+            "CaSO\u2084(s) + 2NH\u2084Cl(aq)",
+            "3Ca\u2083(PO\u2084)\u2082.CaX\u2082(s) + (conc) 7HNO\u2083(l)",
+            " ",
+            " ",
+            "3Ca(H\u2082PO\u2084)\u2082(s) + 7Ca(NO\u2083)\u2082(s) + 2HX(aq)",
+            "3Ca\u2083(PO\u2084)\u2082.CaX\u2082(s) + (conc) H\u2083PO\u2084(l)",
+            " ",
+            " ",
+            "working on it",
+            "Ca(H\u2082PO\u2084)\u2082(s)",
+            //Ammonia Production
+            "N\u2082(g)",
+            "H\u2082(g)",
+            "C\u2086H\u2081\u2084(g) + 6H\u2082O(g)",
+            " ",
+            " ",
+            "6CO(g) + 13H\u2082(g)",
+            "CH\u2084(g) + H\u2082O(g)",
+            " ",
+            " ",
+            "CO(g) + 3H\u2082(g)",
+            "C\u2086H\u2081\u2084(g) + 3O\u2082(g)",
+            " ",
+            " ",
+            "6CO(g) + 7H\u2082(g)",
+            "2CH\u2084(g) + O\u2082(g)",
+            " ",
+            " ",
+            "2CO(g) + 4H\u2082(g)",
+            "N\u2082(g) + 3H\u2082(g)",
+            "Fe, K\u2082O, Al\u2082O\u2083",
+            "450\u2103 \u0394, 250atm",
+            "2NH\u2083(g)",
+            //Eurea
+            "NH\u2083(l)",
+            "CO\u2082(l)",
+            "NH\u2082-CO-NH\u2082(s)",
+            "2NH\u2083(l) + CO\u2082(l)",
+            " ",
+            "180\u2103 \u0394, 150atm",
+            "NH\u2082-CO-ONH\u2084(s)",
+            "NH\u2082-CO-ONH\u2084(s)",
+            " ",
+            " ",
+            "NH\u2082-CO-NH\u2082(aq) + H\u2082O(l)",
+            //HNO3
+            "NH\u2083(g)",
+            "O\u2082(g)",
+            "4NH\u2083(g) + 5O\u2082(g)",
+            "Pt, 10%Rh",
+            "850\u2103 \u0394",
+            "4NO(g) + 6H\u2082O(g)",
+            "2NO(g) + O\u2082(g)",
+            " ",
+            "<150\u2103 \0394",
+            "2NO\u2082(g)",
+            "4NO\u2082(g) + O\u2082(g) + 2H\u2082O(l)",
+            " ",
+            " ",
+            "4HNO\u2083(l)",
+            "850\u2103 \u0394",
+            "1atm-9atm",
+            "Pt, 10%Rh",
+            //Sulphuric
+            "S(s)",
+            "O\u2082(g)",
+            "S(s) + O\u2082(g)",
+            " ",
+            " ",
+            "SO\u2082(g)",
+            "2SO\u2082(g) + O\u2082(g)",
+            "V\u2082O\u2085",
+            "450\u2103 \u0394, 1atm",
+            "2SO\u2083(g)",
+            "SO\u2083(g) + (conc) H\u2082SO\u2084(l)",
+            " ",
+            " ",
+            "H\u2082S\u2082O\u2087(l)",
+            "H\u2082S\u2082O\u2087(l) + H\u2082O(l)",
+            " ",
+            " ",
+            "2H\u2082SO\u2084(aq)",
+            //Iron
+            "Fe\u2082O\u2083(s)",
+            "C(s)",
+            "CaCO\u2083(s)",
+            "3Fe\u2082O\u2083(s) + CO(g)",
+            " ",
+            "<1000\u2103 \u0394",
+            "2Fe\u2083O\u2084(s) + CO\u2082(g)",
+            "Fe\u2083O\u2084(s) + CO(g)",
+            " ",
+            "<1000\u2103 \u0394",
+            "3FeO(s) + CO\u2082(g)",
+            "FeO(s) + CO(g)",
+            " ",
+            "<1000\u2103 \u0394",
+            "Fe(l) + CO\u2082(g)",
+            "CaCO\u2083(s)",
+            " ",
+            "900\u2103 \u0394",
+            "CaO(s) + CO\u2082(g)",
+            "O\u2082(g) + C(s)",
+            " ",
+            ">1000\u2103 \u0394",
+            "CO\u2082(g)",
+            "CO\u2082(g) + C(s)",
+            " ",
+            ">1000\u2103 \u0394",
+            "2CO(g)",
+            "2FeO(s) + C(s)",
+            " ",
+            ">1000\u2103 \u0394",
+            "2Fe(l) + CO\u2082(g)",
+            "CaO(s) + SiO\u2082(s)",
+            " ",
+            ">1000\u2103 \u0394",
+            "CaSiO\u2083(s)",
+            "CaO(s) + Al\u2082O\u2083(s)",
+            " ",
+            ">1000\u2103 \u0394",
+            "Ca(AlO\u2082)\u2082(s)",
+            "CO\u2082(g)",
+            "CO(g)",
+            "N\u2082(g)",
+            "C",
+            "P",
+            "S",
+            "Si",
+            "Mn",
+            "Fe",
+            "Ni",
+            "C",
+            "Cr",
+        ]
+
+        function checkAnswers() {
+            for (var inputIdListIndex = 0; inputIdListIndex < inputIdList.length; inputIdListIndex++) {
+                var inputId = inputIdList[inputIdListIndex];
+                var input = document.getElementById(inputId);
+                var answer = productsList[inputIdListIndex];
+                if (input.value == answer || input.value == formattedProductsList[inputIdListIndex]) {
+                    input.classList.remove("productsDisplayError");
+                    input.classList.add("productsDisplaySuccess");
+                    input.value = formattedProductsList[inputIdListIndex];
+                } else {
+                    input.classList.remove("productsDisplaySuccess");
+                    input.classList.add("productsDisplayError");
+                }
+            }
+        }
+    </script>
+</head>
+
+<body onload="intialize()" style="background-color:black;">
+    <div style="position:fixed;top:0;left:0;width:100%;background-color:rgb(225, 73, 73);height:140px;">
+        <div style="display:inline-block;margin-left:270px;margin-top:20px;">
+            <div style="margin-bottom:20px;float:right;font-size:300%;color:black;">Chemical Industries</div>
+            <br/>
+            <div style="float:right;font-size:100%;color:lightsalmon;margin-left:20px;">&copy; Nirmal Diaz</div>
+            <div style="float:right;font-size:100%;color:black;margin-left:20px;" onclick="intialize()">Randomize</div>
+            <div style="float:right;font-size:100%;color:black;" onclick="checkAnswers(31)">Validate Answers</div>
+        </div>
+    </div>
+    <p style="height:150px;"></p>
+    <div id="body">
+        <h1>Sodium Extraction</h1>
+        <h2>Raw Materials</h2>
+        <input id="NaMaterials1" type="text" class="productsDisplayError" style="width:200px;"/>
+        <input id="NaMaterials2" type="text" class="productsDisplayError" style="width:200px;"/>
+        <h2>Anode/Cathode Materials</h2>
+        <input id="NaAnode1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="NaCathode1" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Anode Reaction</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="NaReactants1" class="productsDisplayError" type="text" style="text-align:right"/>
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="NaYeildsTop1" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="NaYeildsBottom1" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="NaProducts1" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Cathode Reaction</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="NaReactants2" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="NaYeildsTop2" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="NaYeildsBottom2" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="NaProducts2" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Final Products</h2>
+        <input id="NaFProducts1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="NaFProducts2" type="text" class="productsDisplayError" style="width:200px;" />
+
+        <h1>Salt Production</h1>
+        <h2>Salt Composition of Sea Water</h2>
+        <input id="NaClSalts1" type="text" class="productsDisplayError" style="width:170px;" />
+        <input id="NaClSalts2" type="text" class="productsDisplayError" style="width:170px;" />
+        <input id="NaClSalts3" type="text" class="productsDisplayError" style="width:170px;" />
+        <input id="NaClSalts4" type="text" class="productsDisplayError" style="width:170px;" />
+        <input id="NaClSalts5" type="text" class="productsDisplayError" style="width:170px;" />
+        <input id="NaClSalts6" type="text" class="productsDisplayError" style="width:170px;" />
+        <input id="NaClSalts7" type="text" class="productsDisplayError" style="width:170px;" />
+        <h2>Raw Materials</h2>
+        <input id="NaClMaterials1" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Precipitations in Order</h2>
+        <input id="NaClPrecipitation1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="NaClPrecipitation2" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="NaClPrecipitation3" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Major Ions in the Bittern Solution</h2>
+        <input id="NaClBitternIon1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="NaClBitternIon2" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="NaClBitternIon3" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Ingredients Added to Make Table Salt</h2>
+        <input id="NaClTableSalt1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="NaClTableSalt2" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Final Products</h2>
+        <input id="NaClFProducts1" type="text" class="productsDisplayError" style="width:300px;" />
+        <input id="NaClFProducts2" type="text" class="productsDisplayError" style="width:300px;" />
+        <input id="NaClFProducts3" type="text" class="productsDisplayError" style="width:300px;" />
+
+        <h1>Caustic Soda Production</h1>
+        <h2>Preparing the Brin Solution</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="NaOHBrinReactants1" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="NaOHBrinYeildsTop1" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="NaOHBrinYeildsBottom1" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="NaOHBrinProducts1" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="NaOHBrinReactants2" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="NaOHBrinYeildsTop2" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="NaOHBrinYeildsBottom2" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="NaOHBrinProducts2" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="NaOHBrinReactants3" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="NaOHBrinYeildsTop3" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="NaOHBrinYeildsBottom3" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="NaOHBrinProducts3" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Raw Materials</h2>
+        <input id="NaOHMaterials1" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Anode/Cathode Materials</h2>
+        <input id="NaOHAnode1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="NaOHCathode1" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Anode Reaction</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="NaOHReactants1" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="NaOHYeildsTop1" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="NaOHYeildsBottom1" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="NaOHProducts1" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Cathode Reaction</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="NaOHReactants2" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="NaOHYeildsTop2" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="NaOHYeildsBottom2" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="NaOHProducts2" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Final Products</h2>
+        <input id="NaOHFProducts1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="NaOHFProducts2" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="NaOHFProducts3" type="text" class="productsDisplayError" style="width:200px;" />
+
+        <h1>Soap Production</h1>
+        <h2>Raw Materials</h2>
+        <table class="table" style="width:auto;">
+            <tbody>
+                <tr>
+                    <td>Raw Material Type</td>
+                    <td colspan="2" style="text-align:left;">Examples</td>
+                </tr>
+                <tr>
+                    <td><input id="soapMaterialsType1" type="text" /></td>
+                    <td>
+                        <input id="soapMaterials1" type="text" />
+                    </td>
+                    <td><input id="soapMaterials2" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="soapMaterialsType2" type="text" />
+                    </td>
+                    <td>
+                        <input id="soapMaterials3" type="text" />
+                    </td>
+                    <td>
+                        <input id="soapMaterials4" type="text" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Steps of Soap Production</h2>
+        <input id="soapStep1" type="text" class="productsDisplayError" style="width:340px;" />
+        <input id="soapStep2" type="text" class="productsDisplayError" style="width:340px;" />
+        <input id="soapStep3" type="text" class="productsDisplayError" style="width:340px;" />
+        <input id="soapStep4" type="text" class="productsDisplayError" style="width:340px;" />
+        <h2>Saphonization Reaction</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="soapReactants1" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="soapYeildsTop1" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="soapYeildsBottom1" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="soapProducts1" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Added Chemical in Clensing</h2>
+        <input id="soapClensing1" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Added Chemical in Condensing</h2>
+        <input id="soapCondensing1" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Final Products</h2>
+        <input id="soapFProducts1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="soapFProducts2" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Compound measured in TFM</h2>
+        <input id="soapTFM1" type="text" class="productsDisplayError" style="width:200px;" />
+
+        <h1>Na<sub>2</sub>CO<sub>3</sub> Production</h1>
+        <h2>Raw Materials</h2>
+        <input id="Na2CO3Materials1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="Na2CO3Materials2" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="Na2CO3Materials3" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Ammonization</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="Na2CO3Reactants1" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="Na2CO3YeildsTop1" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="Na2CO3YeildsBottom1" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="Na2CO3Products1" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Carbonization</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="Na2CO3Reactants2" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="Na2CO3YeildsTop2" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="Na2CO3YeildsBottom2" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="Na2CO3Products2" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="Na2CO3Reactants3" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="Na2CO3YeildsTop3" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="Na2CO3YeildsBottom3" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="Na2CO3Products3" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Producing Reaction of Na<sub>2</sub>CO<sub>3</sub></h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="Na2CO3Reactants4" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="Na2CO3YeildsTop4" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="Na2CO3YeildsBottom4" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="Na2CO3Products4" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Producing CO<sub>2</sub> Using Byproducts</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="Na2CO3Reactants5" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="Na2CO3YeildsTop5" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="Na2CO3YeildsBottom5" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="Na2CO3Products5" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Producing NH<sub>3</sub> Using Byproducts</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="Na2CO3Reactants6" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="Na2CO3YeildsTop6" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="Na2CO3YeildsBottom6" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="Na2CO3Products6" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="Na2CO3Reactants7" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="Na2CO3YeildsTop7" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="Na2CO3YeildsBottom7" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="Na2CO3Products7" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Final Products</h2>
+        <input id="Na2CO3FProducts1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="Na2CO3FProducts2" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="Na2CO3FProducts3" type="text" class="productsDisplayError" style="width:200px;" />
+
+        <h1>CaO Production</h1>
+        <h2>Raw Materials</h2>
+        <input id="CaOMaterials1" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Reaction</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="CaOReactants1" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="CaOYeildsTop1" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="CaOYeildsBottom1" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="CaOProducts1" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Final Products</h2>
+        <input id="CaOFProducts1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="CaOFProducts2" type="text" class="productsDisplayError" style="width:200px;" />
+
+        <h1>CaC<sub>2</sub> Production</h1>
+        <h2>Raw Materials</h2>
+        <input id="CaC2Materials1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="CaC2Materials2" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Reactions</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="CaC2Reactants1" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="CaC2YeildsTop1" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="CaC2YeildsBottom1" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="CaC2Products1" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="CaC2Reactants2" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="CaC2YeildsTop2" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="CaC2YeildsBottom2" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="CaC2Products2" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="CaC2Reactants3" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="CaC2YeildsTop3" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="CaC2YeildsBottom3" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="CaC2Products3" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Making of Acetalene</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="CaC2Reactants4" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="CaC2YeildsTop4" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="CaC2YeildsBottom4" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="CaC2Products4" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+
+        <h1>Bleaching Powder Production</h1>
+        <h2>Raw Materials</h2>
+        <input id="bleachingMaterials1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="bleachingMaterials2" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Reactions</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="bleachingReactants1" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="bleachingYeildsTop1" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="bleachingYeildsBottom1" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="bleachingProducts1" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="bleachingReactants2" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="bleachingYeildsTop2" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="bleachingYeildsBottom2" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="bleachingProducts2" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="bleachingReactants3" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="bleachingYeildsTop3" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="bleachingYeildsBottom3" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="bleachingProducts3" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Active Ingredient of Bleaching Powder</h2>
+        <input id="bleachingIngredient1" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Bleaching Effect of Bleaching Powder</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="bleachingReactants4" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="bleachingYeildsTop4" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="bleachingYeildsBottom4" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="bleachingProducts4" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="bleachingReactants5" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="bleachingYeildsTop5" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="bleachingYeildsBottom5" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="bleachingProducts5" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        
+        <h1>Posphate Production</h1>
+        <h2>Raw Materials</h2>
+        <input id="posphateMaterials1" type="text" class="productsDisplayError" style="width:500px;" />
+        <h2>Making Posphate Using H<sub>2</sub>SO<sub>4</sub></h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup" style="width:600px;">
+                <input id="posphateReactants1" class="productsDisplayError" type="text" style="text-align:right;width:550px;" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup" style="width:100px;">
+                <input id="posphateYeildsTop1" class="yeildsDisplayError" type="text">
+                <div class="arrowDisplay" style="margin-left:0;">-------&rarr;</div>
+                <input id="posphateYeildsBottom1" class="yeildsDisplayError" type="text"/>
+            </div>
+            <div class="inputGroup" style="width:600px;">
+                <input id="posphateProducts1" class="productsDisplayError" type="text" style="width:700px;"/>
+                <div style="width:100%;display:inline-block;height:22px;width:100%;"></div>
+            </div>
+        </div>
+        <h2>Making Posphate Using HCl</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup" style="width:600px;">
+                <input id="posphateReactants2" class="productsDisplayError" type="text" style="text-align:right;width:550px;" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup" style="width:100px;">
+                <input id="posphateYeildsTop2" class="yeildsDisplayError" type="text">
+                <div class="arrowDisplay" style="margin-left:0;">-------&rarr;</div>
+                <input id="posphateYeildsBottom2" class="yeildsDisplayError" type="text" />
+            </div>
+            <div class="inputGroup" style="width:600px;">
+                <input id="posphateProducts2" class="productsDisplayError" type="text" style="width:700px;" />
+                <div style="width:100%;display:inline-block;height:22px;width:100%;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup" style="width:600px;">
+                <input id="posphateReactants3" class="productsDisplayError" type="text" style="text-align:right;width:550px;" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup" style="width:100px;">
+                <input id="posphateYeildsTop3" class="yeildsDisplayError" type="text">
+                <div class="arrowDisplay" style="margin-left:0;">-------&rarr;</div>
+                <input id="posphateYeildsBottom3" class="yeildsDisplayError" type="text" />
+            </div>
+            <div class="inputGroup" style="width:600px;">
+                <input id="posphateProducts3" class="productsDisplayError" type="text" style="width:700px;" />
+                <div style="width:100%;display:inline-block;height:22px;width:100%;"></div>
+            </div>
+        </div>
+        <h2>Making Posphate Using HNO<sub>3</sub></h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup" style="width:600px;">
+                <input id="posphateReactants4" class="productsDisplayError" type="text" style="text-align:right;width:550px;" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup" style="width:100px;">
+                <input id="posphateYeildsTop4" class="yeildsDisplayError" type="text">
+                <div class="arrowDisplay" style="margin-left:0;">-------&rarr;</div>
+                <input id="posphateYeildsBottom4" class="yeildsDisplayError" type="text" />
+            </div>
+            <div class="inputGroup" style="width:600px;">
+                <input id="posphateProducts4" class="productsDisplayError" type="text" style="width:700px;" />
+                <div style="width:100%;display:inline-block;height:22px;width:100%;"></div>
+            </div>
+        </div>
+        <h2>Making Posphate Using H<sub>3</sub>PO<sub>4</sub>
+        </h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup" style="width:600px;">
+                <input id="posphateReactants5" class="productsDisplayError" type="text" style="text-align:right;width:550px;" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup" style="width:100px;">
+                <input id="posphateYeildsTop5" class="yeildsDisplayError" type="text">
+                <div class="arrowDisplay" style="margin-left:0;">-------&rarr;</div>
+                <input id="posphateYeildsBottom5" class="yeildsDisplayError" type="text" />
+            </div>
+            <div class="inputGroup" style="width:600px;">
+                <input id="posphateProducts5" class="productsDisplayError" type="text" style="width:700px;" />
+                <div style="width:100%;display:inline-block;height:22px;width:100%;"></div>
+            </div>
+        </div>
+        <h2>Active Ingredient of Posphate</h2>
+        <input id="posphateIngredient1" type="text" class="productsDisplayError" style="width:200px;" />
+
+        <h1>Ammonia Production</h1>
+        <h2>Raw Materials</h2>
+        <input id="NH3Materials1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="NH3Materials2" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Supplimenting H<sub>2</sub> Using Steam</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="NH3Reactants1" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="NH3YeildsTop1" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="NH3YeildsBottom1" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="NH3Products1" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="NH3Reactants2" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="NH3YeildsTop2" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="NH3YeildsBottom2" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="NH3Products2" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Supplimenting H<sub>2</sub> Using O<sub>2</sub></h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="NH3Reactants3" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="NH3YeildsTop3" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="NH3YeildsBottom3" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="NH3Products3" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="NH3Reactants4" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="NH3YeildsTop4" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="NH3YeildsBottom4" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="NH3Products4" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Producing Reaction of NH<sub>3</sub></h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="NH3Reactants5" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="NH3YeildsTop5" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="NH3YeildsBottom5" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="NH3Products5" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+
+        <h1>Eurea Production</h1>
+        <h2>Raw Materials</h2>
+        <input id="eureaMaterials1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="eureaMaterials2" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Chemical Formula of Eurea</h2>
+        <input id="eureaFormula1" type="text" class="productsDisplayError" style="width:300px;" />
+        <h2>Reactions</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="eureaReactants1" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="eureaYeildsTop1" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="eureaYeildsBottom1" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="eureaProducts1" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="eureaReactants2" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="eureaYeildsTop2" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="eureaYeildsBottom2" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="eureaProducts2" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+
+        <h1>Nitric Production</h1>
+        <h2>Raw Materials</h2>
+        <input id="HNO3Materials1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="HNO3Materials2" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Reactions</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="HNO3Reactants1" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="HNO3YeildsTop1" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="HNO3YeildsBottom1" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="HNO3Products1" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="HNO3Reactants2" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="HNO3YeildsTop2" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="HNO3YeildsBottom2" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="HNO3Products2" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="HNO3Reactants3" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="HNO3YeildsTop3" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="HNO3YeildsBottom3" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="HNO3Products3" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Suggested Physical Conditions</h2>
+        <input id="HNO3Condition1" type="text" class="productsDisplayError" style="width:300px;" placeholder="Temperature Range"/>
+        <input id="HNO3Condition2" type="text" class="productsDisplayError" style="width:300px;" placeholder="Pressure Range"/>
+        <input id="HNO3Condition3" type="text" class="productsDisplayError" style="width:300px;" placeholder="Catalysts"/>
+
+        <h1>Sulphuric Production</h1>
+        <h2>Raw Materials</h2>
+        <input id="H2SO4Materials1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="H2SO4Materials2" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Producing SO<sub>2</sub></h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="H2SO4Reactants1" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="H2SO4YeildsTop1" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="H2SO4YeildsBottom1" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="H2SO4Products1" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Reactions</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="H2SO4Reactants2" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="H2SO4YeildsTop2" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="H2SO4YeildsBottom2" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="H2SO4Products2" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="H2SO4Reactants3" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="H2SO4YeildsTop3" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="H2SO4YeildsBottom3" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="H2SO4Products3" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Producing Reaction of H<sub>2</sub>SO<sub>4</sub></h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="H2SO4Reactants4" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="H2SO4YeildsTop4" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="H2SO4YeildsBottom4" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="H2SO4Products4" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+
+        <h1>Iron Extraction</h1>
+        <h2>Raw Materials</h2>
+        <table class="table" style="width:auto;">
+            <tbody>
+                <tr>
+                    <td>Purpose</td>
+                    <td>Material</td>
+                </tr>
+                <tr>
+                    <td>Fe Source</td>
+                    <td><input id="FeMaterials1" class="productsDisplayError" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>Reducer</td>
+                    <td>
+                        <input id="FeMaterials2" class="productsDisplayError" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Lobora Maker</td>
+                    <td>
+                        <input id="FeMaterials3" class="productsDisplayError" type="text" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Fe<sub>2</sub>O<sub>3</sub> Reduction Reactions in the Lower Temperature Range</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="FeReactants1" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="FeYeildsTop1" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="FeYeildsBottom1" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="FeProducts1" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="FeReactants2" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="FeYeildsTop2" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="FeYeildsBottom2" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="FeProducts2" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="FeReactants3" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="FeYeildsTop3" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="FeYeildsBottom3" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="FeProducts3" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Other Reaction in the Lower Temperature Range</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="FeReactants4" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="FeYeildsTop4" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="FeYeildsBottom4" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="FeProducts4" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Reduction Reactions in the Higher Temperature Range</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="FeReactants5" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="FeYeildsTop5" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="FeYeildsBottom5" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="FeProducts5" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="FeReactants6" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="FeYeildsTop6" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="FeYeildsBottom6" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="FeProducts6" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="FeReactants7" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="FeYeildsTop7" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="FeYeildsBottom7" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="FeProducts7" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Reactions for Lobora Making</h2>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="FeReactants8" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="FeYeildsTop8" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="FeYeildsBottom8" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="FeProducts8" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <div class="reactionGroupDisplay">
+            <div class="inputGroup">
+                <input id="FeReactants9" class="productsDisplayError" type="text" style="text-align:right" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+            <div class="yeildsArrowGroup">
+                <input id="FeYeildsTop9" class="yeildsDisplayError" type="text" placeholder="Catalysts">
+                <div class="arrowDisplay" style="margin-left:0;">--------------------------&rarr;</div>
+                <input id="FeYeildsBottom9" class="yeildsDisplayError" type="text" placeholder="Physical Factors">
+            </div>
+            <div class="inputGroup">
+                <input id="FeProducts9" class="productsDisplayError" type="text" />
+                <div style="width:100%;display:inline-block;height:22px;"></div>
+            </div>
+        </div>
+        <h2>Gases in the Furnace Gas</h2>
+        <input id="FeGas1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="FeGas2" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="FeGas3" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Unwanted Elements in the Extracted Fe</h2>
+        <input id="FeElements1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="FeElements2" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="FeElements3" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="FeElements4" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="FeElements5" type="text" class="productsDisplayError" style="width:200px;" />
+        <h2>Elements in Stainless Steel</h2>
+        <input id="steelElements1" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="steelElements2" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="steelElements3" type="text" class="productsDisplayError" style="width:200px;" />
+        <input id="steelElements4" type="text" class="productsDisplayError" style="width:200px;" />
+
+    </div>
+</body>
+
+</html>
